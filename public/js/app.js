@@ -5335,7 +5335,7 @@ var Login = function Login() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     email: '',
     password: '',
-    remember: false
+    remember: true
   }),
       _useState2 = _slicedToArray(_useState, 2),
       loginInput = _useState2[0],
@@ -5425,6 +5425,12 @@ var Login = function Login() {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                     className: "form-check",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                      checked: loginInput.remember,
+                      onChange: function onChange() {
+                        return setLogin(_objectSpread(_objectSpread({}, loginInput), {}, {
+                          remember: !loginInput.remember
+                        }));
+                      },
                       className: "form-check-input",
                       type: "checkbox",
                       name: "remember",

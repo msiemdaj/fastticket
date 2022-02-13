@@ -6,7 +6,7 @@ const Login = () => {
     const [loginInput, setLogin] = useState({
         email: '',
         password: '',
-        remember: false,
+        remember: true,
     });
 
     const handleInput = (e) => {
@@ -49,7 +49,8 @@ const Login = () => {
                                 <div className="form-group row">
                                     <div className="col-md-6 offset-md-4">
                                         <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" name="remember" id="remember" />
+                                            <input checked={loginInput.remember} onChange={() => setLogin({ ...loginInput, remember: !loginInput.remember })}
+                                                className="form-check-input" type="checkbox" name="remember" id="remember" />
 
                                             <label className="form-check-label" htmlFor="remember">
                                                 Remember Me
