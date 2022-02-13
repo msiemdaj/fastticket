@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Inertia } from '@inertiajs/inertia'
+import { Link } from '@inertiajs/inertia-react'
 
 const Login = () => {
 
@@ -17,8 +18,9 @@ const Login = () => {
 
     const loginSubmit = async (e) => {
         e.preventDefault();
-        Inertia.post('/login', loginInput);
+        Inertia.post(route('login'), loginInput);
     }
+
     return (
         <div className="container">
             <div className="row justify-content-center">
@@ -62,6 +64,8 @@ const Login = () => {
                                 <div className="form-group row mb-0">
                                     <div className="col-md-8 offset-md-4">
                                         <button type="submit" className="btn btn-primary">Login</button>
+
+                                        <Link className="btn btn-link" href={route('password.request')}>Forgot Your Password?</Link>
                                     </div>
                                 </div>
                             </form>
