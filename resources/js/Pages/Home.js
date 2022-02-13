@@ -12,7 +12,7 @@ const HomePage = () => {
             <p>Welcome to home page</p>
             <Link
                 as="button"
-                href="/logg"
+                href={route('logout')}
                 className="w-100 btn btn-lg btn-primary"
                 method="post"
             >

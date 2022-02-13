@@ -5484,7 +5484,7 @@ var HomePage = function HomePage() {
       children: "Welcome to home page"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Link, {
       as: "button",
-      href: "/logg",
+      href: route('logout'),
       className: "w-100 btn btn-lg btn-primary",
       method: "post",
       children: "Logout"
