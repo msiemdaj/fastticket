@@ -1,6 +1,8 @@
 
 import React from "react"
-import { Link } from '@inertiajs/inertia-react'
+
+
+import Dashboard from "../Shared/Dashboard"
 
 
 const HomePage = () => {
@@ -10,16 +12,10 @@ const HomePage = () => {
         <div>
 
             <p>Welcome to home page</p>
-            <Link
-                as="button"
-                href={route('logout')}
-                className="w-100 btn btn-lg btn-primary"
-                method="post"
-            >
-                Logout
-            </Link>
+
         </div>
     )
 }
 
+HomePage.layout = page => <Dashboard children={page} />
 export default HomePage
