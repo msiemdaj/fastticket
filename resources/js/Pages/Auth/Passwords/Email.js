@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import { Inertia } from '@inertiajs/inertia'
 
+import Layout from "../../../Shared/Layout";
+
 const Email = () => {
     const [email, setEmail] = useState({ email: '' });
 
@@ -14,40 +16,35 @@ const Email = () => {
     }
 
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">'Reset Password</div>
+        <div className="row py-5 mt-4 justify-content-center">
+            <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
+                <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" className="img-fluid mb-3 d-none d-md-block" />
+            </div>
 
-                        <div className="card-body">
+            <div className="col-md-7 col-lg-6 ml-auto">
 
-                            <form onSubmit={formSubmit}>
+                <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-4 justify-content-center">
+                    <span className="px-2 text-muted font-weight-bold text-muted"><h1>Reset Password</h1></span>
 
-                                <div className="form-group row">
-                                    <label htmlFor="email" className="col-md-4 col-form-label text-md-right">'E-Mail Address</label>
+                </div >
 
-                                    <div className="col-md-6">
-                                        <input value={email.email} onChange={handleInput}
-                                            id="email" type="email" className="form-control" name="email" required />
+                <form onSubmit={formSubmit}>
+                    <div className="row">
 
-                                    </div>
-                                </div>
+                        <div className="input-group col-lg-6 mb-4">
+                            <input onChange={handleInput} value={email.email}
+                                id="email" type="email" className="form-control bg-white border-left-0 border-md" placeholder="Email address" name="email" required />
+                        </div>
 
-                                <div className="form-group row mb-0">
-                                    <div className="col-md-6 offset-md-4">
-                                        <button type="submit" className="btn btn-primary">
-                                            Send Password Reset Link
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div className="form-group col-lg-12 mx-auto mb-0">
+                            <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold">Send Password Reset Link</button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </form>
+            </div >
+        </div >
     )
 }
 
+Email.layout = page => <Layout children={page} />
 export default Email;

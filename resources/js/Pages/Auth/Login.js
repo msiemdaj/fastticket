@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-react'
 
+import Layout from "../../Shared/Layout"
+
 const Login = () => {
 
     const [loginInput, setLogin] = useState({
@@ -22,59 +24,50 @@ const Login = () => {
     }
 
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">'Login</div>
+        <div className="row py-5 mt-4 justify-content-center">
+            <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
+                <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" className="img-fluid mb-3 d-none d-md-block" />
+            </div>
 
-                        <div className="card-body">
-                            <form onSubmit={loginSubmit}>
-                                <div className="form-group row">
-                                    <label htmlFor="email" className="col-md-4 col-form-label text-md-right">E-Mail Address</label>
+            <div className="col-md-7 col-lg-6 ml-auto">
 
-                                    <div className="col-md-6">
-                                        <input onChange={handleInput} value={loginInput.email}
-                                            id="email" type="email" className="form-control" name="email" required />
-                                    </div>
-                                </div>
-                                <div className="form-group row">
-                                    <label htmlFor="password" className="col-md-4 col-form-label text-md-right">Password</label>
+                <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-4 justify-content-center">
+                    <span className="px-2 text-muted font-weight-bold text-muted"><h1>Login</h1></span>
 
-                                    <div className="col-md-6">
-                                        <input onChange={handleInput} value={loginInput.password}
-                                            id="password" type="password" className="form-control" name="password" required />
-                                    </div>
-                                </div>
+                </div >
 
+                <form onSubmit={loginSubmit}>
+                    <div className="row">
 
-                                <div className="form-group row">
-                                    <div className="col-md-6 offset-md-4">
-                                        <div className="form-check">
-                                            <input checked={loginInput.remember} onChange={() => setLogin({ ...loginInput, remember: !loginInput.remember })}
-                                                className="form-check-input" type="checkbox" name="remember" id="remember" />
+                        <div className="input-group col-lg-6 mb-4">
+                            <input onChange={handleInput} value={loginInput.email}
+                                id="email" type="email" className="form-control bg-white border-left-0 border-md" placeholder="Email address" name="email" required />
+                        </div>
 
-                                            <label className="form-check-label" htmlFor="remember">
-                                                Remember Me
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div className="input-group col-lg-6 mb-4">
+                            <input onChange={handleInput} value={loginInput.password}
+                                id="password" type="password" className="form-control bg-white border-left-0 border-md" placeholder="Password" name="password" required />
+                        </div>
 
-                                <div className="form-group row mb-0">
-                                    <div className="col-md-8 offset-md-4">
-                                        <button type="submit" className="btn btn-primary">Login</button>
+                        <div className="input-group col-lg-6 mb-4">
+                            <input checked={loginInput.remember} onChange={() => setLogin({ ...loginInput, remember: !loginInput.remember })}
+                                className="form-check-input" type="checkbox" name="remember" id="remember" />
 
-                                        <Link className="btn btn-link" href={route('password.request')}>Forgot Your Password?</Link>
-                                    </div>
-                                </div>
-                            </form>
+                            <label className="form-check-label px-2" htmlFor="remember">
+                                Remember Me
+                            </label>
+                        </div>
+
+                        <div className="form-group col-lg-12 mx-auto mb-0">
+                            <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold">Login</button>
+                            <Link className="btn btn-link" href={route('password.request')}>Forgot Your Password?</Link>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </form>
+            </div >
+        </div >
     )
 }
 
+Login.layout = page => <Layout children={page} />
 export default Login
