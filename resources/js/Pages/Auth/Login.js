@@ -1,26 +1,20 @@
-import React, { useState } from "react"
-import { Inertia } from '@inertiajs/inertia'
+import React from "react"
 import { Link } from '@inertiajs/inertia-react'
+import { useForm } from '@inertiajs/inertia-react'
 
 import Layout from "../../Shared/Layout"
 
 const Login = () => {
 
-    const [loginInput, setLogin] = useState({
+    const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
-        remember: true,
-    });
-
-    const handleInput = (e) => {
-        setLogin({
-            ...loginInput, [e.target.name]: e.target.value
-        });
-    }
+        remember: false,
+    })
 
     const loginSubmit = async (e) => {
         e.preventDefault();
-        Inertia.post(route('login'), loginInput);
+        post(route('login'));
     }
 
     return (
@@ -40,17 +34,18 @@ const Login = () => {
                     <div className="row">
 
                         <div className="input-group col-lg-6 mb-4">
-                            <input onChange={handleInput} value={loginInput.email}
-                                id="email" type="email" className="form-control bg-white border-left-0 border-md" placeholder="Email address" name="email" required />
+                            <input onChange={e => setData('email', e.target.value)} value={data.email}
+                                id="email" type="email" className={`form-control bg-white border-left-0 border-md ${errors.email ? 'is-invalid' : ''}`} placeholder="Email address" name="email" required />
                         </div>
 
-                        <div className="input-group col-lg-6 mb-4">
-                            <input onChange={handleInput} value={loginInput.password}
-                                id="password" type="password" className="form-control bg-white border-left-0 border-md" placeholder="Password" name="password" required />
+                        <div className="input-group col-lg-6">
+                            <input onChange={e => setData('password', e.target.value)} value={data.password}
+                                id="password" type="password" className={`form-control bg-white border-left-0 border-md ${errors.email ? 'is-invalid' : ''}`} placeholder="Password" name="password" required />
                         </div>
+                        {errors.email && <span className="mt-1 text-danger">{errors.email}</span>}
 
-                        <div className="input-group col-lg-6 mb-4">
-                            <input checked={loginInput.remember} onChange={() => setLogin({ ...loginInput, remember: !loginInput.remember })}
+                        <div className="input-group col-lg-6 my-4">
+                            <input checked={data.remember} onChange={e => setData('remember', e.target.checked)}
                                 className="form-check-input" type="checkbox" name="remember" id="remember" />
 
                             <label className="form-check-label px-2" htmlFor="remember">
@@ -59,7 +54,7 @@ const Login = () => {
                         </div>
 
                         <div className="form-group col-lg-12 mx-auto mb-0">
-                            <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold">Login</button>
+                            <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold" disabled={processing}>Login</button>
                             <Link className="btn btn-link" href={route('password.request')}>Forgot Your Password?</Link>
                         </div>
                     </div>

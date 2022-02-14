@@ -1,18 +1,23 @@
-import React, { useState } from "react"
-import { Inertia } from '@inertiajs/inertia'
+import React from "react"
+import Swal from "sweetalert2";
+import { useForm } from '@inertiajs/inertia-react'
+
 
 import Layout from "../../../Shared/Layout";
 
 const Email = () => {
-    const [email, setEmail] = useState({ email: '' });
 
-    const handleInput = (e) => {
-        setEmail({ email: e.target.value });
-    }
+    const { data, setData, post, processing, errors } = useForm({
+        email: '',
+    })
 
     const formSubmit = async (e) => {
         e.preventDefault();
-        Inertia.post(route('password.email'), email);
+
+        post(route('password.email'), {
+            preserveScroll: true,
+            onSuccess: () => Swal.fire("Success!", "An email with password reset has been sent", "success"),
+        });
     }
 
     return (
@@ -31,13 +36,14 @@ const Email = () => {
                 <form onSubmit={formSubmit}>
                     <div className="row">
 
-                        <div className="input-group col-lg-6 mb-4">
-                            <input onChange={handleInput} value={email.email}
-                                id="email" type="email" className="form-control bg-white border-left-0 border-md" placeholder="Email address" name="email" required />
+                        <div className="input-group col-lg-6">
+                            <input onChange={e => setData('email', e.target.value)} value={data.email}
+                                id="email" type="email" className={`form-control bg-white border-left-0 border-md ${errors.email ? 'is-invalid' : ''}`} placeholder="Email address" name="email" required />
                         </div>
+                        {errors.email && <span className="mt-1 text-danger">{errors.email}</span>}
 
-                        <div className="form-group col-lg-12 mx-auto mb-0">
-                            <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold">Send Password Reset Link</button>
+                        <div className="form-group col-lg-12 mx-auto mt-4 mb-0">
+                            <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold" disabled={processing}>Send Password Reset Link</button>
                         </div>
                     </div>
                 </form>

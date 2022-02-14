@@ -1,6 +1,6 @@
-import React, { useState } from "react"
-import { Inertia } from '@inertiajs/inertia'
-import { usePage } from '@inertiajs/inertia-react'
+import React from "react"
+import { usePage, useForm } from '@inertiajs/inertia-react'
+import Swal from "sweetalert2"
 
 import Layout from "../../../Shared/Layout"
 
@@ -9,23 +9,22 @@ const Reset = () => {
     const { request } = usePage().props
     const token = window.location.pathname.replace('/reset-password/', '');
 
-    const [passwordInput, setPassword] = useState({
+    const { data, setData, post, processing, errors } = useForm({
         email: request.email,
         password: '',
         password_confirmation: '',
         token: token,
-    });
-
-    const handleInput = (e) => {
-        setPassword({
-            ...passwordInput, [e.target.name]: e.target.value
-        });
-    }
+    })
 
     const formSubmit = async (e) => {
         e.preventDefault();
-        Inertia.post(route('password.update'), passwordInput);
+
+        post(route('password.update'), {
+            preserveScroll: true,
+            onSuccess: () => Swal.fire("Success!", "Password has been changed successfully", "success"),
+        });
     }
+
     return (
         <div className="row py-5 mt-4 justify-content-center">
             <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
@@ -42,23 +41,25 @@ const Reset = () => {
                 <form onSubmit={formSubmit}>
                     <input type="hidden" name="token" value={token} />
                     <div className="row">
-                        <div className="input-group col-lg-6 mb-4">
-                            <input onChange={handleInput} value={passwordInput.email}
-                                id="email" type="email" className="form-control bg-white border-left-0 border-md" placeholder="Email address" name="email" required />
+                        <div className="input-group col-lg-6">
+                            <input onChange={e => setData('email', e.target.value)} value={data.email}
+                                id="email" type="email" className={`form-control bg-white border-left-0 border-md ${errors.email ? 'is-invalid' : ''}`} placeholder="Email address" name="email" required />
+                        </div>
+                        {errors.email && <span className="mt-1 text-danger">{errors.email}</span>}
+
+                        <div className="input-group col-lg-6 mt-4">
+                            <input onChange={e => setData('password', e.target.value)} value={data.password}
+                                id="password" type="password" className={`form-control bg-white border-left-0 border-md ${errors.password ? 'is-invalid' : ''}`} placeholder="New password" name="password" required />
+                        </div>
+                        {errors.password && <span className="mt-1 text-danger">{errors.password}</span>}
+
+                        <div className="input-group col-lg-6 mt-4">
+                            <input onChange={e => setData('password_confirmation', e.target.value)} value={data.password_confirmation}
+                                id="password_confirm" type="password" className={`form-control bg-white border-left-0 border-md ${errors.password ? 'is-invalid' : ''}`} placeholder="Confirm password" name="password_confirmation" required />
                         </div>
 
-                        <div className="input-group col-lg-6 mb-4">
-                            <input onChange={handleInput} value={passwordInput.password}
-                                id="password" type="password" className="form-control bg-white border-left-0 border-md" placeholder="New password" name="password" required />
-                        </div>
-
-                        <div className="input-group col-lg-6 mb-4">
-                            <input onChange={handleInput} value={passwordInput.password_confirmation}
-                                id="password_confirm" type="password" className="form-control bg-white border-left-0 border-md" placeholder="Confirm password" name="password_confirmation" required />
-                        </div>
-
-                        <div className="form-group col-lg-12 mx-auto mb-0">
-                            <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold">Reset Password</button>
+                        <div className="form-group col-lg-12 mx-auto mb-0 mt-4">
+                            <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold" disabled={processing}>Reset Password</button>
                         </div>
                     </div>
                 </form>
