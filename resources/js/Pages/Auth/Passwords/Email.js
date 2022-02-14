@@ -2,10 +2,10 @@ import React, { useState } from "react"
 import { Inertia } from '@inertiajs/inertia'
 
 const Email = () => {
-    const [email, setEmail] = useState({ email: 'thisis@myemail.com' });
+    const [email, setEmail] = useState({ email: '' });
 
     const handleInput = (e) => {
-        setEmail(e.target.value);
+        setEmail({ email: e.target.value });
     }
 
     const formSubmit = async (e) => {
