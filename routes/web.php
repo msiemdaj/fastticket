@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,3 +26,11 @@ Route::get('/home', function () {
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth');
 Route::put('profile/update/details', [ProfileController::class, 'updateProfile'])->name('profile.update.details')->middleware('auth');
 Route::put('profile/update/password', [ProfileController::class, 'updatePassword'])->name('profile.update.password')->middleware('auth');
+
+# Category
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories')->middleware('auth');
+Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create')->middleware('auth');
+Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.create')->middleware('auth');
+Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit')->middleware('auth');
+Route::put('/categories/{id}/update', [CategoryController::class, 'update'])->name('categories.update')->middleware('auth');
+Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('categories.destroy')->middleware('auth');

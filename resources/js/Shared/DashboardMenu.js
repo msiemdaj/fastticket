@@ -28,7 +28,7 @@ export default () => {
                                 <Link href="#" className="nav-link">Link</Link>
                             </li>
                             <li className="nav-item">
-                                <Link href="#" className="nav-link">Link</Link>
+                                <Link href={route('categories')} className="nav-link">Categories</Link>
                             </li>
                         </ul>
                         <ul className="navbar-nav ms-auto">
