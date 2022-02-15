@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,6 +19,9 @@ class CategoryController extends Controller
     {
         return Inertia::render('Category/Index', [
             'categories' => Category::orderByDesc('created_at')->paginate(10),
+            'can' => [
+                'categories_viewAny' => $this->authorize('viewAny', Category::class),
+            ]
         ]);
     }
 
@@ -28,7 +32,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Category/Create');
+        return Inertia::render('Category/Create', [
+            'can' => [
+                'categories_create' => $this->authorize('create', Category::class),
+            ]
+        ]);
     }
 
     /**
@@ -39,6 +47,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Category::class);
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
         ]);
@@ -56,17 +66,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -74,8 +73,13 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $category = Category::findOrFail($id);
+
         return Inertia::render('Category/Edit', [
-            'category' => Category::findOrFail($id),
+            'category' => $category,
+            'can' => [
+                'categories_update' => $this->authorize('update', $category),
+            ]
         ]);
     }
 
@@ -88,6 +92,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $category = Category::findOrFail($id);
+        $this->authorize('update', $category);
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
         ]);
@@ -95,7 +102,6 @@ class CategoryController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         } else {
-            $category = Category::findOrFail($id);
             $category->forceFill([
                 'name' => $request->name,
                 'description' => $request->description,
@@ -113,7 +119,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
+        $this->authorize('delete', $category);
+
         if ($category) {
             Category::destroy($id);
         }
