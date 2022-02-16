@@ -25,8 +25,8 @@ Route::get('/home', function () {
 
 # Profile
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth');
-Route::put('profile/update/details', [ProfileController::class, 'updateProfile'])->name('profile.update.details')->middleware('auth');
-Route::put('profile/update/password', [ProfileController::class, 'updatePassword'])->name('profile.update.password')->middleware('auth');
+Route::put('/profile/update/details', [ProfileController::class, 'updateProfile'])->name('profile.update.details')->middleware('auth');
+Route::put('/profile/update/password', [ProfileController::class, 'updatePassword'])->name('profile.update.password')->middleware('auth');
 
 # Category
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories')->middleware('auth');

@@ -31,7 +31,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'string',
                 'email',
                 'max:255',
-                'email:rfc,dns',
                 Rule::unique('users')->ignore($user->id),
             ],
             'role' => [
