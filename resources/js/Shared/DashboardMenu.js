@@ -25,7 +25,7 @@ export default () => {
                                 <Link href="#" className="nav-link">Link</Link>
                             </li>
                             <li className="nav-item">
-                                <Link href="#" className="nav-link">Link</Link>
+                                <Link href={route('users')} className="nav-link">Users</Link>
                             </li>
                             <li className="nav-item">
                                 <Link href={route('categories')} className="nav-link">Categories</Link>

@@ -13,7 +13,7 @@ const Edit = () => {
         description: category.description,
     })
 
-    const loginSubmit = async (e) => {
+    const editSubmit = async (e) => {
         e.preventDefault();
         put(route('categories.update', category.id), {
             preserveScroll: true,
@@ -28,7 +28,7 @@ const Edit = () => {
                     <span className="px-2 text-muted font-weight-bold text-muted"><h1>Edit category</h1></span>
                 </div >
 
-                <form onSubmit={loginSubmit}>
+                <form onSubmit={editSubmit}>
                     <div className="row">
 
                         <div className="input-group col-lg-6">

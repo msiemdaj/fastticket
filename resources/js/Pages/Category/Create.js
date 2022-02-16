@@ -11,7 +11,7 @@ const Create = () => {
         description: '',
     })
 
-    const loginSubmit = async (e) => {
+    const createSubmit = async (e) => {
         e.preventDefault();
         post(route('categories.create'), {
             preserveScroll: true,
@@ -26,7 +26,7 @@ const Create = () => {
                     <span className="px-2 text-muted font-weight-bold text-muted"><h1>Create new category</h1></span>
                 </div >
 
-                <form onSubmit={loginSubmit}>
+                <form onSubmit={createSubmit}>
                     <div className="row">
 
                         <div className="input-group col-lg-6">

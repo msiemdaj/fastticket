@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,12 @@ Route::post('/categories/create', [CategoryController::class, 'store'])->name('c
 Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit')->middleware('auth');
 Route::put('/categories/{id}/update', [CategoryController::class, 'update'])->name('categories.update')->middleware('auth');
 Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('categories.destroy')->middleware('auth');
+
+# User
+Route::get('/users', [UsersController::class, 'index'])->name('users')->middleware('auth');
+Route::get('/users/create', [UsersController::class, 'create'])->name('users.create')->middleware('auth');
+Route::post('/users/create', [UsersController::class, 'store'])->name('users.store')->middleware('auth');
+Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit')->middleware('auth');
+Route::put('/users/{id}/update', [UsersController::class, 'update'])->name('users.update')->middleware('auth');
+Route::post('/users/{id}/password-reset', [UsersController::class, 'passwordReset'])->name('users.password.reset')->middleware('auth');
+Route::delete('/users/{id}/destroy', [UsersController::class, 'destroy'])->name('users.destroy')->middleware('auth');
