@@ -39,7 +39,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'string',
                 Rule::in(UserRole::TYPES)
             ],
-        ])->validateWithBag('updateProfileInformation');
+        ])->validate();
 
         if (
             $input['email'] !== $user->email &&

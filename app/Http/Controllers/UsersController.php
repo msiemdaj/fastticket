@@ -101,6 +101,11 @@ class UsersController extends Controller
         $this->authorize('update', $user);
 
         // Admin can't revoke his own role
+        if (auth()->user()->id == $id) {
+            if (auth()->user()->role != $request->input('role')) {
+                return redirect()->back()->withErrors(['role' => 'You can not revoke your own admin role.']);
+            }
+        }
 
         $newUser = new UpdateUserProfileInformation();
         $newUser->update($user, $request->all());
