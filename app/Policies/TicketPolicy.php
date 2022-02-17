@@ -30,7 +30,9 @@ class TicketPolicy
      */
     public function view(User $user, Ticket $ticket)
     {
-        //
+        if ($user->isAdmin() || $user->isWorker() || (auth()->check() && $ticket->user_id == auth()->id())) {
+            return true;
+        }
     }
 
     /**

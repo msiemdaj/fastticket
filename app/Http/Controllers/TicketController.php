@@ -89,7 +89,7 @@ class TicketController extends Controller
             }
         }
         // TODO: Redirect to specific ticket (show)
-        return redirect()->back();
+        return redirect()->route('ticket.show', $ticket->id);
     }
 
     /**
@@ -100,7 +100,13 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        return Inertia::render('Ticket/Show', [
+            'ticket' => $ticket,
+            'can' => [
+                'ticket_view' => $this->authorize('view', $ticket),
+            ]
+        ]);
     }
 
     /**
