@@ -5793,7 +5793,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var Create = function Create() {
   var _useForm = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.useForm)({
     name: '',
-    description: ''
+    description: null
   }),
       data = _useForm.data,
       setData = _useForm.setData,
@@ -5868,7 +5868,6 @@ var Create = function Create() {
               },
               value: data.description,
               id: "description",
-              type: "password",
               className: "form-control bg-white border-left-0 border-md ".concat(errors.description ? 'is-invalid' : ''),
               placeholder: "Description...",
               name: "description",
@@ -6520,6 +6519,199 @@ Profile.layout = function (page) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Profile);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Ticket/Create.js":
+/*!*********************************************!*\
+  !*** ./resources/js/Pages/Ticket/Create.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _Shared_Dashboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Shared/Dashboard */ "./resources/js/Shared/Dashboard.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+
+
+
+var Create = function Create() {
+  var categories = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.usePage)().props.categories;
+
+  var _useForm = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.useForm)({
+    title: '',
+    category: '',
+    description: '',
+    attachments: []
+  }),
+      data = _useForm.data,
+      setData = _useForm.setData,
+      post = _useForm.post,
+      processing = _useForm.processing,
+      errors = _useForm.errors;
+
+  var createSubmit = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              e.preventDefault();
+              post(route('ticket.create'), {
+                preserveScroll: true,
+                onSuccess: function onSuccess() {
+                  sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire("Success!", "Your ticket has been created and is awaiting resolution", "success");
+                }
+              });
+
+            case 2:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function createSubmit(_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    className: "row py-5 mt-4 justify-content-center",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "col-md-7 col-lg-6 ml-auto",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        className: "form-group col-lg-12 mx-auto d-flex align-items-center my-4 justify-content-center",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          className: "px-2 text-muted font-weight-bold text-muted",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h1", {
+            children: "Create ticket"
+          })
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("form", {
+        onSubmit: createSubmit,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          className: "row",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+            className: "input-group col-lg-6",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+              onChange: function onChange(e) {
+                return setData('title', e.target.value);
+              },
+              value: data.title,
+              id: "title",
+              type: "text",
+              className: "form-control bg-white border-left-0 border-md ".concat(errors.title ? 'is-invalid' : ''),
+              placeholder: "Title",
+              name: "title"
+            })
+          }), errors.title && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            className: "mt-1 text-danger",
+            children: errors.title
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+            className: "input-group col-lg-6 mt-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("select", {
+              onChange: function onChange(e) {
+                return setData('category', e.target.value);
+              },
+              value: data.category,
+              className: "form-control bg-white border-left-0 border-md ".concat(errors.category ? 'is-invalid' : ''),
+              name: "category",
+              required: true,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("option", {
+                children: "-"
+              }), categories.map(function (category, key) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("option", {
+                  value: category.id,
+                  children: category.name
+                }, key);
+              })]
+            })
+          }), errors.category && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            className: "mt-1 text-danger",
+            children: errors.category
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+            className: "input-group col-lg-6 mt-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("textarea", {
+              onChange: function onChange(e) {
+                return setData('description', e.target.value);
+              },
+              value: data.description,
+              id: "description",
+              className: "form-control bg-white border-left-0 border-md ".concat(errors.description ? 'is-invalid' : ''),
+              placeholder: "Description...",
+              name: "description",
+              rows: "3"
+            })
+          }), errors.description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            className: "mt-1 text-danger",
+            children: errors.description
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+            className: "input-group col-lg-6 mt-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+              onChange: function onChange(e) {
+                return setData('attachments', Array.from(e.target.files));
+              },
+              id: "attachments",
+              name: "attachments[]",
+              type: "file",
+              className: "form-control bg-white border-left-0 border-md ".concat(errors.attachments ? 'is-invalid' : ''),
+              "data-show-upload": "false",
+              "data-show-caption": "true",
+              multiple: true
+            })
+          }), errors.attachments && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            className: "mt-1 text-danger",
+            children: errors.attachments
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+            className: "form-group col-lg-12 mx-auto mb-0 mt-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              type: "submit",
+              className: "btn btn-outline-primary btn-block py-2 font-weight-bold",
+              disabled: processing,
+              children: "Create"
+            })
+          })]
+        })
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      className: "col-md-5 pr-lg-5 mb-5 mb-md-0",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+        src: "https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg",
+        alt: "",
+        className: "img-fluid mb-3 d-none d-md-block"
+      })
+    })]
+  });
+};
+
+Create.layout = function (page) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Shared_Dashboard__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    children: page
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Create);
 
 /***/ }),
 
@@ -7306,9 +7498,9 @@ __webpack_require__.r(__webpack_exports__);
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
               className: "nav-item",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Link, {
-                href: "#",
+                href: route('ticket.create'),
                 className: "nav-link",
-                children: "Link"
+                children: "Create ticket"
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
               className: "nav-item",
@@ -69355,6 +69547,8 @@ var map = {
 	"./Home.js": "./resources/js/Pages/Home.js",
 	"./Profile/Index": "./resources/js/Pages/Profile/Index.js",
 	"./Profile/Index.js": "./resources/js/Pages/Profile/Index.js",
+	"./Ticket/Create": "./resources/js/Pages/Ticket/Create.js",
+	"./Ticket/Create.js": "./resources/js/Pages/Ticket/Create.js",
 	"./User/Create": "./resources/js/Pages/User/Create.js",
 	"./User/Create.js": "./resources/js/Pages/User/Create.js",
 	"./User/Edit": "./resources/js/Pages/User/Edit.js",

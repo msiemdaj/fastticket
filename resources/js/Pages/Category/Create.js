@@ -8,7 +8,7 @@ import Dashboard from "../../Shared/Dashboard"
 const Create = () => {
     const { data, setData, post, processing, errors } = useForm({
         name: '',
-        description: '',
+        description: null,
     })
 
     const createSubmit = async (e) => {
@@ -37,7 +37,7 @@ const Create = () => {
 
                         <div className="input-group col-lg-6 mt-4">
                             <textarea onChange={e => setData('description', e.target.value)} value={data.description}
-                                id="description" type="password" className={`form-control bg-white border-left-0 border-md ${errors.description ? 'is-invalid' : ''}`} placeholder="Description..." name="description" rows="3" />
+                                id="description" className={`form-control bg-white border-left-0 border-md ${errors.description ? 'is-invalid' : ''}`} placeholder="Description..." name="description" rows="3" />
                         </div>
                         {errors.description && <span className="mt-1 text-danger">{errors.description}</span>}
 

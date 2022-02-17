@@ -22,7 +22,7 @@ export default () => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link href="#" className="nav-link">Link</Link>
+                                <Link href={route('ticket.create')} className="nav-link">Create ticket</Link>
                             </li>
                             <li className="nav-item">
                                 <Link href={route('users')} className="nav-link">Users</Link>

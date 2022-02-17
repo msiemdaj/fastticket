@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,3 +45,7 @@ Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.ed
 Route::put('/users/{id}/update', [UsersController::class, 'update'])->name('users.update')->middleware('auth');
 Route::post('/users/{id}/password-reset', [UsersController::class, 'passwordReset'])->name('users.password.reset')->middleware('auth');
 Route::delete('/users/{id}/destroy', [UsersController::class, 'destroy'])->name('users.destroy')->middleware('auth');
+
+# Ticket
+Route::get('/ticket/create', [TicketController::class, 'create'])->name('ticket.create')->middleware('auth');
+Route::post('/ticket/create', [TicketController::class, 'store'])->name('ticket.store')->middleware('auth');

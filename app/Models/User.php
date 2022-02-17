@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->role == UserRole::WORKER;
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class)->orderByDesc('created_at');
+    }
 }
