@@ -23,7 +23,12 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Ticket/Index', [
+            'tickets' => Ticket::orderByDesc('created_at')->paginate(10),
+            'can' => [
+                'ticket_viewAny' => $this->authorize('viewAny', Ticket::class),
+            ]
+        ]);
     }
 
     /**

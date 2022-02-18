@@ -49,6 +49,7 @@ Route::post('/users/{id}/password-reset', [UsersController::class, 'passwordRese
 Route::delete('/users/{id}/destroy', [UsersController::class, 'destroy'])->name('users.destroy')->middleware('auth');
 
 # Ticket
+Route::get('/ticket/all', [TicketController::class, 'index'])->name('ticket.all')->middleware('auth');
 Route::get('/ticket/create', [TicketController::class, 'create'])->name('ticket.create')->middleware('auth');
 Route::post('/ticket/create', [TicketController::class, 'store'])->name('ticket.store')->middleware('auth');
 Route::get('/ticket/{id}', [TicketController::class, 'show'])->name('ticket.show')->middleware('auth');

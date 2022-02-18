@@ -26,6 +26,7 @@ export default () => {
                                     <span className='h5 align-middle me-2'>Ticket</span>
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="ticketDropdown">
+                                    <Link href={route('ticket.all')} className="nav-link">Show all tickets</Link>
                                     <Link href={route('ticket.create')} className="nav-link">Create ticket</Link>
                                 </ul>
                             </li>

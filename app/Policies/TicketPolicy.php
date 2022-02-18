@@ -19,7 +19,9 @@ class TicketPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if ($user->isAdmin() || $user->isWorker()) {
+            return true;
+        }
     }
 
     /**
