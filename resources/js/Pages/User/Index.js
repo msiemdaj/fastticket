@@ -68,7 +68,7 @@ const User = () => {
                     {
                         users.data.map((row, key) => (
                             <tr key={key}>
-                                <td>{row.first_name}</td>
+                                <td><Link href={route('users.show', row.id)}>{row.first_name}</Link></td>
                                 <td>{row.last_name}</td>
                                 <td>{row.role}</td>
                                 <td>{row.email}</td>

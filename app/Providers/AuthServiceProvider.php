@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
@@ -27,10 +28,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('attachment-download', function (User $user) {
-            if (Auth::check() && ($user->isAdmin() || $user->isWorker())) {
-                return true;
-            }
-        });
+        // 
     }
 }

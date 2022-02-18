@@ -100,7 +100,7 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = Ticket::with('user', 'category')->findOrFail($id);
         return Inertia::render('Ticket/Show', [
             'ticket' => $ticket,
             'can' => [
@@ -117,7 +117,13 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        return Inertia::render('Ticket/Edit', [
+            'ticket' => $ticket,
+            'can' => [
+                'ticket_update' => $this->authorize('update', $ticket),
+            ]
+        ]);
     }
 
     /**

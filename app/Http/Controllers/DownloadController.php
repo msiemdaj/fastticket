@@ -12,6 +12,8 @@ class DownloadController extends Controller
     public function download($id)
     {
         $ticket = Ticket::findOrFail($id);
+        $this->authorize('download', $ticket);
+
         $attachments = json_decode($ticket->attachments);
         $zip = new ZipArchive;
         $zipName = 'attachments.zip';

@@ -52,6 +52,8 @@ Route::delete('/users/{id}/destroy', [UsersController::class, 'destroy'])->name(
 Route::get('/ticket/create', [TicketController::class, 'create'])->name('ticket.create')->middleware('auth');
 Route::post('/ticket/create', [TicketController::class, 'store'])->name('ticket.store')->middleware('auth');
 Route::get('/ticket/{id}', [TicketController::class, 'show'])->name('ticket.show')->middleware('auth');
+Route::get('/ticket/{id}/edit', [TicketController::class, 'edit'])->name('ticket.edit')->middleware('auth');
+Route::put('/ticket/{id}/update', [TicketController::class, 'update'])->name('ticket.update')->middleware('auth');
 
 # Download
-Route::get('/ticket/{id}/download', [DownloadController::class, 'download'])->name('attachment.download')->middleware(['can:attachment-download']);
+Route::get('/ticket/{id}/download', [DownloadController::class, 'download'])->name('attachment.download');
