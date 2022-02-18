@@ -9,6 +9,7 @@ export default () => {
     const [values, setValues] = useState({
         status: filters.status || '',
         priority: filters.priority || '',
+        search: filters.search || '',
     });
 
     function usePrevious(val) {
@@ -25,14 +26,13 @@ export default () => {
         if (prevValues) {
             const query = Object.keys(pickBy(values)).length
                 ? pickBy(values)
-                : { remember: 'forget' };
+                : '';
             Inertia.get(route(route().current()), query, {
                 replace: true,
                 preserveState: true
             });
         }
     }, [values]);
-
     function handleChange(e) {
         setValues(values => ({
             ...values,
@@ -41,22 +41,23 @@ export default () => {
     }
 
     return (
-        <div className="btn-group">
-            <select name="status" className="form-control col-sm-2 bg-white" value={values.status} onChange={handleChange}>
+        <div className="btn-group col-sm-6">
+            <select name="status" className="form-control bg-white" value={values.status} onChange={handleChange}>
                 <option value="">All</option>
                 <option value="pending">Pending</option>
                 <option value="open">Open</option>
                 <option value="closed">Closed</option>
             </select>
 
-            <select name="priority" className="form-control col-sm-2 bg-white" value={values.priority} onChange={handleChange}>
-                <option value="">All</option>
+            <select name="priority" className="form-control bg-white" value={values.priority} onChange={handleChange}>
+                <option value="">Any</option>
                 <option value="unassigned">Unassigned</option>
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
                 <option value="critical">Critical</option>
             </select>
+            <input type="text" name="search" className="form-control bg-white" placeholder="Search" value={values.search} onChange={handleChange} autoComplete="off" />
         </div>
     )
 }

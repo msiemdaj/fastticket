@@ -27,6 +27,7 @@ class TicketController extends Controller
             'tickets' => Ticket::orderByDesc('created_at')
                 ->where('tickets.status', 'like', '%' . $request->status . '%')
                 ->where('tickets.priority', 'like', '%' . $request->priority . '%')
+                ->where('tickets.title', 'like', '%' . $request->search . '%')
                 ->paginate(10)
                 ->appends($request->all()),
             'filters' => $request->all(),
