@@ -10,7 +10,6 @@ export default () => {
         status: filters.status || '',
         priority: filters.priority || '',
     });
-    console.log(values)
 
     function usePrevious(val) {
         const ref = useRef();
