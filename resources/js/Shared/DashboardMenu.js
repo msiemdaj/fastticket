@@ -21,14 +21,31 @@ export default () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <Link href={route('ticket.create')} className="nav-link">Create ticket</Link>
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" id="ticketDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span className='h5 align-middle me-2'>Ticket</span>
+                                </a>
+                                <ul className="dropdown-menu" aria-labelledby="ticketDropdown">
+                                    <Link href={route('ticket.create')} className="nav-link">Create ticket</Link>
+                                </ul>
                             </li>
-                            <li className="nav-item">
-                                <Link href={route('users')} className="nav-link">Users</Link>
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" id="usersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span className='h5 align-middle me-2'>Users</span>
+                                </a>
+                                <ul className="dropdown-menu" aria-labelledby="usersDropdown">
+                                    <Link href={route('users')} className="nav-link">Users</Link>
+                                    <Link href={route('users.create')} className="nav-link">Create user</Link>
+                                </ul>
                             </li>
-                            <li className="nav-item">
-                                <Link href={route('categories')} className="nav-link">Categories</Link>
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span className='h5 align-middle me-2'>Categories</span>
+                                </a>
+                                <ul className="dropdown-menu" aria-labelledby="categoriesDropdown">
+                                    <Link href={route('categories')} className="nav-link">Categories</Link>
+                                    <Link href={route('categories.create')} className="nav-link">Create category</Link>
+                                </ul>
                             </li>
                         </ul>
                         <ul className="navbar-nav ms-auto">

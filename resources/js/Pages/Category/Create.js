@@ -8,7 +8,7 @@ import Dashboard from "../../Shared/Dashboard"
 const Create = () => {
     const { data, setData, post, processing, errors } = useForm({
         name: '',
-        description: null,
+        description: '',
     })
 
     const createSubmit = async (e) => {
