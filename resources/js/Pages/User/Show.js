@@ -57,7 +57,7 @@ const Show = () => {
                                 <td>{row.priority}</td>
                                 <td>{row.created_at}</td>
                                 <td>
-                                    {row.attachments && <Link as="button" className="btn btn-light text-secondary bg-white me-1"><Download size="18" /></Link>}
+                                    {row.attachments && <a href={route('attachment.download', row.id)} className="btn btn-light text-secondary bg-white me-1"><Download size="18" /></a>}
                                 </td>
                             </tr>
                         ))
