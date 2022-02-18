@@ -21,10 +21,15 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('Ticket/Index', [
-            'tickets' => Ticket::orderByDesc('created_at')->paginate(10),
+            'tickets' => Ticket::orderByDesc('created_at')
+                ->where('tickets.status', 'like', '%' . $request->status . '%')
+                ->where('tickets.priority', 'like', '%' . $request->priority . '%')
+                ->paginate(10)
+                ->appends($request->all()),
+            'filters' => $request->all(),
             'can' => [
                 'ticket_viewAny' => $this->authorize('viewAny', Ticket::class),
             ]

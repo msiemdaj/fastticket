@@ -4,6 +4,7 @@ import { Download } from 'react-bootstrap-icons';
 
 import Dashboard from '../../Shared/Dashboard';
 import Pagination from '../../Shared/Pagination';
+import FilterData from '../../Shared/FilterData';
 
 function Tickets() {
     const { tickets } = usePage().props;
@@ -12,6 +13,7 @@ function Tickets() {
     return (
         <div>
             <h1>All tickets</h1>
+            <FilterData />
             <table className="table">
                 <thead>
                     <tr>
