@@ -66,7 +66,16 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        // 
+        $user = User::findOrFail($id);
+        $tickets = $user->tickets()->paginate(10);
+
+        return Inertia::render('User/Show', [
+            'user' => $user,
+            'tickets' => $tickets,
+            'can' => [
+                'users_view' => $this->authorize('view', $user),
+            ]
+        ]);
     }
 
     /**

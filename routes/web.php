@@ -41,6 +41,7 @@ Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy']
 Route::get('/users', [UsersController::class, 'index'])->name('users')->middleware('auth');
 Route::get('/users/create', [UsersController::class, 'create'])->name('users.create')->middleware('auth');
 Route::post('/users/create', [UsersController::class, 'store'])->name('users.store')->middleware('auth');
+Route::get('/users/{id}', [UsersController::class, 'show'])->name('users.show')->middleware('auth');
 Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit')->middleware('auth');
 Route::put('/users/{id}/update', [UsersController::class, 'update'])->name('users.update')->middleware('auth');
 Route::post('/users/{id}/password-reset', [UsersController::class, 'passwordReset'])->name('users.password.reset')->middleware('auth');

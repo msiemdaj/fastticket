@@ -57,8 +57,8 @@ const User = () => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">First name</th>
+                        <th scope="col">Last name</th>
                         <th scope="col">Role</th>
                         <th scope="col">Email address</th>
                         <th scope="col"></th>

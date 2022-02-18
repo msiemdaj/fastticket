@@ -29,7 +29,9 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        //
+        if ($user->isAdmin() || $user->isWorker()) {
+            return true;
+        }
     }
 
     /**
