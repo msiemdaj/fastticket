@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
@@ -58,3 +59,6 @@ Route::put('/ticket/{id}/update', [TicketController::class, 'update'])->name('ti
 
 # Download
 Route::get('/ticket/{id}/download', [DownloadController::class, 'download'])->name('attachment.download');
+
+# Dashboard
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');

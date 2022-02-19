@@ -21,6 +21,9 @@ export default () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <Link href={route('dashboard')} className="nav-link h5 align-middle me-2">Dashboard</Link>
+                            </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" id="ticketDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span className='h5 align-middle me-2'>Ticket</span>
