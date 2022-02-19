@@ -57,6 +57,6 @@ class User extends Authenticatable
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class)->orderByDesc('created_at');
+        return $this->belongsToMany(Ticket::class)->orderByDesc('created_at');
     }
 }

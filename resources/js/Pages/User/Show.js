@@ -41,6 +41,7 @@ const Show = () => {
                     <tr>
                         <th scope="col">Title</th>
                         <th scope="col">Description</th>
+                        <th scope="col">Category</th>
                         <th scope="col">Status</th>
                         <th scope="col">Priority</th>
                         <th scope="col">Created at</th>
@@ -53,6 +54,7 @@ const Show = () => {
                             <tr key={key}>
                                 <td><Link href={route('ticket.show', row.id)}>{row.title}</Link></td>
                                 <td>{row.description}</td>
+                                <td>{row.category.name}</td>
                                 <td>{row.status}</td>
                                 <td>{row.priority}</td>
                                 <td>{row.created_at}</td>

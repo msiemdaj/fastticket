@@ -6,6 +6,7 @@ use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
 use App\Models\Category;
 use App\Models\Ticket;
+use App\Models\TicketUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -24,7 +25,7 @@ class TicketController extends Controller
     public function index(Request $request)
     {
         return Inertia::render('Ticket/Index', [
-            'tickets' => Ticket::orderByDesc('created_at')
+            'tickets' => Ticket::orderByDesc('created_at')->with('category:id,name')
                 ->where('tickets.status', 'like', '%' . $request->status . '%')
                 ->where('tickets.priority', 'like', '%' . $request->priority . '%')
                 ->where('tickets.title', 'like', '%' . $request->search . '%')
@@ -45,7 +46,7 @@ class TicketController extends Controller
     public function create()
     {
         return Inertia::render('Ticket/Create', [
-            'categories' => Category::all(),
+            'categories' => Category::all('id', 'name'),
         ]);
     }
 
@@ -79,7 +80,6 @@ class TicketController extends Controller
                 $ticket = Ticket::create([
                     'title' => $request->title,
                     'description' => $request->description,
-                    'user_id' => Auth::user()->id,
                     'category_id' => $request->category,
                     'status' => TicketStatus::PENDING,
                     'priority' => TicketPriority::UNASSIGNED,
@@ -91,11 +91,14 @@ class TicketController extends Controller
                     $ticket->attachments = json_encode($files);
                     $ticket->save();
                 }
+                $ticket->user()->attach(Auth::user()->id);
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                foreach ($request->file('attachments') as $file) {
-                    Storage::delete($file);
+                if ($request->hasFile('attachments')) {
+                    foreach ($request->file('attachments') as $file) {
+                        Storage::delete($file);
+                    }
                 }
             }
         }
@@ -111,7 +114,7 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        $ticket = Ticket::with('user', 'category')->findOrFail($id);
+        $ticket = Ticket::with('user:id,first_name,last_name', 'worker:id,first_name,last_name', 'category:id,name')->findOrFail($id);
         return Inertia::render('Ticket/Show', [
             'ticket' => $ticket,
             'can' => [
@@ -158,5 +161,17 @@ class TicketController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function openTicket($id)
+    {
+        $ticket = Ticket::with('user:id')->findOrFail($id);
+        $this->authorize('openTicket', $ticket);
+        if (!$ticket->isOpen() && !$ticket->isClosed()) {
+            $ticket->user()->updateExistingPivot($ticket->user()->first()->id, ['worker_id' => Auth::user()->id]);
+            $ticket->status = TicketStatus::OPEN;
+            $ticket->save();
+        }
+        return redirect()->back();
     }
 }

@@ -20,7 +20,7 @@ class UsersController extends Controller
     public function index()
     {
         return Inertia::render('User/Index', [
-            'users' => User::orderByDesc('created_at')->paginate(10),
+            'users' => User::orderByDesc('created_at')->paginate(10, ['id', 'first_name', 'last_name', 'email', 'role', 'created_at']),
             'can' => [
                 'users_viewAny' => $this->authorize('viewAny', User::class),
             ]
@@ -66,8 +66,8 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        $tickets = $user->tickets()->paginate(10);
+        $user = User::findOrFail($id, ['id', 'first_name', 'last_name', 'email', 'role', 'created_at']);
+        $tickets = $user->tickets()->with('category:id,name')->paginate(10);
 
         return Inertia::render('User/Show', [
             'user' => $user,
@@ -86,7 +86,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id, ['id', 'first_name', 'last_name', 'email', 'role', 'created_at']);
 
         return Inertia::render('User/Edit', [
             'user' => $user,

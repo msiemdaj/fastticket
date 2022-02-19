@@ -19,7 +19,6 @@ class CreateTicketsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnUpdate();
             $table->enum('status', TicketStatus::TYPES)->default(TicketStatus::PENDING);
             $table->enum('priority', TicketPriority::TYPES)->default(TicketPriority::UNASSIGNED);

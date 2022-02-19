@@ -22,7 +22,12 @@ class Ticket extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'user_id');
+    }
+
+    public function worker()
+    {
+        return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'worker_id');
     }
 
     public function category()

@@ -33,7 +33,7 @@ class TicketPolicy
      */
     public function view(User $user, Ticket $ticket)
     {
-        if ($user->isAdmin() || $user->isWorker() || (auth()->check() && $ticket->user_id == auth()->id())) {
+        if ($user->isAdmin() || $user->isWorker() || (auth()->check() && $ticket->user()->first()->id == auth()->id())) {
             return true;
         }
     }
@@ -58,7 +58,7 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket)
     {
-        if ($user->isAdmin() || $user->isWorker() || (auth()->check() && $ticket->user_id == auth()->id())) {
+        if ($user->isAdmin() || $user->isWorker() || (auth()->check() && $ticket->user()->first()->id == auth()->id())) {
             return true;
         }
     }
@@ -108,7 +108,14 @@ class TicketPolicy
      */
     public function download(User $user, Ticket $ticket)
     {
-        if (Auth::check() && ($user->isAdmin() || $user->isWorker() || $ticket->user_id == auth()->id())) {
+        if (Auth::check() && ($user->isAdmin() || $user->isWorker() || $ticket->user()->first()->id == auth()->id())) {
+            return true;
+        }
+    }
+
+    public function openTicket(User $user)
+    {
+        if (Auth::check() && ($user->isAdmin() || $user->isWorker())) {
             return true;
         }
     }
