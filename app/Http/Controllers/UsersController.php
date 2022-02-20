@@ -17,10 +17,19 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('User/Index', [
-            'users' => User::orderByDesc('created_at')->paginate(10, ['id', 'first_name', 'last_name', 'email', 'role', 'created_at']),
+            'users' => User::orderByDesc('created_at')
+                ->where('users.role', 'like', '%' . $request->role . '%')
+                ->where(function ($query) use ($request) {
+                    $query->where('users.first_name', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.last_name', 'like', '%' . $request->search . '%');
+                })
+                ->paginate(10, ['id', 'first_name', 'last_name', 'email', 'role', 'created_at'])
+                ->appends($request->all()),
+            'roles' => UserRole::TYPES,
+            'filters' => $request->all(),
             'can' => [
                 'users_viewAny' => $this->authorize('viewAny', User::class),
             ]

@@ -6,9 +6,10 @@ import { PencilSquare, TrashFill } from 'react-bootstrap-icons';
 
 import Dashboard from "../../Shared/Dashboard"
 import Pagination from "../../Shared/Pagination";
+import FilterDataUsers from "../../Shared/FilterDataUsers";
 
 const User = () => {
-    const { users } = usePage().props;
+    const { users, roles } = usePage().props;
     const { links } = users;
 
     const deleteButton = async (id, email) => {
@@ -54,6 +55,7 @@ const User = () => {
     return (
         <div>
             <Link href={route('users.create')} as="button" type="button" className="btn btn-outline-primary">Create new user</Link>
+            <FilterDataUsers roles={roles} />
             <table className="table">
                 <thead>
                     <tr>
