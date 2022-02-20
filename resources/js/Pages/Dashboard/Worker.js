@@ -7,7 +7,7 @@ import FilterData from "../../Shared/FilterData";
 import Pagination from "../../Shared/Pagination";
 
 const WorkerPage = () => {
-    const { newtickets } = usePage().props;
+    const { newtickets, categories } = usePage().props;
     const { links } = newtickets;
 
     return (
@@ -15,7 +15,7 @@ const WorkerPage = () => {
             <div className="card">
                 <div className="card-body">
                     <h1>New tickets last 48h</h1>
-                    <FilterData />
+                    <FilterData categories={categories} />
                     <table className="table">
                         <thead>
                             <tr>

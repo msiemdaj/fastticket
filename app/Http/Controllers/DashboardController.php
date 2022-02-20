@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Ticket;
 use App\Models\User;
 use Carbon\Carbon;
@@ -22,10 +23,12 @@ class DashboardController extends Controller
                     ->where('tickets.created_at', '>', Carbon::now()->subDays(2))
                     ->where('tickets.status', 'like', '%' . $request->status . '%')
                     ->where('tickets.priority', 'like', '%' . $request->priority . '%')
+                    ->whereRelation('category', 'id', 'like', '%' . $request->category . '%')
                     ->where('tickets.title', 'like', '%' . $request->search . '%')
                     ->paginate(10)
                     ->appends($request->all()),
                 'filters' => $request->all(),
+                'categories' => Category::all(['id', 'name']),
             ]);
         } else {
             return Inertia::render('Dashboard/User');

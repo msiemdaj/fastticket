@@ -3,13 +3,14 @@ import { usePage } from "@inertiajs/inertia-react";
 import React, { useEffect, useRef, useState } from "react";
 import pickBy from 'lodash/pickBy';
 
-export default () => {
+export default ({ categories }) => {
     const { filters } = usePage().props;
 
     const [values, setValues] = useState({
         status: filters.status || '',
         priority: filters.priority || '',
         search: filters.search || '',
+        category: filters.category || '',
     });
 
     function usePrevious(val) {
@@ -57,6 +58,17 @@ export default () => {
                 <option value="high">High</option>
                 <option value="critical">Critical</option>
             </select>
+
+            <select onChange={handleChange} value={values.category}
+                className="form-control bg-white" name="category">
+                <option value="">Any</option>
+                {
+                    categories.map((category, key) => (
+                        <option key={key} value={category.id}>{category.name}</option>
+                    ))
+                }
+            </select>
+
             <input type="text" name="search" className="form-control bg-white" placeholder="Search" value={values.search} onChange={handleChange} autoComplete="off" />
         </div>
     )

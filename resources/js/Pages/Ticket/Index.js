@@ -7,13 +7,13 @@ import Pagination from '../../Shared/Pagination';
 import FilterData from '../../Shared/FilterData';
 
 function Tickets() {
-    const { tickets } = usePage().props;
+    const { tickets, categories } = usePage().props;
     const { links } = tickets;
 
     return (
         <div>
             <h1>All tickets</h1>
-            <FilterData />
+            <FilterData categories={categories} />
             <table className="table">
                 <thead>
                     <tr>
