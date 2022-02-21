@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
 use App\Models\Category;
+use App\Models\Message;
 use App\Models\Ticket;
 use App\Models\TicketUser;
 use Illuminate\Http\Request;
@@ -119,6 +120,7 @@ class TicketController extends Controller
         $ticket = Ticket::with('user:id,first_name,last_name', 'worker:id,first_name,last_name', 'category:id,name')->findOrFail($id);
         return Inertia::render('Ticket/Show', [
             'ticket' => $ticket,
+            'messages' => Message::where('ticket_id', $id)->with('user:id,first_name,last_name,role')->get(),
             'can' => [
                 'ticket_view' => $this->authorize('view', $ticket),
             ]

@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Ticket::class)->orderByDesc('created_at');
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 }

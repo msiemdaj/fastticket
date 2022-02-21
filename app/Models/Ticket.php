@@ -35,6 +35,11 @@ class Ticket extends Model
         return $this->belongsTo('App\Models\Category');
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function isClosed()
     {
         return $this->status == TicketStatus::CLOSED;

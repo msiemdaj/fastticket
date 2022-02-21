@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UsersController;
@@ -63,3 +64,7 @@ Route::get('/ticket/{id}/download', [DownloadController::class, 'download'])->na
 
 # Dashboard
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
+
+# Message
+Route::post('/ticket/{id}/message/reply', [MessageController::class, 'store'])->name('message.store')->middleware('auth');
+Route::delete('/message/{id}/delete', [MessageController::class, 'destroy'])->name('message.delete')->middleware('auth');
