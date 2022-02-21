@@ -1,0 +1,55 @@
+import { Link, usePage } from "@inertiajs/inertia-react";
+import React from "react"
+import { Download } from "react-bootstrap-icons";
+
+import Dashboard from "../../Shared/Dashboard"
+import FilterData from "../../Shared/FilterData";
+import Pagination from "../../Shared/Pagination";
+
+
+const MyTickets = () => {
+    const { tickets, categories } = usePage().props;
+    const { links } = tickets;
+
+    return (
+        <div>
+            <h1>My tickets</h1>
+
+            <FilterData categories={categories} />
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Priority</th>
+                        <th scope="col">Created at</th>
+                        <th scope="col">Attachments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        tickets.data.map((row, key) => (
+                            <tr key={key}>
+                                <td><Link href={route('ticket.show', row.id)}>{row.title}</Link></td>
+                                <td>{row.description}</td>
+                                <td>{row.category.name}</td>
+                                <td>{row.status}</td>
+                                <td>{row.priority}</td>
+                                <td>{row.created_at}</td>
+                                <td>
+                                    {row.attachments && <a href={route('attachment.download', row.id)} className="btn btn-light text-secondary bg-white me-1"><Download size="18" /></a>}
+                                </td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
+            <Pagination links={links} />
+        </div>
+    )
+}
+
+MyTickets.layout = page => <Dashboard children={page} />
+export default MyTickets

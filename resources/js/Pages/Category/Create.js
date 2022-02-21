@@ -13,7 +13,7 @@ const Create = () => {
 
     const createSubmit = async (e) => {
         e.preventDefault();
-        post(route('categories.create'), {
+        post(route('categories.store'), {
             preserveScroll: true,
             onSuccess: () => Swal.fire("Success!", "New category has been created", "success"),
         });

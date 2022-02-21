@@ -7,7 +7,7 @@ import FilterData from "../../Shared/FilterData";
 import Pagination from "../../Shared/Pagination";
 
 const WorkerPage = () => {
-    const { newtickets, categories } = usePage().props;
+    const { newtickets, categories, mytickets } = usePage().props;
     const { links } = newtickets;
 
     return (
@@ -52,6 +52,28 @@ const WorkerPage = () => {
             <div className="card col-6">
                 <div className="card-body">
                     <h1>My tickets</h1>
+                    <Link href={route('ticket.mytickets')} as="button" type="button" className="btn btn-outline-primary">show all my tickets</Link>
+                    <h4 className="mt-4">Latest opened tickets</h4>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Title</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                mytickets.map((tckt, key) => (
+                                    <tr key={key}>
+                                        <td><Link href={route('ticket.show', tckt.id)}>{tckt.title}</Link></td>
+                                        <td>{tckt.category.name}</td>
+                                        <td>{tckt.priority}</td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TicketStatus;
 use App\Models\Category;
 use App\Models\Ticket;
 use App\Models\User;
@@ -29,6 +30,9 @@ class DashboardController extends Controller
                     ->appends($request->all()),
                 'filters' => $request->all(),
                 'categories' => Category::all(['id', 'name']),
+                'mytickets' => Ticket::orderByDesc('created_at')->with(['category:id,name', 'worker:id'])
+                    ->whereRelation('worker', 'id', '=', Auth::user()->id)->take(10)
+                    ->where('tickets.status', TicketStatus::OPEN)->get(),
             ]);
         } else {
             return Inertia::render('Dashboard/User');

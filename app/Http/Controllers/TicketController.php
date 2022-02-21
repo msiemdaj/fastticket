@@ -178,4 +178,28 @@ class TicketController extends Controller
         }
         return redirect()->back();
     }
+
+    /**
+     * Display a listing of tickets that are opened by worker.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function myTickets(Request $request)
+    {
+        return Inertia::render('Ticket/MyTickets', [
+            'tickets' => Ticket::orderByDesc('created_at')->with(['category:id,name', 'worker:id'])
+                ->whereRelation('worker', 'id', '=', Auth::user()->id)
+                ->where('tickets.status', 'like', '%' . $request->status . '%')
+                ->where('tickets.priority', 'like', '%' . $request->priority . '%')
+                ->whereRelation('category', 'id', 'like', '%' . $request->category . '%')
+                ->where('tickets.title', 'like', '%' . $request->search . '%')
+                ->paginate(10)
+                ->appends($request->all()),
+            'filters' => $request->all(),
+            'categories' => Category::all(['id', 'name']),
+            'can' => [
+                'ticket_viewAny' => $this->authorize('viewAny', Ticket::class),
+            ],
+        ]);
+    }
 }
