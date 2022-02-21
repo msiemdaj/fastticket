@@ -30,6 +30,7 @@ export default () => {
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="ticketDropdown">
                                     <Link href={route('ticket.all')} className="nav-link">Show all tickets</Link>
+                                    <Link href={route('ticket.mytickets')} className="nav-link">Show my tickets</Link>
                                     <Link href={route('ticket.create')} className="nav-link">Create ticket</Link>
                                 </ul>
                             </li>
