@@ -16,7 +16,7 @@ class CreateTicketUserTable extends Migration
         Schema::create('ticket_user', function (Blueprint $table) {
             $table->foreignId('ticket_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
-            $table->foreignId('worker_id')->nullable()->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreignId('worker_id')->nullable()->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
         });
     }
 
