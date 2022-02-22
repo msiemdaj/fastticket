@@ -36,13 +36,17 @@ const Show = () => {
 
     const replySubmit = async (e) => {
         e.preventDefault();
-        post(route('message.store', ticket.id), {
-            preserveScroll: true,
-            onSuccess: () => {
-                Swal.fire("Success!", "Your reply has been successfully added to this ticket", "success");
-                setData({ message: '' });
-            },
-        });
+        if (ticket.status != 'Open') {
+            Swal.fire("Error!", "To send a reply ticket must be open", "error");
+        } else {
+            post(route('message.store', ticket.id), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    Swal.fire("Success!", "Your reply has been successfully added to this ticket", "success");
+                    setData({ message: '' });
+                },
+            });
+        }
     }
 
     const deleteMessage = (id) => {
@@ -168,7 +172,7 @@ const Show = () => {
                     {errors.message && <span className="mt-1 text-danger">{errors.message}</span>}
 
                     <div className="form-group col-lg-12 mx-auto mb-0 mt-4">
-                        <button type="submit" className="btn btn-outline-primary btn-block py-2 font-weight-bold" disabled={processing}>Reply</button>
+                        <button type="submit" className={`btn btn-outline-primary btn-block py-2 font-weight-bold ${ticket.status != 'Open' && 'disabled'}`} disabled={processing}>Reply</button>
                     </div>
                 </form>
             </div>

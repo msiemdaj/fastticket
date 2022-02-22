@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TicketStatus;
 use App\Models\Message;
 use App\Models\Ticket;
 use App\Models\User;
@@ -25,31 +26,33 @@ class MessageController extends Controller
         $ticket = Ticket::with('user:id,first_name,last_name', 'worker:id,first_name,last_name')->findOrFail($id);
         $this->authorize('create', [Message::class, $ticket]);
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'message' => 'required',
-            ]
-        );
+        if ($ticket->status == TicketStatus::OPEN) {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'message' => 'required',
+                ]
+            );
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        } else {
-            $message = Message::create([
-                'body' => $request->message,
-                'ticket_id' => $id,
-                'user_id' => Auth::user()->id,
-            ]);
-
-            // Notification
-            if ($message->user_id == $ticket->user->first()->id) {
-                $user = User::find($ticket->worker->first()->id);
-            } elseif ($message->user_id == $ticket->worker->first()->id) {
-                $user = User::find($ticket->user->first()->id);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->errors());
             } else {
-                $user = User::findMany([$ticket->worker->first()->id, $ticket->user->first()->id]);
+                $message = Message::create([
+                    'body' => $request->message,
+                    'ticket_id' => $id,
+                    'user_id' => Auth::user()->id,
+                ]);
+
+                // Notification
+                if ($message->user_id == $ticket->user->first()->id) {
+                    $user = User::find($ticket->worker->first()->id);
+                } elseif ($message->user_id == $ticket->worker->first()->id) {
+                    $user = User::find($ticket->user->first()->id);
+                } else {
+                    $user = User::findMany([$ticket->worker->first()->id, $ticket->user->first()->id]);
+                }
+                Notification::send($user, new ReplyMessage($ticket));
             }
-            Notification::send($user, new ReplyMessage($ticket));
         }
         return redirect()->back();
     }
