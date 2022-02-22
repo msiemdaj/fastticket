@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UsersController;
@@ -69,3 +70,8 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middl
 # Message
 Route::post('/ticket/{id}/message/reply', [MessageController::class, 'store'])->name('message.store')->middleware('auth');
 Route::delete('/message/{id}/delete', [MessageController::class, 'destroy'])->name('message.delete')->middleware('auth');
+
+# Notifications
+Route::get('/notifications/read/{id}', [NotificationsController::class, 'showTicket'])->name('notifications.read')->middleware('auth');
+Route::get('/notifications/readall', [NotificationsController::class, 'markAllAsRead'])->name('notifications.readall')->middleware('auth');
+Route::get('/notifications/deleteall', [NotificationsController::class, 'deleteAll'])->name('notifications.deleteall')->middleware('auth');

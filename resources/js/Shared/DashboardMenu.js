@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, usePage } from '@inertiajs/inertia-react'
 
 import Logo from './Logo'
+import Notifications from './Notifications'
 
 export default () => {
 
@@ -54,6 +55,7 @@ export default () => {
                             </li>
                         </ul>
                         <ul className="navbar-nav ms-auto">
+                            <Notifications />
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span className='h5 align-middle me-2'>{auth.user.first_name} {auth.user.last_name}</span>

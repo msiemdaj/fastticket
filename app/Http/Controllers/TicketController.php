@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\Message;
 use App\Models\Ticket;
 use App\Models\TicketUser;
+use App\Models\User;
+use App\Notifications\TicketOpened;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -175,6 +177,9 @@ class TicketController extends Controller
             $ticket->user()->updateExistingPivot($ticket->user()->first()->id, ['worker_id' => Auth::user()->id]);
             $ticket->status = TicketStatus::OPEN;
             $ticket->save();
+
+            $user = User::find($ticket->user()->first()->id);
+            $user->notify(new TicketOpened($ticket));
         }
         return redirect()->back();
     }

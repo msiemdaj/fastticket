@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Models\Ticket;
+use App\Models\User;
+use App\Notifications\ReplyMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
@@ -19,7 +22,7 @@ class MessageController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = Ticket::with('user:id,first_name,last_name', 'worker:id,first_name,last_name')->findOrFail($id);
         $this->authorize('create', [Message::class, $ticket]);
 
         $validator = Validator::make(
@@ -32,11 +35,21 @@ class MessageController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         } else {
-            Message::create([
+            $message = Message::create([
                 'body' => $request->message,
                 'ticket_id' => $id,
                 'user_id' => Auth::user()->id,
             ]);
+
+            // Notification
+            if ($message->user_id == $ticket->user->first()->id) {
+                $user = User::find($ticket->worker->first()->id);
+            } elseif ($message->user_id == $ticket->worker->first()->id) {
+                $user = User::find($ticket->user->first()->id);
+            } else {
+                $user = User::findMany([$ticket->worker->first()->id, $ticket->user->first()->id]);
+            }
+            Notification::send($user, new ReplyMessage($ticket));
         }
         return redirect()->back();
     }
