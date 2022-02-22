@@ -42,7 +42,6 @@ class TicketOpened extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        dd($this->ticket);
         return (new MailMessage)
             ->line('Your ticket is now open, we are doing our best to resolve it and give you as much support as required.')
             ->action('Show ticket', route('ticket.show', $this->ticket->id))
