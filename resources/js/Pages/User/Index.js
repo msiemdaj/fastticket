@@ -8,7 +8,7 @@ import Pagination from "../../Shared/Pagination";
 import FilterDataUsers from "../../Shared/FilterDataUsers";
 
 const User = () => {
-    const { users, roles } = usePage().props;
+    const { auth, users, roles } = usePage().props;
     const { links } = users;
 
     const deleteButton = async (id, email) => {
@@ -55,7 +55,10 @@ const User = () => {
         <div>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 className="h2 text-darkblue font-weight-bold text-uppercase">All users</h1>
-                <Link href={route('users.create')} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center">Create new user</Link>
+                {
+                    auth.user.role == 'admin'
+                    && <Link href={route('users.create')} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center">Create new user</Link>
+                }
             </div>
 
             <div className="row">
@@ -89,16 +92,20 @@ const User = () => {
                                                     }
                                                 </td>
                                                 <td>{row.email}</td>
+
                                                 <td className="text-end show-more">
-                                                    <div className="dropdown text-center">
-                                                        <button className="btn" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i className="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
-                                                            <li><Link href={route('users.edit', row.id)} as="button" className="dropdown-item"><i className="bi bi-pencil-square align-middle me-2"></i>Edit</Link></li>
-                                                            <li><button onClick={() => deleteButton(row.id, row.email)} className="dropdown-item"><i className="bi bi-trash-fill align-middle me-2"></i>Delete</button></li>
-                                                        </ul>
-                                                    </div>
+                                                    {
+                                                        auth.user.role == 'admin'
+                                                        && <div className="dropdown text-center">
+                                                            <button className="btn" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i className="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                            <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
+                                                                <li><Link href={route('users.edit', row.id)} as="button" className="dropdown-item"><i className="bi bi-pencil-square align-middle me-2"></i>Edit</Link></li>
+                                                                <li><button onClick={() => deleteButton(row.id, row.email)} className="dropdown-item"><i className="bi bi-trash-fill align-middle me-2"></i>Delete</button></li>
+                                                            </ul>
+                                                        </div>
+                                                    }
                                                 </td>
                                             </tr>
                                         ))

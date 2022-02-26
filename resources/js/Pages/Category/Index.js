@@ -7,7 +7,7 @@ import Dashboard from "../../Shared/Dashboard"
 import Pagination from "../../Shared/Pagination";
 
 const Category = () => {
-    const { categories } = usePage().props;
+    const { auth, categories } = usePage().props;
     const { links } = categories;
 
     const deleteButton = (id) => {
@@ -44,7 +44,10 @@ const Category = () => {
         <div>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 className="h2 text-darkblue font-weight-bold text-uppercase">All categories</h1>
-                <Link href={route('categories.create')} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center">Create new category</Link>
+                {
+                    auth.user.role == 'admin'
+                    && <Link href={route('categories.create')} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center">Create new category</Link>
+                }
             </div>
 
             <div className="row">
@@ -66,15 +69,18 @@ const Category = () => {
                                                 <td>{row.name}</td>
                                                 <td>{row.description}</td>
                                                 <td className="text-end show-more">
-                                                    <div className="dropdown">
-                                                        <button className="btn" type="button" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i className="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
-                                                            <li><Link href={route('categories.edit', row.id)} as="button" className="dropdown-item"><i className="bi bi-pencil-square align-middle me-2"></i>Edit</Link></li>
-                                                            <li><button onClick={() => deleteButton(row.id)} className="dropdown-item"><i className="bi bi-trash-fill align-middle me-2"></i>Delete</button></li>
-                                                        </ul>
-                                                    </div>
+                                                    {
+                                                        auth.user.role == 'admin'
+                                                        && <div className="dropdown">
+                                                            <button className="btn" type="button" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i className="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                            <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
+                                                                <li><Link href={route('categories.edit', row.id)} as="button" className="dropdown-item"><i className="bi bi-pencil-square align-middle me-2"></i>Edit</Link></li>
+                                                                <li><button onClick={() => deleteButton(row.id)} className="dropdown-item"><i className="bi bi-trash-fill align-middle me-2"></i>Delete</button></li>
+                                                            </ul>
+                                                        </div>
+                                                    }
                                                 </td>
                                             </tr>
                                         ))

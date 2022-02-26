@@ -182,7 +182,7 @@ class TicketController extends Controller
                 'priority' => $request->priority,
             ])->save();
 
-            return redirect()->back();
+            return redirect()->route('ticket.show', $id);
         }
     }
 

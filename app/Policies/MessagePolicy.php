@@ -35,7 +35,7 @@ class MessagePolicy
      */
     public function delete(User $user, Message $message)
     {
-        if ($user->isAdmin() || $user->isWorker()) {
+        if ($user->isAdmin() || (Auth::check() && $user->isWorker() && $user->id == $message->user_id)) {
             return true;
         }
     }

@@ -17,7 +17,9 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isAdmin();
+        if ($user->isAdmin() || $user->isWorker()) {
+            return true;
+        }
     }
 
     /**

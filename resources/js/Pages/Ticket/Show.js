@@ -149,7 +149,7 @@ const Show = () => {
                                         </div>
 
                                         {
-                                            auth.user.role == 'admin' || auth.user.role == 'worker'
+                                            auth.user.role == 'admin' || (auth.user.role == 'worker' && auth.user.id == message.user.id)
                                                 ? <div className="dropdown text-center show-more">
                                                     <button className="btn" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i className="bi bi-three-dots-vertical"></i>

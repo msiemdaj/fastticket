@@ -22,7 +22,7 @@ const Show = () => {
                         <div className="card-body p-4">
                             <div className="d-sm-flex align-items-center justify-content-between mb-4">
                                 <h1 className="h4 text-darkblue font-weight-bold text-uppercase">User details</h1>
-                                {auth.user.role == 'admin' ? <Link href={route('users.edit', user.id)} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center"><i class="bi bi-pencil me-2"></i>Edit user details</Link> : ''}
+                                {auth.user.role == 'admin' ? <Link href={route('users.edit', user.id)} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center"><i className="bi bi-pencil me-2"></i>Edit user details</Link> : ''}
                             </div>
 
                             <div>
