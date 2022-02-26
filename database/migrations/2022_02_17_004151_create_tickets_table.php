@@ -19,7 +19,7 @@ class CreateTicketsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnUpdate();
+            $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnUpdate()->nullOnDelete();
             $table->enum('status', TicketStatus::TYPES)->default(TicketStatus::PENDING);
             $table->enum('priority', TicketPriority::TYPES)->default(TicketPriority::UNASSIGNED);
             $table->longText('attachments')->nullable();

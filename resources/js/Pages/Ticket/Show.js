@@ -216,7 +216,7 @@ const Show = () => {
 
                             <div>
                                 <span className="text-darkblue font-weight-bold">Category</span>
-                                <p className="text-muted">{category.name}</p>
+                                <p className="text-muted">{category != null && category.name}</p>
                             </div>
 
                             <div>
