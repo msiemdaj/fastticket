@@ -26,7 +26,7 @@ class UsersController extends Controller
                     $query->where('users.first_name', 'like', '%' . $request->search . '%')
                         ->orWhere('users.last_name', 'like', '%' . $request->search . '%');
                 })
-                ->paginate(10, ['id', 'first_name', 'last_name', 'email', 'role', 'created_at'])
+                ->paginate(10, ['id', 'first_name', 'last_name', 'email', 'email_verified_at', 'role', 'created_at'])
                 ->appends($request->all()),
             'roles' => UserRole::TYPES,
             'filters' => $request->all(),
@@ -75,7 +75,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id, ['id', 'first_name', 'last_name', 'email', 'role', 'created_at']);
+        $user = User::findOrFail($id, ['id', 'first_name', 'last_name', 'email', 'email_verified_at', 'role', 'created_at']);
         $tickets = $user->tickets()->with('category:id,name')->paginate(10);
 
         return Inertia::render('User/Show', [

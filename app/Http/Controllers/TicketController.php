@@ -37,6 +37,8 @@ class TicketController extends Controller
                 ->appends($request->all()),
             'filters' => $request->all(),
             'categories' => Category::all(['id', 'name']),
+            'statuses' => TicketStatus::TYPES,
+            'priorities' => TicketPriority::TYPES,
             'can' => [
                 'ticket_viewAny' => $this->authorize('viewAny', Ticket::class),
             ],
@@ -202,6 +204,8 @@ class TicketController extends Controller
                 ->appends($request->all()),
             'filters' => $request->all(),
             'categories' => Category::all(['id', 'name']),
+            'statuses' => TicketStatus::TYPES,
+            'priorities' => TicketPriority::TYPES,
             'can' => [
                 'ticket_viewAny' => $this->authorize('viewAny', Ticket::class),
             ],

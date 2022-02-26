@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useForm, usePage } from '@inertiajs/inertia-react'
+import { usePage } from '@inertiajs/inertia-react'
 import Swal from 'sweetalert2';
 
 import Dashboard from '../../Shared/Dashboard';
@@ -42,77 +42,85 @@ function Profile() {
 
     return (
         <div>
-            <div className="row py-5 mt-4 justify-content-center">
-                <div className="col-md-4 pr-lg-5 mb-5 mb-md-0">
-                    <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" className="img-fluid mb-3 d-none d-md-block" />
-                </div>
-
-                <div className="col-md-8 col-lg-6 ml-auto">
-                    <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-4 justify-content-center">
-                        <span className="px-2 text-muted font-weight-bold text-muted"><h1>Update profile details</h1></span>
-                    </div >
-
-                    <form onSubmit={detailsSubmit}>
-                        <div className="row">
-
-                            <div className="input-group col-lg-6">
-                                <input onChange={e => setDetails({ ...details, [e.target.name]: e.target.value })} value={details.first_name}
-                                    id="first_name" type="text" className={`form-control bg-white border-left-0 border-md ${errors.first_name ? 'is-invalid' : ''}`} placeholder="First name" name="first_name" />
-                            </div>
-                            {errors.first_name && <span className="mt-1 text-danger">{errors.first_name}</span>}
-
-                            <div className="input-group mt-4 col-lg-6">
-                                <input onChange={e => setDetails({ ...details, [e.target.name]: e.target.value })} value={details.last_name}
-                                    id="last_name" type="text" className={`form-control bg-white border-left-0 border-md ${errors.last_name ? 'is-invalid' : ''}`} placeholder="Last name" name="last_name" />
-                            </div>
-                            {errors.last_name && <span className="mt-1 text-danger">{errors.last_name}</span>}
-
-                            <div className="form-group col-lg-12 mx-auto mb-0 mt-4">
-                                <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold">Update</button>
-                            </div>
+            <div className="row">
+                <h1 className="h2 mb-4 text-darkblue font-weight-bold text-uppercase">User profile</h1>
+                <div className="col-xl-8 mb-4">
+                    <div className="card shadow mb-4">
+                        <div className="card-header p-4">
+                            <h6 className="m-0 font-weight-bold text-darkblue">Edit details of your profile</h6>
                         </div>
-                    </form>
-                </div >
-            </div >
+                        <div className="card-body p-4">
+                            <p className="mb-4">Edit values in the fields below and confirm the form to change your personal details.</p>
 
-            <div className="row py-5 mt-4 justify-content-center">
-                <div className="col-md-8 col-lg-6 ml-auto">
-                    <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-4 justify-content-center">
-                        <span className="px-2 text-muted font-weight-bold text-muted"><h1>Change password</h1></span>
-                    </div >
+                            <form onSubmit={detailsSubmit}>
 
-                    <form onSubmit={passwordSubmit}>
-                        <div className="row">
+                                <div className="mb-4">
+                                    <label htmlFor="firstname" className="form-label font-weight-bold text-darkblue">First name</label>
+                                    <input onChange={e => setDetails({ ...details, [e.target.name]: e.target.value })} value={details.first_name}
+                                        type="text" id="firstname" name="first_name" className={`form-control bg-white border-left-0 border-md text-muted ${errors.first_name ? 'is-invalid' : ''}`} />
 
-                            <div className="input-group col-lg-6">
-                                <input onChange={e => setPassword({ ...password, [e.target.name]: e.target.value })} value={password.current_password}
-                                    id="current_password" type="password" className={`form-control bg-white border-left-0 border-md ${errors.current_password ? 'is-invalid' : ''}`} placeholder="Current password" name="current_password" required />
-                            </div>
-                            {errors.current_password && <span className="mt-1 text-danger">{errors.current_password}</span>}
+                                    {errors.first_name && <span className="mt-1 text-danger">{errors.first_name}</span>}
+                                </div>
 
-                            <div className="input-group col-lg-6 mt-4">
-                                <input onChange={e => setPassword({ ...password, [e.target.name]: e.target.value })} value={password.password}
-                                    id="password" type="password" className={`form-control bg-white border-left-0 border-md ${errors.password ? 'is-invalid' : ''}`} placeholder="New password" name="password" required />
-                            </div>
-                            {errors.password && <span className="mt-1 text-danger">{errors.password}</span>}
+                                <div className="mb-4">
+                                    <label htmlFor="lastname" className="form-label font-weight-bold text-darkblue">Last name</label>
+                                    <input onChange={e => setDetails({ ...details, [e.target.name]: e.target.value })} value={details.last_name}
+                                        type="text" id="lastname" name="last_name" className={`form-control bg-white border-left-0 border-md text-muted ${errors.last_name ? 'is-invalid' : ''}`} />
 
-                            <div className="input-group col-lg-6 mt-4">
-                                <input onChange={e => setPassword({ ...password, [e.target.name]: e.target.value })} value={password.password_confirmation}
-                                    id="password_confirmation" type="password" className={`form-control bg-white border-left-0 border-md ${errors.password_confirmation ? 'is-invalid' : ''}`} placeholder="Confirm password" name="password_confirmation" required />
-                            </div>
-                            {errors.password_confirmation && <span className="mt-1 text-danger">{errors.password_confirmation}</span>}
+                                    {errors.last_name && <span className="mt-1 text-danger">{errors.last_name}</span>}
+                                </div>
 
-                            <div className="form-group col-lg-12 mx-auto mb-0 mt-4">
-                                <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold">Confirm</button>
-                            </div>
+                                <button type="submit" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center">Update</button>
+
+                            </form>
                         </div>
-                    </form>
-                </div >
-                <div className="col-md-4 pr-lg-5 mb-5 mb-md-0">
-                    <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" className="img-fluid mb-3 d-none d-md-block" />
+                    </div>
                 </div>
             </div >
-        </div>
+
+            <div className="row">
+                <div className="col-xl-8 mb-4">
+                    <div className="card shadow mb-4">
+                        <div className="card-header p-4">
+                            <h6 className="m-0 font-weight-bold text-darkblue">Change password</h6>
+                        </div>
+                        <div className="card-body p-4">
+                            <p className="mb-4">Fill in all fiels in order to change your current password.</p>
+
+                            <form onSubmit={passwordSubmit}>
+
+                                <div className="mb-4">
+                                    <label htmlFor="currentPassword" className="form-label font-weight-bold text-darkblue">Current password</label>
+                                    <input onChange={e => setPassword({ ...password, [e.target.name]: e.target.value })} value={password.current_password}
+                                        type="password" id="currentPassword" name="current_password" className={`form-control bg-white border-left-0 border-md text-muted ${errors.current_password ? 'is-invalid' : ''}`} required />
+
+                                    {errors.current_password && <span className="mt-1 text-danger">{errors.current_password}</span>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="newPassword" className="form-label font-weight-bold text-darkblue">New password</label>
+                                    <input onChange={e => setPassword({ ...password, [e.target.name]: e.target.value })} value={password.password}
+                                        type="password" id="newPassword" name="password" className={`form-control bg-white border-left-0 border-md text-muted ${errors.password ? 'is-invalid' : ''}`} required />
+
+                                    {errors.password && <span className="mt-1 text-danger">{errors.password}</span>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="confirmPassword" className="form-label font-weight-bold text-darkblue">Confirm password</label>
+                                    <input onChange={e => setPassword({ ...password, [e.target.name]: e.target.value })} value={password.password_confirmation}
+                                        type="password" id="confirmPassword" name="password_confirmation" className={`form-control bg-white border-left-0 border-md text-muted ${errors.password_confirmation ? 'is-invalid' : ''}`} required />
+
+                                    {errors.password_confirmation && <span className="mt-1 text-danger">{errors.password_confirmation}</span>}
+                                </div>
+
+                                <button type="submit" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center">Confirm</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div >
+        </div >
     )
 }
 

@@ -41,18 +41,24 @@ export default ({ roles }) => {
     }
 
     return (
-        <div className="btn-group col-sm-6">
-            <select onChange={handleChange} value={values.role}
-                className="form-control bg-white" name="role">
-                <option value="">Any</option>
-                {
-                    roles.map((role, key) => (
-                        <option key={key}>{role}</option>
-                    ))
-                }
-            </select>
+        <div className="row">
+            <div className="col-xl-2 mb-4">
+                <label htmlFor="userRole" className="form-label font-weight-bold text-darkblue ps-1 mb-0">Role</label>
+                <select onChange={handleChange} value={values.role}
+                    id="userRole" name="role" className="form-select bg-white border-left-0 border-md text-muted">
+                    <option value="">Any</option>
+                    {
+                        roles.map((role, key) => (
+                            <option key={key}>{role}</option>
+                        ))
+                    }
+                </select>
+            </div>
 
-            <input type="text" name="search" className="form-control bg-white" placeholder="Search" value={values.search} onChange={handleChange} autoComplete="off" />
+            <div className="col-xl-4 mb-4">
+                <label htmlFor="searchBar" className="form-label font-weight-bold text-darkblue ps-1 mb-0">Search</label>
+                <input type="text" name="search" id="searchBar" className="form-control bg-white border-left-0 border-md text-muted" value={values.search} onChange={handleChange} autoComplete="off" />
+            </div>
         </div>
     )
 }

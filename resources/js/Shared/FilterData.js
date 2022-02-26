@@ -3,7 +3,7 @@ import { usePage } from "@inertiajs/inertia-react";
 import React, { useEffect, useRef, useState } from "react";
 import pickBy from 'lodash/pickBy';
 
-export default ({ categories }) => {
+export default ({ categories, statuses, priorities }) => {
     const { filters } = usePage().props;
 
     const [values, setValues] = useState({
@@ -42,34 +42,51 @@ export default ({ categories }) => {
     }
 
     return (
-        <div className="btn-group col-sm-6">
-            <select name="status" className="form-control bg-white" value={values.status} onChange={handleChange}>
-                <option value="">All</option>
-                <option value="pending">Pending</option>
-                <option value="open">Open</option>
-                <option value="closed">Closed</option>
-            </select>
 
-            <select name="priority" className="form-control bg-white" value={values.priority} onChange={handleChange}>
-                <option value="">Any</option>
-                <option value="unassigned">Unassigned</option>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-                <option value="critical">Critical</option>
-            </select>
+        <div className="row">
+            <div className="col-xl-4 mb-4">
+                <label htmlFor="category" className="form-label font-weight-bold text-darkblue ps-1 mb-0">Category</label>
+                <select onChange={handleChange} value={values.category}
+                    id="category" name="category" className="form-select bg-white border-left-0 border-md text-muted">
+                    <option value="">Any</option>
+                    {
+                        categories.map((category, key) => (
+                            <option key={key} value={category.id}>{category.name}</option>
+                        ))
+                    }
+                </select>
+            </div>
 
-            <select onChange={handleChange} value={values.category}
-                className="form-control bg-white" name="category">
-                <option value="">Any</option>
-                {
-                    categories.map((category, key) => (
-                        <option key={key} value={category.id}>{category.name}</option>
-                    ))
-                }
-            </select>
+            <div className="col-xl-2 mb-4">
+                <label htmlFor="status" className="form-label font-weight-bold text-darkblue ps-1 mb-0">Status</label>
+                <select onChange={handleChange} value={values.status}
+                    id="status" name="status" className="form-select bg-white border-left-0 border-md text-muted">
+                    <option value="">All</option>
+                    {
+                        statuses.map((status, key) => (
+                            <option key={key}>{status}</option>
+                        ))
+                    }
+                </select>
+            </div>
 
-            <input type="text" name="search" className="form-control bg-white" placeholder="Search" value={values.search} onChange={handleChange} autoComplete="off" />
+            <div className="col-xl-2 mb-4">
+                <label htmlFor="priority" className="form-label font-weight-bold text-darkblue ps-1 mb-0">Priority</label>
+                <select onChange={handleChange} value={values.priority}
+                    id="priority" name="priority" className="form-select bg-white border-left-0 border-md text-muted">
+                    <option value="">All</option>
+                    {
+                        priorities.map((priority, key) => (
+                            <option key={key}>{priority}</option>
+                        ))
+                    }
+                </select>
+            </div>
+
+            <div className="col-xl-4 mb-4">
+                <label htmlFor="searchBar" className="form-label font-weight-bold text-darkblue ps-1 mb-0">Search</label>
+                <input type="text" name="search" id="searchBar" className="form-control bg-white border-left-0 border-md text-muted" value={values.search} onChange={handleChange} autoComplete="off" />
+            </div>
         </div>
     )
 }

@@ -22,35 +22,39 @@ const Edit = () => {
     }
 
     return (
-        <div className="row py-5 mt-4 justify-content-center">
-            <div className="col-md-7 col-lg-6 ml-auto">
-                <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-4 justify-content-center">
-                    <span className="px-2 text-muted font-weight-bold text-muted"><h1>Edit category</h1></span>
-                </div >
-
-                <form onSubmit={editSubmit}>
-                    <div className="row">
-
-                        <div className="input-group col-lg-6">
-                            <input onChange={e => setData('name', e.target.value)} value={data.name}
-                                id="name" type="text" className={`form-control bg-white border-left-0 border-md ${errors.name ? 'is-invalid' : ''}`} placeholder="Category name" name="name" />
-                        </div>
-                        {errors.name && <span className="mt-1 text-danger">{errors.name}</span>}
-
-                        <div className="input-group col-lg-6 mt-4">
-                            <textarea onChange={e => setData('description', e.target.value)} value={data.description}
-                                id="description" type="password" className={`form-control bg-white border-left-0 border-md ${errors.description ? 'is-invalid' : ''}`} placeholder="Description..." name="description" rows="3" />
-                        </div>
-                        {errors.description && <span className="mt-1 text-danger">{errors.description}</span>}
-
-                        <div className="form-group col-lg-12 mx-auto mb-0 mt-4">
-                            <button type="submit" className="btn btn-outline-primary btn-block py-2 font-weight-bold" disabled={processing}>Update</button>
-                        </div>
+        <div className="row">
+            <h1 className="h2 mb-4 text-darkblue font-weight-bold text-uppercase">Edit category</h1>
+            <div className="col-xl-8 mb-4">
+                <div className="card shadow mb-4">
+                    <div className="card-header p-4">
+                        <h6 className="m-0 font-weight-bold text-darkblue">Edit details of this category</h6>
                     </div>
-                </form>
-            </div >
-            <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
-                <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" className="img-fluid mb-3 d-none d-md-block" />
+                    <div className="card-body p-4">
+                        <p className="mb-4">Make some changes in current form and confirm your operation to change details of this specific category.</p>
+
+                        <form onSubmit={editSubmit}>
+
+                            <div className="mb-4">
+                                <label htmlFor="categoryName" className="form-label font-weight-bold text-darkblue required">Category name</label>
+                                <input onChange={e => setData('name', e.target.value)} value={data.name}
+                                    type="text" id="categoryName" name="name" className={`form-control bg-white border-left-0 border-md text-muted ${errors.name ? 'is-invalid' : ''}`} />
+
+                                {errors.name && <span className="mt-1 text-danger">{errors.name}</span>}
+                            </div>
+
+                            <div className="mb-4">
+                                <label htmlFor="categoryDescription" className="form-label font-weight-bold text-darkblue">Category name</label>
+                                <textarea onChange={e => setData('description', e.target.value)} value={data.description}
+                                    id="categoryDescription" name="description" rows="4" className={`form-control bg-white border-left-0 border-md text-muted ${errors.description ? 'is-invalid' : ''}`} />
+
+                                {errors.description && <span className="mt-1 text-danger">{errors.description}</span>}
+                            </div>
+
+                            <button type="submit" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center" disabled={processing}>Update</button>
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </div >
     )

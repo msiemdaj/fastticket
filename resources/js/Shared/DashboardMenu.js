@@ -9,67 +9,25 @@ export default () => {
     const { auth } = usePage().props
 
     return (
-        <header>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light py-3">
-                <div className="container">
-                    <a className="navbar-brand" href="https://github.com/msiemdaj/fastticket">
-                        <Logo />
-                        <span className="align-middle ms-2">FAST TICKET</span>
+        <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <button id="sidebarToggleTop" className="btn btn-link d-md-none mr-3">
+                <i className="bi bi-list"></i>
+            </button>
+
+            <ul className="navbar-nav ms-auto">
+                <Notifications />
+                <li className="nav-item dropdown">
+                    <a className="nav-link" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span className="me-2 d-none d-lg-inline text-gray-600">{auth.user.first_name} {auth.user.last_name}</span>
+                        <img src={`https://eu.ui-avatars.com/api/?name=${auth.user.first_name}+${auth.user.last_name}`} width="32px" height="32px" className='rounded-circle' />
                     </a>
 
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <Link href={route('dashboard')} className="nav-link h5 align-middle me-2">Dashboard</Link>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" id="ticketDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span className='h5 align-middle me-2'>Ticket</span>
-                                </a>
-                                <ul className="dropdown-menu" aria-labelledby="ticketDropdown">
-                                    <Link href={route('ticket.all')} className="nav-link">Show all tickets</Link>
-                                    <Link href={route('ticket.mytickets')} className="nav-link">Show my tickets</Link>
-                                    <Link href={route('ticket.create')} className="nav-link">Create ticket</Link>
-                                </ul>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" id="usersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span className='h5 align-middle me-2'>Users</span>
-                                </a>
-                                <ul className="dropdown-menu" aria-labelledby="usersDropdown">
-                                    <Link href={route('users')} className="nav-link">Users</Link>
-                                    <Link href={route('users.create')} className="nav-link">Create user</Link>
-                                </ul>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span className='h5 align-middle me-2'>Categories</span>
-                                </a>
-                                <ul className="dropdown-menu" aria-labelledby="categoriesDropdown">
-                                    <Link href={route('categories')} className="nav-link">Categories</Link>
-                                    <Link href={route('categories.create')} className="nav-link">Create category</Link>
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul className="navbar-nav ms-auto">
-                            <Notifications />
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span className='h5 align-middle me-2'>{auth.user.first_name} {auth.user.last_name}</span>
-                                    <img src={`https://eu.ui-avatars.com/api/?name=${auth.user.first_name}+${auth.user.last_name}`} width="36px" height="36px" className='rounded-circle' />
-                                </a>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <Link href={route('profile')} className="dropdown-item">Profile</Link>
-                                    <Link href={route('logout')} method="post" className="dropdown-item" as="button">Logout</Link>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div >
-                </div >
-            </nav >
-        </header >
+                    <div className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="userDropdown">
+                        <Link href={route('profile')} className="dropdown-item"><i className="bi bi-person align-middle me-2"></i>Profile</Link>
+                        <Link href={route('logout')} method="post" className="dropdown-item" as="button"> <i className="bi bi-box-arrow-right align-middle me-2"></i>Logout</Link>
+                    </div>
+                </li>
+            </ul>
+        </nav>
     )
 }

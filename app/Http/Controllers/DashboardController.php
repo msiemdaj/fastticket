@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
 use App\Models\Category;
 use App\Models\Ticket;
@@ -30,6 +31,8 @@ class DashboardController extends Controller
                     ->appends($request->all()),
                 'filters' => $request->all(),
                 'categories' => Category::all(['id', 'name']),
+                'statuses' => TicketStatus::TYPES,
+                'priorities' => TicketPriority::TYPES,
                 'mytickets' => Ticket::orderByDesc('created_at')->with(['category:id,name', 'worker:id'])
                     ->whereRelation('worker', 'id', '=', Auth::user()->id)->take(10)
                     ->where('tickets.status', TicketStatus::OPEN)->get(),

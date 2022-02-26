@@ -1,6 +1,5 @@
 import { Link, usePage } from "@inertiajs/inertia-react";
 import React from "react"
-import { Download } from "react-bootstrap-icons";
 
 import Dashboard from "../../Shared/Dashboard"
 import Pagination from "../../Shared/Pagination";
@@ -11,62 +10,111 @@ const Show = () => {
     const { links } = tickets;
 
     return (
-
         <div>
-            <div className="card mt-1">
-                <div className="card-body">
-                    {user.first_name} {user.last_name}
-                </div>
+            <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 className="h2 text-darkblue font-weight-bold text-uppercase">{user.first_name} {user.last_name}</h1>
             </div>
-            <div className="card mt-1">
-                <div className="card-body">
-                    {user.email}
-                </div>
-            </div>
-            <div className="card mt-1">
-                <div className="card-body">
-                    {user.role}
-                </div>
-            </div>
-            <div className="card mt-1">
-                <div className="card-body">
-                    {user.created_at}
-                </div>
-            </div>
-            {auth.user.role == 'admin' ? <Link href={route('users.edit', user.id)} as="button" type="button" className="btn btn-outline-primary mt-4">Edit user details</Link> : ''}
 
-            <h3 className="mt-4">{user.first_name} {user.last_name} tickets</h3>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Priority</th>
-                        <th scope="col">Created at</th>
-                        <th scope="col">Attachments</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        tickets.data.map((row, key) => (
-                            <tr key={key}>
-                                <td><Link href={route('ticket.show', row.id)}>{row.title}</Link></td>
-                                <td>{row.description}</td>
-                                <td>{row.category.name}</td>
-                                <td>{row.status}</td>
-                                <td>{row.priority}</td>
-                                <td>{row.created_at}</td>
-                                <td>
-                                    {row.attachments && <a href={route('attachment.download', row.id)} className="btn btn-light text-secondary bg-white me-1"><Download size="18" /></a>}
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
-            <Pagination links={links} />
+
+            <div className="row">
+                <div className="col-xl-4 mb-4">
+                    <div className="card shadow mb-4">
+                        <div className="card-body p-4">
+                            <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 className="h4 text-darkblue font-weight-bold text-uppercase">User details</h1>
+                                {auth.user.role == 'admin' ? <Link href={route('users.edit', user.id)} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center"><i class="bi bi-pencil me-2"></i>Edit user details</Link> : ''}
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">User name</span>
+                                <p className="text-muted">{user.first_name} {user.last_name}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Emai laddress</span>
+                                <p className="text-muted">{user.email}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">User role</span>
+                                <p className="text-muted">{user.role}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Registration date</span>
+                                <p className="text-muted">{user.created_at}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Verified</span>
+                                <p className="text-muted mb-0">                          {
+                                    user.email_verified_at != null
+                                        ? <i className="bi bi-check-lg text-success"></i>
+                                        : <i className="bi bi-x-lg text-danger"></i>
+                                }
+                                </p>
+                            </div>
+
+                            {
+                                user.email_verified_at != null
+                                    ? <div className="mt-3">
+                                        <span className="text-darkblue font-weight-bold">Email verification date</span>
+                                        <p className="text-muted mb-0">{user.email_verified_at}</p>
+                                    </div>
+                                    : ''
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div className="col-xl-8 mb-4">
+                    <div className="card shadow mb-4">
+                        <div className="card-body p-4 table-responsive">
+                            <h1 className="h4 text-darkblue font-weight-bold text-uppercase mb-4">User tickets</h1>
+                            <table className="table table-striped table-hover align-middle">
+                                <thead className="font-weight-bold text-uppercase">
+                                    <tr>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Priority</th>
+                                        <th scope="col">Created at</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {tickets.data != ''
+                                        ? tickets.data.map((row, key) => (
+                                            <tr role="button" key={key}>
+                                                <td><Link href={route('ticket.show', row.id)}>{row.title}</Link></td>
+                                                <td>{row.category.name}</td>
+                                                <td>{row.status}</td>
+                                                <td>{row.priority}</td>
+                                                <td>{row.created_at}</td>
+                                                <td className="text-end show-more">
+                                                    {row.attachments &&
+                                                        <div className="dropdown text-center">
+                                                            <button className="btn" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i className="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                            <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
+                                                                <a href={route('attachment.download', row.id)} className="dropdown-item"><i className="bi bi-download align-middle me-2"></i>Download attachment</a>
+                                                            </ul>
+                                                        </div>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        ))
+                                        : <tr>
+                                            <td colSpan="6" className="text-center text-muted">This user does not have any tickets.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <Pagination links={links} />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

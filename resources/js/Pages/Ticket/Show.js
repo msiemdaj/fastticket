@@ -30,6 +30,26 @@ const Show = () => {
         })
     }
 
+    const closeTicket = () => {
+        Swal.fire({
+            title: 'Are you sure you want to close this ticket?',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Inertia.get(route('ticket.close', ticket.id))
+                Swal.fire({
+                    title: 'Success!',
+                    icon: 'success',
+                }
+                )
+            }
+        })
+    }
+
     const { data, setData, post, processing, errors } = useForm({
         message: '',
     });
@@ -71,110 +91,178 @@ const Show = () => {
 
     return (
         <div>
-            <div className="btn-group col-12 mb-4">
-                <button className="btn btn-outline-secondary" onClick={openTicket}>Open this ticket</button>
-                <Link href={route('ticket.edit', ticket.id)} as="button" type="button" className="btn btn-outline-primary">Edit ticket details</Link>
-            </div>
-            <div className="card mt-1">
-                <div className="card-header">Ticket title</div>
-                <div className="card-body">
-                    {ticket.title}
-                </div>
-            </div>
-            <div className="card mt-1">
-                <div className="card-header">Ticket description</div>
-                <div className="card-body">
-                    {ticket.description}
-                </div>
-            </div>
-            <div className="card mt-1">
-                <div className="card-header">Category</div>
-                <div className="card-body">
-                    {category.name}
-                </div>
-            </div>
-            <div className="card mt-1">
-                <div className="card-header">Status</div>
-                <div className="card-body">
-                    {ticket.status}
-                </div>
-            </div>
-            <div className="card mt-1">
-                <div className="card-header">Priority</div>
-                <div className="card-body">
-                    {ticket.priority}
-                </div>
-            </div>
-            <div className="card mt-1">
-                <div className="card-header">Create date</div>
-                <div className="card-body">
-                    {ticket.created_at}
-                </div>
-            </div>
-            <div className="card mt-1">
-                <div className="card-header">Created by</div>
-                <div className="card-body">
-                    {auth.user.role == 'admin' || auth.user.role == 'worker' ?
-                        <Link href={route('users.show', user[0].id)}>{user[0].first_name} {user[0].last_name}</Link>
-                        : user[0].first_name + ' ' + user[0].last_name
-                    }
-                </div>
-            </div>
-            {worker[0] &&
-                <div className="card mt-1">
-                    <div className="card-header">Opened by</div>
-                    <div className="card-body">
-                        {auth.user.role == 'admin' || auth.user.role == 'worker' ?
-                            <Link href={route('users.show', worker[0].id)}>{worker[0].first_name} {worker[0].last_name}</Link>
-                            : worker[0].first_name + ' ' + worker[0].last_name
-                        }
-                    </div>
-                </div>
-            }
-            {ticket.attachments &&
-                <div className="card mt-1">
-                    <div className="card-header">attachments</div>
-                    <div className="card-body">
-                        <a href={route('attachment.download', ticket.id)} className="btn btn-secondary text-secondary bg-light me-1">Download</a>
-                    </div>
-                </div>
-            }
+            <h1 className="h2 text-darkblue font-weight-bold text-uppercase mb-4">Ticket preview</h1>
 
-            <h1 className="mt-4">Messages</h1>
-            {
-                messages.map((message, key) => (
-                    <div className="card mt-2" key={key}>
-                        <div className="card-body">
-                            {
-                                auth.user.role == 'admin' || (auth.user.role == 'worker' && auth.user.id == worker[0].id)
-                                    ? <div>
-                                        <button className="btn btn-outline-danger" onClick={() => deleteMessage(message.id)}>Delete message</button>
-                                    </div>
-                                    : ''
-                            }
-                            Reply by {auth.user.role == 'admin' || auth.user.role == 'worker'
-                                ? <Link href={route('users.show', message.user.id)}>{message.user.first_name} {message.user.last_name}</Link>
-                                : message.user.first_name + ' ' + message.user.last_name
-                            } <span className="text-muted">at {message.created_at}</span>
-                            <p>
-                                {message.body}
-                            </p>
+            <div className="row">
+                <div className="col-xl-8 mb-4">
+                    <div className="card shadow mb-4">
+                        <div className="card-body p-4">
+                            <div className="d-sm-flex align-items-center justify-content-between mb-2">
+                                <h1 className="h4 text-darkblue font-weight-bold">{ticket.title}</h1>
+                                {
+                                    ticket.status != 'Open'
+                                        ? <button className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center" onClick={openTicket}>Open this ticket</button>
+                                        : <button className="btn btn-outline-success btn-block py-2 px-4 font-weight-bold text-center" onClick={closeTicket}>Close this ticket</button>
+                                }
+                            </div>
+
+                            <div className="text-muted">
+                                <span>Sent by </span>
+                                <span>
+                                    {
+                                        auth.user.role == 'admin' || auth.user.role == 'worker' ?
+                                            <Link href={route('users.show', user[0].id)}>{user[0].first_name} {user[0].last_name}</Link>
+                                            : user[0].first_name + ' ' + user[0].last_name
+                                    }
+                                </span>
+                            </div>
+
+                            <div className="text-muted">
+                                <span>at {ticket.created_at}</span>
+                            </div>
+
+                            <div className="my-4">
+                                <p className="text-darkblue">{ticket.description}</p>
+                            </div>
                         </div>
                     </div>
-                ))}
-            <div className="card mt-4 p-4">
-                <h2>Reply to this ticket</h2>
-                <form onSubmit={replySubmit}>
-                    <div className="input-group col-lg-6 mt-4">
-                        <textarea onChange={e => setData('message', e.target.value)} value={data.message}
-                            id="message" className={`form-control bg-light border-left-0 border-md ${errors.message ? 'is-invalid' : ''}`} placeholder="Message..." name="message" rows="4" />
-                    </div>
-                    {errors.message && <span className="mt-1 text-danger">{errors.message}</span>}
 
-                    <div className="form-group col-lg-12 mx-auto mb-0 mt-4">
-                        <button type="submit" className={`btn btn-outline-primary btn-block py-2 font-weight-bold ${ticket.status != 'Open' && 'disabled'}`} disabled={processing}>Reply</button>
+                    {
+                        messages.map((message, key) => (
+                            <div key={key} className="card shadow mb-4">
+                                <div className="card-body p-4">
+                                    <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                                        <div className="text-muted">
+                                            <span>Reply by </span>
+                                            <span>
+                                                {
+                                                    auth.user.role == 'admin' || auth.user.role == 'worker'
+                                                        ? <Link href={route('users.show', message.user.id)}>{message.user.first_name} {message.user.last_name}</Link>
+                                                        : message.user.first_name + ' ' + message.user.last_name
+                                                }
+                                            </span>
+                                            <div className="text-muted">
+                                                <span>at {message.created_at}</span>
+                                            </div>
+                                        </div>
+
+                                        {
+                                            auth.user.role == 'admin' || auth.user.role == 'worker'
+                                                ? <div className="dropdown text-center show-more">
+                                                    <button className="btn" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i className="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                    <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
+                                                        <li><button onClick={() => deleteMessage(message.id)} className="dropdown-item"><i className="bi bi-trash-fill align-middle me-2"></i>Delete</button></li>
+                                                    </ul>
+                                                </div>
+                                                : ''
+                                        }
+                                    </div>
+                                    <p className="text-darkblue">
+                                        {message.body}
+                                    </p>
+                                </div>
+                            </div>
+                        ))
+                    }
+
+                    <div className="card shadow mb-4">
+                        <div className="card-body p-4">
+                            <h1 className="h4 text-darkblue font-weight-bold text-uppercase mb-4">Reply to this message</h1>
+
+                            <form onSubmit={replySubmit}>
+                                <div className="mb-4">
+                                    <label htmlFor="message" className="form-label font-weight-bold text-darkblue">Message</label>
+                                    <textarea onChange={e => setData('message', e.target.value)} value={data.message}
+                                        id="message" name="message" rows="4" className={`form-control border-left-0 border-md text-muted ${errors.message ? 'is-invalid' : ''}`} />
+
+                                    {errors.message && <span className="mt-1 text-danger">{errors.message}</span>}
+                                </div>
+
+                                <button type="submit" className={`btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center ${ticket.status != 'Open' && 'disabled'}`} disabled={processing}><i className="bi bi-send me-2 align-middle"></i>Reply</button>
+                            </form>
+                        </div>
                     </div>
-                </form>
+                </div>
+
+                <div className="col-xl-4 mb-4">
+
+                    {ticket.attachments &&
+                        <div className="card shadow mb-4">
+                            <div className="card-body p-4">
+                                <h1 className="h4 text-darkblue font-weight-bold text-uppercase mb-4">Attachments</h1>
+                                <a href={route('attachment.download', ticket.id)} className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center"><i className="bi bi-download me-2 align-middle"></i>Download</a>
+                            </div>
+                        </div>
+                    }
+
+
+
+                    <div className="card shadow mb-4">
+                        <div className="card-body p-4">
+                            <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 className="h4 text-darkblue font-weight-bold text-uppercase">Ticket details</h1>
+                                {auth.user.role == 'admin' || auth.user.role == 'worker'
+                                    ? <Link href={route('ticket.edit', ticket.id)} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center"><i className="bi bi-pencil me-2"></i>Edit ticket details</Link> : ''}
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Title</span>
+                                <p className="text-muted">{ticket.title}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Category</span>
+                                <p className="text-muted">{category.name}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Status</span>
+                                <p className="text-muted">{ticket.status}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Priority</span>
+                                <p className="text-muted">{ticket.priority}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Created at</span>
+                                <p className="text-muted">{ticket.created_at}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Updated at</span>
+                                <p className="text-muted">{ticket.updated_at}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Created by</span>
+                                <p className="text-muted">
+                                    {
+                                        auth.user.role == 'admin' || auth.user.role == 'worker' ?
+                                            <Link href={route('users.show', user[0].id)}>{user[0].first_name} {user[0].last_name}</Link>
+                                            : user[0].first_name + ' ' + user[0].last_name
+                                    }
+                                </p>
+                            </div>
+
+                            {worker[0] &&
+                                <div>
+                                    <span className="text-darkblue font-weight-bold">Opened by</span>
+                                    <p className="text-muted">
+                                        {
+                                            auth.user.role == 'admin' || auth.user.role == 'worker' ?
+                                                <Link href={route('users.show', worker[0].id)}>{worker[0].first_name} {worker[0].last_name}</Link>
+                                                : worker[0].first_name + ' ' + worker[0].last_name
+                                        }
+                                    </p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

@@ -26,64 +26,77 @@ const Create = () => {
     }
 
     return (
-        <div className="row py-5 mt-4 justify-content-center">
-            <div className="col-md-7 col-lg-6 ml-auto">
-                <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-4 justify-content-center">
-                    <span className="px-2 text-muted font-weight-bold text-muted"><h1>Create new user</h1></span>
-                </div >
 
-                <form onSubmit={createSubmit}>
-                    <div className="row">
-
-                        <div className="input-group col-lg-6 mt-4">
-                            <input onChange={e => setData('first_name', e.target.value)} value={data.first_name}
-                                id="first_name" type="text" className={`form-control bg-white border-left-0 border-md ${errors.first_name ? 'is-invalid' : ''}`} placeholder="First name" name="first_name" required />
-                        </div>
-                        {errors.first_name && <span className="mt-1 text-danger">{errors.first_name}</span>}
-
-                        <div className="input-group col-lg-6 mt-4">
-                            <input onChange={e => setData('last_name', e.target.value)} value={data.last_name}
-                                id="last_name" type="text" className={`form-control bg-white border-left-0 border-md ${errors.last_name ? 'is-invalid' : ''}`} placeholder="Last name" name="last_name" required />
-                        </div>
-                        {errors.last_name && <span className="mt-1 text-danger">{errors.last_name}</span>}
-
-                        <div className="input-group col-lg-6 mt-4">
-                            <input onChange={e => setData('email', e.target.value)} value={data.email}
-                                id="email" type="email" className={`form-control bg-white border-left-0 border-md ${errors.email ? 'is-invalid' : ''}`} placeholder="Email address" name="email" required />
-                        </div>
-                        {errors.email && <span className="mt-1 text-danger">{errors.email}</span>}
-
-                        <div className="input-group col-lg-6 mt-4">
-                            <select onChange={e => setData('role', e.target.value)} value={data.role}
-                                className={`form-control bg-white border-left-0 border-md ${errors.role ? 'is-invalid' : ''}`} name="role" required>
-                                {
-                                    roles.map((role_name, key) => (
-                                        <option key={key}>{role_name}</option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                        {errors.role && <span className="mt-1 text-danger">{errors.role}</span>}
-
-                        <div className="input-group col-lg-6 mt-4">
-                            <input onChange={e => setData('password', e.target.value)} value={data.password}
-                                id="password" type="password" className={`form-control bg-white border-left-0 border-md ${errors.password ? 'is-invalid' : ''}`} placeholder="Password" name="password" required />
-                        </div>
-                        {errors.password && <span className="mt-1 text-danger">{errors.password}</span>}
-
-                        <div className="input-group col-lg-6 mt-4">
-                            <input onChange={e => setData('password_confirmation', e.target.value)} value={data.password_confirmation}
-                                id="password_confirmation" type="password" className={`form-control bg-white border-left-0 border-md ${errors.password_confirmation ? 'is-invalid' : ''}`} placeholder="Confirm password" name="password_confirmation" required />
-                        </div>
-
-                        <div className="form-group col-lg-12 mx-auto mb-0 mt-4">
-                            <button type="submit" className="btn btn-outline-primary btn-block py-2 font-weight-bold" disabled={processing}>Create</button>
-                        </div>
+        <div className="row">
+            <h1 className="h2 mb-4 text-darkblue font-weight-bold text-uppercase">Create new user</h1>
+            <div className="col-xl-8 mb-4">
+                <div className="card shadow mb-4">
+                    <div className="card-header p-4">
+                        <h6 className="m-0 font-weight-bold text-darkblue">Create a new account for the user</h6>
                     </div>
-                </form>
-            </div >
-            <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
-                <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" className="img-fluid mb-3 d-none d-md-block" />
+                    <div className="card-body p-4">
+                        <p className="mb-4">Fill up required fielnd in the form in order to make new user. Any newly created account will have to change its password on the first login attempt. Role defines specific permissions and access to a user.</p>
+
+                        <form onSubmit={createSubmit}>
+
+                            <div className="mb-4">
+                                <label htmlFor="firstname" className="form-label font-weight-bold text-darkblue required">First name</label>
+                                <input onChange={e => setData('first_name', e.target.value)} value={data.first_name}
+                                    type="text" id="firstname" name="first_name" className={`form-control bg-white border-left-0 border-md text-muted ${errors.first_name ? 'is-invalid' : ''}`} required />
+
+                                {errors.first_name && <span className="mt-1 text-danger">{errors.first_name}</span>}
+                            </div>
+
+                            <div className="mb-4">
+                                <label htmlFor="lastname" className="form-label font-weight-bold text-darkblue required">Last name</label>
+                                <input onChange={e => setData('last_name', e.target.value)} value={data.last_name}
+                                    type="text" id="lastname" name="last_name" className={`form-control bg-white border-left-0 border-md text-muted ${errors.last_name ? 'is-invalid' : ''}`} required />
+
+                                {errors.last_name && <span className="mt-1 text-danger">{errors.last_name}</span>}
+                            </div>
+
+                            <div className="mb-4">
+                                <label htmlFor="userEmail" className="form-label font-weight-bold text-darkblue required">Email address</label>
+                                <input onChange={e => setData('email', e.target.value)} value={data.email}
+                                    type="email" id="userEmail" name="email" className={`form-control bg-white border-left-0 border-md text-muted ${errors.email ? 'is-invalid' : ''}`} required />
+
+                                {errors.email && <span className="mt-1 text-danger">{errors.email}</span>}
+                            </div>
+
+                            <div className="mb-4">
+                                <label htmlFor="userRole" className="form-label font-weight-bold text-darkblue required">User role</label>
+                                <select onChange={e => setData('role', e.target.value)} value={data.role}
+                                    id="userRole" name="role" className={`form-select bg-white border-left-0 border-md text-muted ${errors.role ? 'is-invalid' : ''}`} required >
+                                    {
+                                        roles.map((role_name, key) => (
+                                            <option key={key}>{role_name}</option>
+                                        ))
+                                    }
+                                </select>
+                                {errors.role && <span className="mt-1 text-danger">{errors.role}</span>}
+                            </div>
+
+                            <div className="mb-4">
+                                <label htmlFor="userPassword" className="form-label font-weight-bold text-darkblue required">Password</label>
+                                <input onChange={e => setData('password', e.target.value)} value={data.password}
+                                    type="password" id="userPassword" name="password" className={`form-control bg-white border-left-0 border-md text-muted ${errors.password ? 'is-invalid' : ''}`} required />
+
+                                {errors.password && <span className="mt-1 text-danger">{errors.password}</span>}
+                            </div>
+
+                            <div className="mb-4">
+                                <label htmlFor="userPasswordConfirmation" className="form-label font-weight-bold text-darkblue required">Confirm password</label>
+                                <input onChange={e => setData('password_confirmation', e.target.value)} value={data.password_confirmation}
+                                    type="password" id="userPasswordConfirmation" name="password_confirmation" className={`form-control bg-white border-left-0 border-md text-muted ${errors.password_confirmation ? 'is-invalid' : ''}`} required />
+
+                                {errors.password_confirmation && <span className="mt-1 text-danger">{errors.password_confirmation}</span>}
+                            </div>
+
+                            <button type="submit" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center" disabled={processing}>Create</button>
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </div >
     )
