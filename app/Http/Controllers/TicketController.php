@@ -142,6 +142,8 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($id);
         return Inertia::render('Ticket/Edit', [
             'ticket' => $ticket,
+            'categories' => Category::all(['id', 'name']),
+            'priorities' => TicketPriority::TYPES,
             'can' => [
                 'ticket_update' => $this->authorize('update', $ticket),
             ]
@@ -157,7 +159,31 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        $this->authorize('update', $ticket);
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string',
+            'description' => 'required',
+            'category' => 'required|exists:categories,id',
+            'priority' => [
+                'required',
+                Rule::in(TicketPriority::TYPES)
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        } else {
+            $ticket->forceFill([
+                'title' => $request->title,
+                'description' => $request->description,
+                'category_id' => $request->category,
+                'priority' => $request->priority,
+            ])->save();
+
+            return redirect()->back();
+        }
     }
 
     /**

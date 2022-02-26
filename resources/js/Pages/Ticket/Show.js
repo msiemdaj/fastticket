@@ -100,9 +100,11 @@ const Show = () => {
                             <div className="d-sm-flex align-items-center justify-content-between mb-2">
                                 <h1 className="h4 text-darkblue font-weight-bold">{ticket.title}</h1>
                                 {
-                                    ticket.status != 'Open'
-                                        ? <button className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center" onClick={openTicket}>Open this ticket</button>
-                                        : <button className="btn btn-outline-success btn-block py-2 px-4 font-weight-bold text-center" onClick={closeTicket}>Close this ticket</button>
+                                    auth.user.role == 'admin' || auth.user.role == 'worker'
+                                        ? ticket.status != 'Open'
+                                            ? <button className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center" onClick={openTicket}>Open this ticket</button>
+                                            : <button className="btn btn-outline-success btn-block py-2 px-4 font-weight-bold text-center" onClick={closeTicket}>Close this ticket</button>
+                                        : ''
                                 }
                             </div>
 
