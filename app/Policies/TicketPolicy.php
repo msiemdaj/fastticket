@@ -119,4 +119,16 @@ class TicketPolicy
             return true;
         }
     }
+
+    public function closeTicket(User $user, Ticket $ticket)
+    {
+        if (
+            Auth::check()
+            && ($user->isAdmin()
+                || ($user->isWorker() && $ticket->worker()->first()->id == auth()->id())
+                || $ticket->user()->first()->id == auth()->id())
+        ) {
+            return true;
+        }
+    }
 }

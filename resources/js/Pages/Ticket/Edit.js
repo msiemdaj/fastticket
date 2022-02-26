@@ -7,7 +7,8 @@ import Dashboard from "../../Shared/Dashboard"
 
 
 const Edit = () => {
-    const { ticket, categories, priorities } = usePage().props;
+    const { auth, ticket, categories, priorities } = usePage().props;
+    const { worker } = ticket;
 
     const openTicket = () => {
         Swal.fire({
@@ -39,7 +40,7 @@ const Edit = () => {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                // Inertia.get(route('ticket.close', ticket.id))
+                Inertia.get(route('ticket.close', ticket.id))
                 Swal.fire({
                     title: 'Success!',
                     icon: 'success',
@@ -75,9 +76,12 @@ const Edit = () => {
                         <div className="d-sm-flex align-items-center justify-content-between mb-2">
                             <h1 className="h4 text-darkblue font-weight-bold text-uppercase">Change fields below to edit this ticket</h1>
                             {
+
                                 ticket.status != 'Open'
                                     ? <button className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center" onClick={openTicket}>Open this ticket</button>
-                                    : <button className="btn btn-outline-success btn-block py-2 px-4 font-weight-bold text-center" onClick={closeTicket}>Close this ticket</button>
+                                    : auth.user.role == 'admin' || (auth.user.role == 'worker' && worker[0].id == auth.user.id)
+                                        ? <button className="btn btn-outline-success btn-block py-2 px-4 font-weight-bold text-center" onClick={closeTicket}>Close this ticket</button>
+                                        : ''
                             }
                         </div>
 

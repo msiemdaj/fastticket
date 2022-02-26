@@ -139,7 +139,7 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = Ticket::with('worker:id,first_name,last_name')->findOrFail($id);
         return Inertia::render('Ticket/Edit', [
             'ticket' => $ticket,
             'categories' => Category::all(['id', 'name']),
@@ -201,7 +201,7 @@ class TicketController extends Controller
     {
         $ticket = Ticket::with('user:id')->findOrFail($id);
         $this->authorize('openTicket', $ticket);
-        if (!$ticket->isOpen() && !$ticket->isClosed()) {
+        if (!$ticket->isOpen()) {
             $ticket->user()->updateExistingPivot($ticket->user()->first()->id, ['worker_id' => Auth::user()->id]);
             $ticket->status = TicketStatus::OPEN;
             $ticket->save();
@@ -209,7 +209,37 @@ class TicketController extends Controller
             $user = User::find($ticket->user()->first()->id);
             $user->notify(new TicketOpened($ticket));
         }
-        return redirect()->back();
+        return redirect()->route('ticket.show', $id);
+    }
+
+    public function closeTicket($id)
+    {
+        $ticket = Ticket::with('user:id')->findOrFail($id);
+        $this->authorize('closeTicket', $ticket);
+        if (!$ticket->isClosed() && !$ticket->isCompleted()) {
+
+            $ticket->status = TicketStatus::CLOSED;
+            $ticket->save();
+
+            // $user = User::find($ticket->user()->first()->id);
+            // $user->notify(new TicketOpened($ticket));
+        }
+        return redirect()->route('ticket.show', $id);
+    }
+
+    public function closeAndCompleteTicket($id)
+    {
+        $ticket = Ticket::with('user:id')->findOrFail($id);
+        $this->authorize('closeTicket', $ticket);
+        if (!$ticket->isCompleted()) {
+
+            $ticket->status = TicketStatus::COMPLETED;
+            $ticket->save();
+
+            // $user = User::find($ticket->user()->first()->id);
+            // $user->notify(new TicketOpened($ticket));
+        }
+        return redirect()->route('ticket.show', $id);
     }
 
     /**

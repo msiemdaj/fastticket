@@ -40,7 +40,27 @@ const Show = () => {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                // Inertia.get(route('ticket.close', ticket.id))
+                Inertia.get(route('ticket.close', ticket.id))
+                Swal.fire({
+                    title: 'Success!',
+                    icon: 'success',
+                }
+                )
+            }
+        })
+    }
+
+    const completeTicket = () => {
+        Swal.fire({
+            title: 'Are you sure you want to close and mark this ticket as completed?',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Inertia.get(route('ticket.complete', ticket.id))
                 Swal.fire({
                     title: 'Success!',
                     icon: 'success',
@@ -100,11 +120,20 @@ const Show = () => {
                             <div className="d-sm-flex align-items-center justify-content-between mb-2">
                                 <h1 className="h4 text-darkblue font-weight-bold">{ticket.title}</h1>
                                 {
-                                    auth.user.role == 'admin' || auth.user.role == 'worker'
-                                        ? ticket.status != 'Open'
+
+                                    ticket.status != 'Open'
+                                        ? auth.user.role == 'admin' || auth.user.role == 'worker'
                                             ? <button className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center" onClick={openTicket}>Open this ticket</button>
-                                            : <button className="btn btn-outline-success btn-block py-2 px-4 font-weight-bold text-center" onClick={closeTicket}>Close this ticket</button>
-                                        : ''
+                                            : ''
+                                        : auth.user.role == 'admin' || (auth.user.role == 'worker' && worker[0].id == auth.user.id) || auth.user.role == 'user'
+                                            ? <div className="dropdown">
+                                                <button className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center dropdown-toggle" id="dropdownClose" data-bs-toggle="dropdown" aria-expanded="false">Close this ticket</button>
+                                                <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
+                                                    <li><button onClick={() => closeTicket()} className="dropdown-item">Close ticket</button></li>
+                                                    <li><button onClick={() => completeTicket()} className="dropdown-item">Close and mark as completed</button></li>
+                                                </ul>
+                                            </div>
+                                            : ''
                                 }
                             </div>
 

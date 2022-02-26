@@ -49,4 +49,9 @@ class Ticket extends Model
     {
         return $this->status == TicketStatus::OPEN;
     }
+
+    public function isCompleted()
+    {
+        return $this->status == TicketStatus::COMPLETED;
+    }
 }
