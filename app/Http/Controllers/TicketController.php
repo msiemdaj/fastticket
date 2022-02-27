@@ -140,7 +140,7 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        $ticket = Ticket::with('worker:id,first_name,last_name')->findOrFail($id);
+        $ticket = Ticket::with('worker:id,first_name,last_name', 'user:id')->findOrFail($id);
         return Inertia::render('Ticket/Edit', [
             'ticket' => $ticket,
             'categories' => Category::all(['id', 'name']),

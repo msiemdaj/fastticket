@@ -8,7 +8,7 @@ import Dashboard from "../../Shared/Dashboard"
 
 const Edit = () => {
     const { auth, ticket, categories, priorities } = usePage().props;
-    const { worker } = ticket;
+    const { user, worker } = ticket;
 
     const openTicket = () => {
         Swal.fire({
@@ -79,7 +79,7 @@ const Edit = () => {
 
                                 ticket.status != 'Open'
                                     ? <button className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center" onClick={openTicket}>Open this ticket</button>
-                                    : auth.user.role == 'admin' || (auth.user.role == 'worker' && worker[0].id == auth.user.id)
+                                    : auth.user.role == 'admin' || (auth.user.role == 'worker' && (worker[0].id == auth.user.id || user[0].id == auth.user.id))
                                         ? <div className="dropdown">
                                             <button className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center dropdown-toggle" id="dropdownClose" data-bs-toggle="dropdown" aria-expanded="false">Close this ticket</button>
                                             <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
