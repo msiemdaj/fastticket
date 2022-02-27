@@ -102,7 +102,7 @@ const User = () => {
                                                             </button>
                                                             <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
                                                                 <li><Link href={route('users.edit', row.id)} as="button" className="dropdown-item"><i className="bi bi-pencil-square align-middle me-2"></i>Edit</Link></li>
-                                                                <li><button onClick={() => deleteButton(row.id, row.email)} className="dropdown-item"><i className="bi bi-trash-fill align-middle me-2"></i>Delete</button></li>
+                                                                <li><button onClick={() => deleteButton(row.id, row.email)} className="dropdown-item disabled"><i className="bi bi-trash-fill align-middle me-2"></i>Delete</button></li>
                                                             </ul>
                                                         </div>
                                                     }

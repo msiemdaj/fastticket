@@ -138,13 +138,13 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
+        return redirect()->back();
         $user = User::findOrFail($id);
         $this->authorize('delete', $user);
 
         if ($user) {
             User::destroy($id);
         }
-        return redirect()->back();
     }
 
     public function passwordReset($id)
