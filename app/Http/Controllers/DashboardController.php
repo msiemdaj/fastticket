@@ -25,7 +25,11 @@ class DashboardController extends Controller
                     ->where('tickets.created_at', '>', Carbon::now()->subDays(2))
                     ->where('tickets.status', 'like', '%' . $request->status . '%')
                     ->where('tickets.priority', 'like', '%' . $request->priority . '%')
-                    ->whereRelation('category', 'id', 'like', '%' . $request->category . '%')
+                    ->where(function ($query) use ($request) {
+                        if ($request->category != null) {
+                            $query->whereRelation('category', 'id', 'like', '%' . $request->category . '%');
+                        }
+                    })
                     ->where('tickets.title', 'like', '%' . $request->search . '%')
                     ->paginate(10)
                     ->appends($request->all()),
@@ -42,7 +46,11 @@ class DashboardController extends Controller
                 'tickets' => Ticket::orderByDesc('created_at')->with('category:id,name')
                     ->where('tickets.status', 'like', '%' . $request->status . '%')
                     ->where('tickets.priority', 'like', '%' . $request->priority . '%')
-                    ->whereRelation('category', 'id', 'like', '%' . $request->category . '%')
+                    ->where(function ($query) use ($request) {
+                        if ($request->category != null) {
+                            $query->whereRelation('category', 'id', 'like', '%' . $request->category . '%');
+                        }
+                    })
                     ->whereRelation('user', 'id', '=', Auth::user()->id)
                     ->where('tickets.title', 'like', '%' . $request->search . '%')
                     ->paginate(10)

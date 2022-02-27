@@ -32,7 +32,11 @@ class TicketController extends Controller
             'tickets' => Ticket::orderByDesc('created_at')->with('category:id,name')
                 ->where('tickets.status', 'like', '%' . $request->status . '%')
                 ->where('tickets.priority', 'like', '%' . $request->priority . '%')
-                ->whereRelation('category', 'id', 'like', '%' . $request->category . '%')
+                ->where(function ($query) use ($request) {
+                    if ($request->category != null) {
+                        $query->whereRelation('category', 'id', 'like', '%' . $request->category . '%');
+                    }
+                })
                 ->where('tickets.title', 'like', '%' . $request->search . '%')
                 ->paginate(10)
                 ->appends($request->all()),
@@ -248,7 +252,11 @@ class TicketController extends Controller
                 ->whereRelation('worker', 'id', '=', Auth::user()->id)
                 ->where('tickets.status', 'like', '%' . $request->status . '%')
                 ->where('tickets.priority', 'like', '%' . $request->priority . '%')
-                ->whereRelation('category', 'id', 'like', '%' . $request->category . '%')
+                ->where(function ($query) use ($request) {
+                    if ($request->category != null) {
+                        $query->whereRelation('category', 'id', 'like', '%' . $request->category . '%');
+                    }
+                })
                 ->where('tickets.title', 'like', '%' . $request->search . '%')
                 ->paginate(10)
                 ->appends($request->all()),

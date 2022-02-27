@@ -41,7 +41,7 @@ const WorkerPage = () => {
                                         ? newtickets.data.map((row, key) => (
                                             <tr role="button" key={key}>
                                                 <td><Link href={route('ticket.show', row.id)}>{row.title}</Link></td>
-                                                <td>{row.category.name}</td>
+                                                <td>{row.category != null && row.category.name}</td>
                                                 <td>{row.status}</td>
                                                 <td>{row.priority}</td>
                                                 <td>{row.created_at}</td>
@@ -93,7 +93,7 @@ const WorkerPage = () => {
                                         ? mytickets.map((tckt, key) => (
                                             <tr role="button" key={key}>
                                                 <td><Link href={route('ticket.show', tckt.id)}>{tckt.title}</Link></td>
-                                                <td>{tckt.category.name}</td>
+                                                <td>{tckt.category != null && tckt.category.name}</td>
                                                 <td>{tckt.priority}</td>
                                             </tr>
                                         ))
