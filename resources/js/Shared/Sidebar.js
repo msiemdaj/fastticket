@@ -70,9 +70,6 @@ export default () => {
                     </li>
                     : ''
             }
-            <li className="copyright-footer align-text-bottom">
-                <span>Copyright</span>
-            </li>
         </ul>
     )
 }
