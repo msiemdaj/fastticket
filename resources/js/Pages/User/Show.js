@@ -1,4 +1,5 @@
 import { Link, usePage } from "@inertiajs/inertia-react";
+import moment from "moment";
 import React from "react"
 
 import Dashboard from "../../Shared/Dashboard"
@@ -42,7 +43,7 @@ const Show = () => {
 
                             <div>
                                 <span className="text-darkblue font-weight-bold">Registration date</span>
-                                <p className="text-muted">{user.created_at}</p>
+                                <p className="text-muted">{moment(user.created_at).format('Do MMMM YYYY [at] H:mm')}</p>
                             </div>
 
                             <div>
@@ -89,7 +90,7 @@ const Show = () => {
                                                 <td>{row.category != null && row.category.name}</td>
                                                 <td>{row.status}</td>
                                                 <td>{row.priority}</td>
-                                                <td>{row.created_at}</td>
+                                                <td>{moment(row.created_at).format('D/MM/YYYY [at] H:mm')}</td>
                                                 <td className="text-end show-more">
                                                     {row.attachments &&
                                                         <div className="dropdown text-center">

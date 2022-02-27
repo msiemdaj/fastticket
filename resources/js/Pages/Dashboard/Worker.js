@@ -1,4 +1,5 @@
 import { Link, usePage } from "@inertiajs/inertia-react"
+import moment from "moment";
 import React from "react"
 
 import Dashboard from "../../Shared/Dashboard"
@@ -44,7 +45,7 @@ const WorkerPage = () => {
                                                 <td>{row.category != null && row.category.name}</td>
                                                 <td>{row.status}</td>
                                                 <td>{row.priority}</td>
-                                                <td>{row.created_at}</td>
+                                                <td>{moment(row.created_at).format('D/MM/YYYY [at] H:mm')}</td>
                                                 <td className="text-end show-more">
                                                     {row.attachments &&
                                                         <div className="dropdown text-center">

@@ -1,5 +1,6 @@
 import { Inertia } from "@inertiajs/inertia";
 import { Link, usePage, useForm } from "@inertiajs/inertia-react";
+import moment from "moment";
 import React from "react"
 import Swal from "sweetalert2";
 
@@ -131,7 +132,7 @@ const Show = () => {
                             </div>
 
                             <div className="text-muted">
-                                <span>at {ticket.created_at}</span>
+                                <span>{moment(ticket.created_at).fromNow()}</span>
                             </div>
 
                             <div className="my-4">
@@ -155,7 +156,7 @@ const Show = () => {
                                                 }
                                             </span>
                                             <div className="text-muted">
-                                                <span>at {message.created_at}</span>
+                                                <span>{moment(message.created_at).fromNow()}</span>
                                             </div>
                                         </div>
 
@@ -242,12 +243,12 @@ const Show = () => {
 
                             <div>
                                 <span className="text-darkblue font-weight-bold">Created at</span>
-                                <p className="text-muted">{ticket.created_at}</p>
+                                <p className="text-muted">{moment(ticket.created_at).format('Do MMMM YYYY [at] H:mm')}</p>
                             </div>
 
                             <div>
                                 <span className="text-darkblue font-weight-bold">Updated at</span>
-                                <p className="text-muted">{ticket.updated_at}</p>
+                                <p className="text-muted">{moment(ticket.updated_at).format('Do MMMM YYYY [at] H:mm')}</p>
                             </div>
 
                             <div>

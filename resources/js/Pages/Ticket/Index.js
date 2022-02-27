@@ -4,6 +4,7 @@ import { Link, usePage } from '@inertiajs/inertia-react';
 import Dashboard from '../../Shared/Dashboard';
 import Pagination from '../../Shared/Pagination';
 import FilterData from '../../Shared/FilterData';
+import moment from 'moment';
 
 function Tickets() {
     const { tickets, categories, statuses, priorities } = usePage().props;
@@ -35,7 +36,7 @@ function Tickets() {
                                             <td>{row.category != null && row.category.name}</td>
                                             <td>{row.status}</td>
                                             <td>{row.priority}</td>
-                                            <td>{row.created_at}</td>
+                                            <td>{moment(row.created_at).format('D/MM/YYYY [at] H:mm')}</td>
                                             <td className="text-end show-more">
                                                 {row.attachments &&
                                                     <div className="dropdown text-center">
