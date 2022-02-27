@@ -50,7 +50,7 @@ class CategoryController extends Controller
         $this->authorize('create', Category::class);
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:categories',
         ]);
 
         if ($validator->fails()) {
@@ -96,7 +96,7 @@ class CategoryController extends Controller
         $this->authorize('update', $category);
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:categories',
         ]);
 
         if ($validator->fails()) {
