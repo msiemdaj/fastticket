@@ -43,7 +43,11 @@
    background-color: #343f5700;
 }
 
-.sidebar .nav-item ul.show{
+.sidebar .nav-item .collapsing{
+    background-color: #2e3647;
+ }
+
+.sidebar .nav-item ul.show li{
    background-color: #2e3647;
 }
 
