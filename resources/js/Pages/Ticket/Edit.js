@@ -30,7 +30,7 @@ const Edit = () => {
         })
     }
 
-    const closeTicket = () => {
+    const closeTicket = (id, completed) => {
         Swal.fire({
             title: 'Are you sure you want to close this ticket?',
             icon: 'info',
@@ -40,7 +40,7 @@ const Edit = () => {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                Inertia.get(route('ticket.close', ticket.id))
+                Inertia.get(route('ticket.close', { id, completed }))
                 Swal.fire({
                     title: 'Success!',
                     icon: 'success',
@@ -80,7 +80,13 @@ const Edit = () => {
                                 ticket.status != 'Open'
                                     ? <button className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center" onClick={openTicket}>Open this ticket</button>
                                     : auth.user.role == 'admin' || (auth.user.role == 'worker' && worker[0].id == auth.user.id)
-                                        ? <button className="btn btn-outline-success btn-block py-2 px-4 font-weight-bold text-center" onClick={closeTicket}>Close this ticket</button>
+                                        ? <div className="dropdown">
+                                            <button className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center dropdown-toggle" id="dropdownClose" data-bs-toggle="dropdown" aria-expanded="false">Close this ticket</button>
+                                            <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
+                                                <li><button onClick={() => closeTicket(ticket.id, false)} className="dropdown-item">Close ticket</button></li>
+                                                <li><button onClick={() => closeTicket(ticket.id, true)} className="dropdown-item">Close and mark as completed</button></li>
+                                            </ul>
+                                        </div>
                                         : ''
                             }
                         </div>
