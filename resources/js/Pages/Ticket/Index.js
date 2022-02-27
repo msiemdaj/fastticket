@@ -11,7 +11,7 @@ function Tickets() {
 
     return (
         <div className="row">
-            <h1 className="h2 text-darkblue font-weight-bold text-uppercase">All tickets</h1>
+            <h1 className="h2 text-darkblue font-weight-bold text-uppercase mb-4">All tickets</h1>
             <div className="col-xl-12 mb-4">
                 <div className="card shadow mb-4">
                     <div className="card-body p-4 table-responsive">
