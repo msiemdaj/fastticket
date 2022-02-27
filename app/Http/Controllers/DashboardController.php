@@ -38,7 +38,20 @@ class DashboardController extends Controller
                     ->where('tickets.status', TicketStatus::OPEN)->get(),
             ]);
         } else {
-            return Inertia::render('Dashboard/User');
+            return Inertia::render('Dashboard/User', [
+                'tickets' => Ticket::orderByDesc('created_at')->with('category:id,name')
+                    ->where('tickets.status', 'like', '%' . $request->status . '%')
+                    ->where('tickets.priority', 'like', '%' . $request->priority . '%')
+                    ->whereRelation('category', 'id', 'like', '%' . $request->category . '%')
+                    ->whereRelation('user', 'id', '=', Auth::user()->id)
+                    ->where('tickets.title', 'like', '%' . $request->search . '%')
+                    ->paginate(10)
+                    ->appends($request->all()),
+                'filters' => $request->all(),
+                'categories' => Category::all(['id', 'name']),
+                'statuses' => TicketStatus::TYPES,
+                'priorities' => TicketPriority::TYPES,
+            ]);
         }
     }
 }
