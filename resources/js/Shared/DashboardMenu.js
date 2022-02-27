@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link, usePage } from '@inertiajs/inertia-react'
 
-import Logo from './Logo'
 import Notifications from './Notifications'
 
 export default () => {

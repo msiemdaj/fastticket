@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link, usePage } from '@inertiajs/inertia-react'
-import { Bell } from 'react-bootstrap-icons'
 
 export default () => {
 
