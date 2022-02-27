@@ -1,4 +1,5 @@
-import { Link, usePage } from "@inertiajs/inertia-react";
+import { Inertia } from "@inertiajs/inertia";
+import { usePage } from "@inertiajs/inertia-react";
 import moment from "moment";
 import React from "react"
 
@@ -10,6 +11,15 @@ import Pagination from "../../Shared/Pagination";
 const MyTickets = () => {
     const { tickets, categories, statuses, priorities } = usePage().props;
     const { links } = tickets;
+
+    const rowClick = (e, id) => {
+        let currentIndex = e.target.cellIndex;
+        let dropdownIndex = document.getElementsByClassName('showmore.dropdown').cellIndex
+
+        if (currentIndex !== dropdownIndex && currentIndex !== undefined) {
+            Inertia.get(route('ticket.show', id));
+        }
+    }
 
     return (
         <div className="row">
@@ -31,21 +41,21 @@ const MyTickets = () => {
                             </thead>
                             <tbody>
                                 {tickets.data != ''
-                                    ? tickets.data.map((row, key) => (
-                                        <tr role="button" key={key}>
-                                            <td><Link href={route('ticket.show', row.id)}>{row.title}</Link></td>
-                                            <td>{row.category != null && row.category.name}</td>
-                                            <td>{row.status}</td>
-                                            <td>{row.priority}</td>
-                                            <td>{moment(row.created_at).format('D/MM/YYYY [at] H:mm')}</td>
+                                    ? tickets.data.map((ticket, key) => (
+                                        <tr role="button" key={key} onClick={(e) => rowClick(e, ticket.id)}>
+                                            <td>{ticket.title}</td>
+                                            <td>{ticket.category != null && ticket.category.name}</td>
+                                            <td>{ticket.status}</td>
+                                            <td>{ticket.priority}</td>
+                                            <td>{moment(ticket.created_at).format('D/MM/YYYY [at] H:mm')}</td>
                                             <td className="text-end show-more">
-                                                {row.attachments &&
+                                                {ticket.attachments &&
                                                     <div className="dropdown text-center">
                                                         <button className="btn" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
                                                             <i className="bi bi-three-dots-vertical"></i>
                                                         </button>
                                                         <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
-                                                            <a href={route('attachment.download', row.id)} className="dropdown-item"><i className="bi bi-download align-middle me-2"></i>Download attachment</a>
+                                                            <a href={route('attachment.download', ticket.id)} className="dropdown-item"><i className="bi bi-download align-middle me-2"></i>Download attachment</a>
                                                         </ul>
                                                     </div>
                                                 }

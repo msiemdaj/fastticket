@@ -11,6 +11,15 @@ const User = () => {
     const { auth, users, roles } = usePage().props;
     const { links } = users;
 
+    const rowClick = (e, id) => {
+        let currentIndex = e.target.cellIndex;
+        let dropdownIndex = document.getElementsByClassName('showmore.dropdown').cellIndex
+
+        if (currentIndex !== dropdownIndex && currentIndex !== undefined) {
+            Inertia.get(route('users.show', id));
+        }
+    }
+
     const deleteButton = async (id, email) => {
         Swal.fire({
             title: 'Are you sure you want to delete this user?',
@@ -79,19 +88,19 @@ const User = () => {
                                 </thead>
                                 <tbody>
                                     {users.data != ''
-                                        ? users.data.map((row, key) => (
-                                            <tr role="button" key={key}>
-                                                <td><Link href={route('users.show', row.id)}>{row.first_name}</Link></td>
-                                                <td>{row.last_name}</td>
-                                                <td className="col-1 text-center">{row.role}</td>
+                                        ? users.data.map((user, key) => (
+                                            <tr role="button" key={key} onClick={(e) => rowClick(e, user.id)}>
+                                                <td>{user.first_name}</td>
+                                                <td>{user.last_name}</td>
+                                                <td className="col-1 text-center">{user.role}</td>
                                                 <td className="col-1 text-center">
                                                     {
-                                                        row.email_verified_at != null
+                                                        user.email_verified_at != null
                                                             ? <i className="bi bi-check-lg text-success"></i>
                                                             : <i className="bi bi-x-lg text-danger"></i>
                                                     }
                                                 </td>
-                                                <td>{row.email}</td>
+                                                <td>{user.email}</td>
 
                                                 <td className="text-end show-more">
                                                     {
@@ -101,8 +110,8 @@ const User = () => {
                                                                 <i className="bi bi-three-dots-vertical"></i>
                                                             </button>
                                                             <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
-                                                                <li><Link href={route('users.edit', row.id)} as="button" className="dropdown-item"><i className="bi bi-pencil-square align-middle me-2"></i>Edit</Link></li>
-                                                                <li><button onClick={() => deleteButton(row.id, row.email)} className="dropdown-item disabled"><i className="bi bi-trash-fill align-middle me-2"></i>Delete</button></li>
+                                                                <li><Link href={route('users.edit', user.id)} as="button" className="dropdown-item"><i className="bi bi-pencil-square align-middle me-2"></i>Edit</Link></li>
+                                                                <li><button onClick={() => deleteButton(user.id, user.email)} className="dropdown-item disabled"><i className="bi bi-trash-fill align-middle me-2"></i>Delete</button></li>
                                                             </ul>
                                                         </div>
                                                     }
