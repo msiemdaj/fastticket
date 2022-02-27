@@ -1,5 +1,5 @@
 import React from "react"
-import { usePage, useForm } from '@inertiajs/inertia-react'
+import { usePage, useForm, Link } from '@inertiajs/inertia-react'
 import Swal from "sweetalert2"
 
 import Layout from "../../../Shared/Layout"
@@ -26,45 +26,53 @@ const Reset = () => {
     }
 
     return (
-        <div className="row py-5 mt-4 justify-content-center">
-            <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
-                <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" className="img-fluid mb-3 d-none d-md-block" />
-            </div>
+        <div className="row justify-content-center">
+            <div className="col-xl-10 col-lg-12 col-md-9">
+                <div className="card border-0 shadow-lg my-5">
+                    <div className="card-body p-0">
+                        <div className="row">
+                            <div className="col-lg-6 d-lg-block bg-reset-image"></div>
+                            <div className="col-lg-6">
+                                <div className="p-5">
+                                    <div className="text-center">
+                                        <h1 className="h2 mb-4 text-darkblue font-weight-bold text-uppercase">Reset Password</h1>
+                                    </div>
 
-            <div className="col-md-7 col-lg-6 ml-auto">
+                                    <form onSubmit={formSubmit}>
+                                        <input type="hidden" name="token" value={token} />
+                                        <div className="mb-4">
+                                            <label htmlFor="email" className="form-label font-weight-bold text-darkblue">Email address</label>
+                                            <input onChange={e => setData('email', e.target.value)} value={data.email}
+                                                type="email" id="email" name="email" className={`form-control bg-white border-left-0 border-md text-muted ${errors.email ? 'is-invalid' : ''}`} required />
+                                            {errors.email && <span className="mt-1 text-danger">{errors.email}</span>}
+                                        </div>
 
-                <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-4 justify-content-center">
-                    <span className="px-2 text-muted font-weight-bold text-muted"><h1>Reset Password</h1></span>
+                                        <div className="mb-4">
+                                            <label htmlFor="password" className="form-label font-weight-bold text-darkblue">New password</label>
+                                            <input onChange={e => setData('password', e.target.value)} value={data.password}
+                                                type="password" id="password" name="password" className={`form-control bg-white border-left-0 border-md text-muted ${errors.password ? 'is-invalid' : ''}`} required />
+                                            {errors.password && <span className="mt-1 text-danger">{errors.password}</span>}
+                                        </div>
 
-                </div >
+                                        <div className="mb-4">
+                                            <label htmlFor="password_confirmation" className="form-label font-weight-bold text-darkblue">Confirm password</label>
+                                            <input onChange={e => setData('password_confirmation', e.target.value)} value={data.password_confirmation}
+                                                type="password" id="password_confirmation" name="password_confirmation" className={`form-control bg-white border-left-0 border-md text-muted ${errors.password ? 'is-invalid' : ''}`} required />
+                                        </div>
 
-                <form onSubmit={formSubmit}>
-                    <input type="hidden" name="token" value={token} />
-                    <div className="row">
-                        <div className="input-group col-lg-6">
-                            <input onChange={e => setData('email', e.target.value)} value={data.email}
-                                id="email" type="email" className={`form-control bg-white border-left-0 border-md ${errors.email ? 'is-invalid' : ''}`} placeholder="Email address" name="email" required />
-                        </div>
-                        {errors.email && <span className="mt-1 text-danger">{errors.email}</span>}
+                                        <button type="submit" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center w-100 mb-4" disabled={processing}>Reset Password</button>
 
-                        <div className="input-group col-lg-6 mt-4">
-                            <input onChange={e => setData('password', e.target.value)} value={data.password}
-                                id="password" type="password" className={`form-control bg-white border-left-0 border-md ${errors.password ? 'is-invalid' : ''}`} placeholder="New password" name="password" required />
-                        </div>
-                        {errors.password && <span className="mt-1 text-danger">{errors.password}</span>}
-
-                        <div className="input-group col-lg-6 mt-4">
-                            <input onChange={e => setData('password_confirmation', e.target.value)} value={data.password_confirmation}
-                                id="password_confirm" type="password" className={`form-control bg-white border-left-0 border-md ${errors.password ? 'is-invalid' : ''}`} placeholder="Confirm password" name="password_confirmation" required />
-                        </div>
-
-                        <div className="form-group col-lg-12 mx-auto mb-0 mt-4">
-                            <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold" disabled={processing}>Reset Password</button>
+                                        <div className="text-center">
+                                            <Link className="text-muted" href={route('login')}>Already have an account? Sign in!</Link>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </div >
-        </div >
+                </div>
+            </div>
+        </div>
     )
 }
 

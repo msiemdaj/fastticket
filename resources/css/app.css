@@ -375,3 +375,23 @@
         box-shadow: none !important;
     }
 /* End of content */
+
+/* Auth */
+.bg-login-image{
+    background: url(https://source.unsplash.com/7K1_uSnNoy4/600x800);
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-email-image{
+    background: url(https://source.unsplash.com/hDQ-dUjQN8E/600x800);
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-reset-image{
+    background: url(https://source.unsplash.com/jEDNGHrrVRw/600x800);
+    background-position: center;
+    background-size: cover;
+}
+/* End of Auth */

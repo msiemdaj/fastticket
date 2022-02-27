@@ -18,49 +18,54 @@ const Login = () => {
     }
 
     return (
-        <div className="row py-5 mt-4 justify-content-center">
-            <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
-                <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" className="img-fluid mb-3 d-none d-md-block" />
-            </div>
+        <div className="row justify-content-center">
+            <div className="col-xl-10 col-lg-12 col-md-9">
+                <div className="card border-0 shadow-lg my-5">
+                    <div className="card-body p-0">
+                        <div className="row">
+                            <div className="col-lg-6 d-lg-block bg-login-image"></div>
+                            <div className="col-lg-6">
+                                <div className="p-5">
+                                    <div className="text-center">
+                                        <h1 className="h2 mb-4 text-darkblue font-weight-bold text-uppercase">Login</h1>
+                                    </div>
 
-            <div className="col-md-7 col-lg-6 ml-auto">
+                                    <form onSubmit={loginSubmit}>
+                                        <div className="mb-4">
+                                            <label htmlFor="email" className="form-label font-weight-bold text-darkblue">Email address</label>
+                                            <input onChange={e => setData('email', e.target.value)} value={data.email}
+                                                type="email" id="email" name="email" className={`form-control bg-white border-left-0 border-md text-muted ${errors.email ? 'is-invalid' : ''}`} required />
+                                        </div>
 
-                <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-4 justify-content-center">
-                    <span className="px-2 text-muted font-weight-bold text-muted"><h1>Login</h1></span>
+                                        <div className="mb-4">
+                                            <label htmlFor="password" className="form-label font-weight-bold text-darkblue">Password</label>
+                                            <input onChange={e => setData('password', e.target.value)} value={data.password}
+                                                type="password" id="password" name="password" className={`form-control bg-white border-left-0 border-md text-muted ${errors.email ? 'is-invalid' : ''}`} required />
+                                            {errors.email && <span className="mt-1 text-danger">{errors.email}</span>}
+                                        </div>
 
-                </div >
+                                        <div className="mb-4">
+                                            <input checked={data.remember} onChange={e => setData('remember', e.target.checked)}
+                                                className="form-check-input" type="checkbox" name="remember" id="remember" />
 
-                <form onSubmit={loginSubmit}>
-                    <div className="row">
+                                            <label className="form-check-label text-muted px-2" htmlFor="remember">
+                                                Remember Me
+                                            </label>
+                                        </div>
 
-                        <div className="input-group col-lg-6 mb-4">
-                            <input onChange={e => setData('email', e.target.value)} value={data.email}
-                                id="email" type="email" className={`form-control bg-white border-left-0 border-md ${errors.email ? 'is-invalid' : ''}`} placeholder="Email address" name="email" required />
-                        </div>
+                                        <button type="submit" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center w-100 mb-4" disabled={processing}>Login</button>
 
-                        <div className="input-group col-lg-6">
-                            <input onChange={e => setData('password', e.target.value)} value={data.password}
-                                id="password" type="password" className={`form-control bg-white border-left-0 border-md ${errors.email ? 'is-invalid' : ''}`} placeholder="Password" name="password" required />
-                        </div>
-                        {errors.email && <span className="mt-1 text-danger">{errors.email}</span>}
-
-                        <div className="input-group col-lg-6 my-4">
-                            <input checked={data.remember} onChange={e => setData('remember', e.target.checked)}
-                                className="form-check-input" type="checkbox" name="remember" id="remember" />
-
-                            <label className="form-check-label px-2" htmlFor="remember">
-                                Remember Me
-                            </label>
-                        </div>
-
-                        <div className="form-group col-lg-12 mx-auto mb-0">
-                            <button type="submit" className="btn btn-primary btn-block py-2 font-weight-bold" disabled={processing}>Login</button>
-                            <Link className="btn btn-link" href={route('password.request')}>Forgot Your Password?</Link>
+                                        <div className="text-center">
+                                            <Link className="text-muted" href={route('password.request')}>Forgot Your Password?</Link>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </div >
-        </div >
+                </div>
+            </div>
+        </div>
     )
 }
 
