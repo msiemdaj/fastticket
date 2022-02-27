@@ -36,6 +36,7 @@ const Reset = () => {
                                 <div className="p-5">
                                     <div className="text-center">
                                         <h1 className="h2 mb-4 text-darkblue font-weight-bold text-uppercase">Reset Password</h1>
+                                        <p className="text-muted mb-4">Please fill in the fields below and confirm in order to set a new password.</p>
                                     </div>
 
                                     <form onSubmit={formSubmit}>
