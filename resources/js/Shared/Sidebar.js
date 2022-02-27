@@ -12,7 +12,7 @@ export default () => {
                 <Link href={route('dashboard')} className="nav-link"><i className="bi bi-bar-chart-fill"></i><span>Dashboard</span></Link>
             </li>
             <li className="nav-item">
-                <Link href="#ticketsSubmenu" className="nav-link" data-bs-toggle="collapse" aria-expanded="false"><i className="bi bi-tag-fill"></i><span>Tickets</span></Link>
+                <Link href="#ticketsSubmenu" className="nav-link sidebar-dropdown" data-bs-toggle="collapse" aria-expanded="false"><i className="bi bi-tag-fill"></i><span>Tickets</span></Link>
                 <ul className="collapse list-unstyled" id="ticketsSubmenu">
                     {
                         auth.user.role == 'worker' || auth.user.role == 'admin'
@@ -36,7 +36,7 @@ export default () => {
             {
                 auth.user.role == 'worker' || auth.user.role == 'admin'
                     ? <li className="nav-item">
-                        <Link href="#usersSubmenu" className="nav-link" data-bs-toggle="collapse" aria-expanded="false"><i className="bi bi-people-fill"></i><span>Users</span></Link>
+                        <Link href="#usersSubmenu" className="nav-link sidebar-dropdown" data-bs-toggle="collapse" aria-expanded="false"><i className="bi bi-people-fill"></i><span>Users</span></Link>
                         <ul className="collapse list-unstyled" id="usersSubmenu">
                             <li className="nav-item">
                                 <Link href={route('users')} className="nav-link"><span>Show all users</span></Link>
@@ -54,7 +54,7 @@ export default () => {
             {
                 auth.user.role == 'worker' || auth.user.role == 'admin'
                     ? <li className="nav-item">
-                        <Link href="#categorySubmenu" className="nav-link" data-bs-toggle="collapse" aria-expanded="false"><i className="bi bi-list-ul"></i><span>Categories</span></Link>
+                        <Link href="#categorySubmenu" className="nav-link sidebar-dropdown" data-bs-toggle="collapse" aria-expanded="false"><i className="bi bi-list-ul"></i><span>Categories</span></Link>
                         <ul className="collapse list-unstyled" id="categorySubmenu">
                             <li className="nav-item">
                                 <Link href={route('categories')} className="nav-link"><span>Show categories</span></Link>
