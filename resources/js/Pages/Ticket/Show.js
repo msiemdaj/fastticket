@@ -96,7 +96,7 @@ const Show = () => {
             <div className="row">
                 <div className="col-xl-8 mb-4">
                     <div className="card shadow mb-4">
-                        <div className="card-body p-4">
+                        <div className={`card-body p-4 ${ticket.status == 'Completed' && 'bg-completed'}`}>
                             <div className="d-sm-flex align-items-center justify-content-between mb-2">
                                 <h1 className="h4 text-darkblue font-weight-bold">{ticket.title}</h1>
                                 {

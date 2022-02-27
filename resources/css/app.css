@@ -374,6 +374,10 @@
     .show-more .btn:focus{
         box-shadow: none !important;
     }
+
+    .bg-completed{
+        background-color: #d4ffdb;
+    }
 /* End of content */
 
 /* Auth */
