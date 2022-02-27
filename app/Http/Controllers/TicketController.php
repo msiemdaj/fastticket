@@ -122,7 +122,7 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        $ticket = Ticket::with('user:id,first_name,last_name', 'worker:id,first_name,last_name', 'category:id,name')->findOrFail($id);
+        $ticket = Ticket::with('user:id,first_name,last_name', 'worker:id,first_name,last_name', 'closedBy:id,first_name,last_name', 'category:id,name')->findOrFail($id);
         return Inertia::render('Ticket/Show', [
             'ticket' => $ticket,
             'messages' => Message::where('ticket_id', $id)->with('user:id,first_name,last_name,role')->get(),

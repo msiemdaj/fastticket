@@ -30,6 +30,11 @@ class Ticket extends Model
         return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'worker_id');
     }
 
+    public function closedBy()
+    {
+        return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'closed_by');
+    }
+
     public function category()
     {
         return $this->belongsTo('App\Models\Category');

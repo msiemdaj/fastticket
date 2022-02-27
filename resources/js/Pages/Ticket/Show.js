@@ -8,7 +8,7 @@ import Dashboard from "../../Shared/Dashboard"
 
 const Show = () => {
     const { ticket, auth, messages } = usePage().props;
-    const { user, worker, category } = ticket;
+    const { user, worker, closed_by, category } = ticket;
 
     const openTicket = () => {
         Swal.fire({
@@ -267,6 +267,19 @@ const Show = () => {
                                             auth.user.role == 'admin' || auth.user.role == 'worker' ?
                                                 <Link href={route('users.show', worker[0].id)}>{worker[0].first_name} {worker[0].last_name}</Link>
                                                 : worker[0].first_name + ' ' + worker[0].last_name
+                                        }
+                                    </p>
+                                </div>
+                            }
+
+                            {closed_by[0] &&
+                                <div>
+                                    <span className="text-darkblue font-weight-bold">Closed by</span>
+                                    <p className="text-muted">
+                                        {
+                                            auth.user.role == 'admin' || auth.user.role == 'worker' ?
+                                                <Link href={route('users.show', closed_by[0].id)}>{closed_by[0].first_name} {closed_by[0].last_name}</Link>
+                                                : closed_by[0].first_name + ' ' + closed_by[0].last_name
                                         }
                                     </p>
                                 </div>
