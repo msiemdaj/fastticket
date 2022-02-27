@@ -37,8 +37,8 @@ const WorkerPage = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {
-                                        newtickets.data.map((row, key) => (
+                                    {newtickets.data != ''
+                                        ? newtickets.data.map((row, key) => (
                                             <tr role="button" key={key}>
                                                 <td><Link href={route('ticket.show', row.id)}>{row.title}</Link></td>
                                                 <td>{row.category.name}</td>
@@ -59,6 +59,9 @@ const WorkerPage = () => {
                                                 </td>
                                             </tr>
                                         ))
+                                        : <tr>
+                                            <td colSpan="6" className="text-center text-muted">We were unable to find tickets with these filters.</td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -107,16 +110,9 @@ const WorkerPage = () => {
                 <div className="col-xl-6 mb-4">
                     <div className="card shadow mb-4">
                         <div className="card-body p-4">
-                        </div>
-                    </div>
-
-                    <div className="card shadow mb-4">
-                        <div className="card-body p-4">
-                        </div>
-                    </div>
-
-                    <div className="card shadow mb-4">
-                        <div className="card-body p-4">
+                            <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 className="h4 text-darkblue font-weight-bold text-uppercase">History</h1>
+                            </div>
                         </div>
                     </div>
                 </div>
