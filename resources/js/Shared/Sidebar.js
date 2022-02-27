@@ -29,9 +29,6 @@ export default () => {
                             : ''
                     }
                     <li className="nav-item">
-                        <Link href="#" className="nav-link"><span>Submitted by me</span></Link>
-                    </li>
-                    <li className="nav-item">
                         <Link href={route('ticket.create')} className="nav-link"><span>Create ticket</span></Link>
                     </li>
                 </ul>
