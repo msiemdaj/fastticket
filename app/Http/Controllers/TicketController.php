@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\Ticket;
 use App\Models\TicketUser;
 use App\Models\User;
+use App\Notifications\TicketClosed;
 use App\Notifications\TicketOpened;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -212,32 +213,25 @@ class TicketController extends Controller
         return redirect()->route('ticket.show', $id);
     }
 
-    public function closeTicket($id)
+    public function closeTicket(Request $request, $id)
     {
         $ticket = Ticket::with('user:id')->findOrFail($id);
         $this->authorize('closeTicket', $ticket);
-        if (!$ticket->isClosed() && !$ticket->isCompleted()) {
 
+        if ($request->completed == true) {
+            if (!$ticket->isCompleted()) {
+                $ticket->status = TicketStatus::COMPLETED;
+            }
+        } else {
             $ticket->status = TicketStatus::CLOSED;
-            $ticket->save();
-
-            // $user = User::find($ticket->user()->first()->id);
-            // $user->notify(new TicketOpened($ticket));
         }
-        return redirect()->route('ticket.show', $id);
-    }
 
-    public function closeAndCompleteTicket($id)
-    {
-        $ticket = Ticket::with('user:id')->findOrFail($id);
-        $this->authorize('closeTicket', $ticket);
-        if (!$ticket->isCompleted()) {
+        $ticket->user()->updateExistingPivot($ticket->user()->first()->id, ['closed_by' => Auth::user()->id]);
+        $ticket->save();
 
-            $ticket->status = TicketStatus::COMPLETED;
-            $ticket->save();
-
-            // $user = User::find($ticket->user()->first()->id);
-            // $user->notify(new TicketOpened($ticket));
+        $user = User::find($ticket->worker()->first()->id);
+        if (Auth::user()->id != $user->id) {
+            $user->notify(new TicketClosed($ticket));
         }
         return redirect()->route('ticket.show', $id);
     }

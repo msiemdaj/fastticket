@@ -61,8 +61,6 @@ Route::get('/ticket/{id}/edit', [TicketController::class, 'edit'])->name('ticket
 Route::put('/ticket/{id}/update', [TicketController::class, 'update'])->name('ticket.update')->middleware('auth');
 Route::get('/ticket/{id}/open', [TicketController::class, 'openTicket'])->name('ticket.open')->middleware('auth');
 Route::get('/ticket/{id}/close', [TicketController::class, 'closeTicket'])->name('ticket.close')->middleware('auth');
-Route::get('/ticket/{id}/complete', [TicketController::class, 'closeAndCompleteTicket'])->name('ticket.complete')->middleware('auth');
-
 
 # Download
 Route::get('/ticket/{id}/download', [DownloadController::class, 'download'])->name('attachment.download');

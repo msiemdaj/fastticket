@@ -17,6 +17,7 @@ class CreateTicketUserTable extends Migration
             $table->foreignId('ticket_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('worker_id')->nullable()->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('closed_by')->nullable()->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
         });
     }
 
