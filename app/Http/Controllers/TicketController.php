@@ -59,6 +59,7 @@ class TicketController extends Controller
     {
         return Inertia::render('Ticket/Create', [
             'categories' => Category::all('id', 'name'),
+            'priorities' => TicketPriority::TYPES,
         ]);
     }
 
@@ -75,6 +76,7 @@ class TicketController extends Controller
             [
                 'title' => 'required|string',
                 'description' => 'required',
+                'priority' => ['required', Rule::in(TicketPriority::TYPES)],
                 'category' => 'required|exists:categories,id',
                 'attachments' => 'array',
                 'attachments.*' => 'mimes:jpg,jpeg,gif,png,tiff,pdf,doc,docx,xls,xlsx,txt',
@@ -94,7 +96,7 @@ class TicketController extends Controller
                     'description' => $request->description,
                     'category_id' => $request->category,
                     'status' => TicketStatus::PENDING,
-                    'priority' => TicketPriority::UNASSIGNED,
+                    'priority' => $request->priority,
                 ]);
                 if ($request->hasFile('attachments')) {
                     foreach ($request->file('attachments') as $file) {

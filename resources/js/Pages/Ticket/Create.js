@@ -6,11 +6,11 @@ import Dashboard from "../../Shared/Dashboard"
 
 
 const Create = () => {
-    const { categories } = usePage().props;
-
+    const { categories, priorities } = usePage().props;
     const { data, setData, post, processing, errors } = useForm({
         title: '',
         category: '',
+        priority: priorities[0] || '',
         description: '',
         attachments: [],
     });
@@ -58,6 +58,19 @@ const Create = () => {
                                     }
                                 </select>
                                 {errors.category && <span className="mt-1 text-danger">{errors.category}</span>}
+                            </div>
+
+                            <div className="mb-4">
+                                <label htmlFor="ticketPriority" className="form-label font-weight-bold text-darkblue required">Priority</label>
+                                <select onChange={e => setData('priority', e.target.value)} value={data.priority}
+                                    id="ticketPriority" name="priority" className={`form-select bg-white border-left-0 border-md text-muted ${errors.priority ? 'is-invalid' : ''}`}>
+                                    {
+                                        priorities.map((priority, key) => (
+                                            <option key={key}>{priority}</option>
+                                        ))
+                                    }
+                                </select>
+                                {errors.priority && <span className="mt-1 text-danger">{errors.priority}</span>}
                             </div>
 
                             <div className="mb-4">
