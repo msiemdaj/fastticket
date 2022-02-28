@@ -396,6 +396,10 @@
     .bg-completed{
         background-color: #d4ffdb;
     }
+
+    .bg-deleted{
+        background-color: #ffe2e1;
+    }
 /* End of content */
 
 /* Auth */

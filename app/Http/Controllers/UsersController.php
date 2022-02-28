@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 
 class UsersController extends Controller
@@ -75,7 +76,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id, ['id', 'first_name', 'last_name', 'email', 'email_verified_at', 'role', 'created_at']);
+        $user = User::withTrashed()->findOrFail($id, ['id', 'first_name', 'last_name', 'email', 'email_verified_at', 'role', 'created_at', 'deleted_at']);
         $tickets = $user->tickets()->with('category:id,name')->paginate(10);
 
         return Inertia::render('User/Show', [
@@ -95,7 +96,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id, ['id', 'first_name', 'last_name', 'email', 'role', 'created_at']);
+        $user = User::withTrashed()->findOrFail($id, ['id', 'first_name', 'last_name', 'email', 'role', 'created_at']);
 
         return Inertia::render('User/Edit', [
             'user' => $user,
@@ -115,7 +116,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
         $this->authorize('update', $user);
 
         // Admin can't revoke his own role
@@ -138,13 +139,13 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        return redirect()->back();
         $user = User::findOrFail($id);
         $this->authorize('delete', $user);
 
-        if ($user) {
-            User::destroy($id);
+        if ($user && $user != Auth::user()) {
+            $user->delete();
         }
+        return redirect()->back();
     }
 
     public function passwordReset($id)

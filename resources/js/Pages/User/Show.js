@@ -30,7 +30,7 @@ const Show = () => {
             <div className="row">
                 <div className="col-xl-4 mb-4">
                     <div className="card shadow mb-4">
-                        <div className="card-body p-4">
+                        <div className={`card-body p-4 ${user.deleted_at != null && 'bg-deleted'}`}>
                             <div className="d-sm-flex align-items-center justify-content-between mb-4">
                                 <h1 className="h4 text-darkblue font-weight-bold text-uppercase">User details</h1>
                                 {auth.user.role == 'admin' ? <Link href={route('users.edit', user.id)} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center"><i className="bi bi-pencil me-2"></i>Edit user details</Link> : ''}
@@ -58,11 +58,12 @@ const Show = () => {
 
                             <div>
                                 <span className="text-darkblue font-weight-bold">Verified</span>
-                                <p className="text-muted mb-0">                          {
-                                    user.email_verified_at != null
-                                        ? <i className="bi bi-check-lg text-success"></i>
-                                        : <i className="bi bi-x-lg text-danger"></i>
-                                }
+                                <p className="text-muted mb-0">
+                                    {
+                                        user.email_verified_at != null
+                                            ? <i className="bi bi-check-lg text-success"></i>
+                                            : <i className="bi bi-x-lg text-danger"></i>
+                                    }
                                 </p>
                             </div>
 
@@ -70,7 +71,18 @@ const Show = () => {
                                 user.email_verified_at != null
                                     ? <div className="mt-3">
                                         <span className="text-darkblue font-weight-bold">Email verification date</span>
-                                        <p className="text-muted mb-0">{user.email_verified_at}</p>
+                                        <p className="text-muted mb-0">{moment(user.email_verified_at).format('Do MMMM YYYY [at] H:mm')}</p>
+                                    </div>
+                                    : ''
+                            }
+                            {
+                                user.deleted_at != null
+                                    ? <div className="mt-3">
+                                        <span className="text-darkblue font-weight-bold">User is deleted</span>
+                                        <p className="text-muted"><i className="bi bi-check-lg text-success"></i></p>
+
+                                        <span className="text-darkblue font-weight-bold">Deleted date</span>
+                                        <p className="text-muted mb-0">{moment(user.deleted_at).format('Do MMMM YYYY [at] H:mm')}</p>
                                     </div>
                                     : ''
                             }

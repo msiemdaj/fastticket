@@ -22,17 +22,17 @@ class Ticket extends Model
 
     public function user()
     {
-        return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'user_id');
+        return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'user_id')->withTrashed();
     }
 
     public function worker()
     {
-        return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'worker_id');
+        return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'worker_id')->withTrashed();
     }
 
     public function closedBy()
     {
-        return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'closed_by');
+        return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'closed_by')->withTrashed();
     }
 
     public function category()
