@@ -44,9 +44,18 @@ export default () => {
                             {
                                 auth.user.role == 'admin' &&
                                 <li className="nav-item">
+                                    <Link href={route('users.deleted')} className={`nav-link ${route().current('users.deleted') && 'active'}`}><span>Deleted users</span></Link>
+                                </li>
+
+                            }
+                            {
+                                auth.user.role == 'admin' &&
+                                <li className="nav-item">
                                     <Link href={route('users.create')} className={`nav-link ${route().current('users.create') && 'active'}`}><span>Create user</span></Link>
                                 </li>
+
                             }
+
                         </ul>
                     </li>
                     : ''

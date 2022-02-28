@@ -148,6 +148,39 @@ class UsersController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deletedUsers(Request $request)
+    {
+        return Inertia::render('User/DeletedUsers', [
+            'users' => User::onlyTrashed()->orderByDesc('deleted_at')
+                ->where('users.role', 'like', '%' . $request->role . '%')
+                ->where(function ($query) use ($request) {
+                    $query->where('users.first_name', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.last_name', 'like', '%' . $request->search . '%');
+                })
+                ->paginate(10, ['id', 'first_name', 'last_name', 'email', 'email_verified_at', 'role', 'created_at', 'deleted_at'])
+                ->appends($request->all()),
+            'roles' => UserRole::TYPES,
+            'filters' => $request->all(),
+            'can' => [
+                'viewRestore' => $this->authorize('viewRestore', User::class),
+            ]
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $user = User::withTrashed()->find($id);
+        $this->authorize('restore', $user);
+
+        $user->restore();
+        return redirect()->back();
+    }
+
     public function passwordReset($id)
     {
         $user = User::findOrFail($id);

@@ -72,6 +72,17 @@ class UserPolicy
     }
 
     /**
+     * Determine whether the user can view trashed page.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function viewRestore(User $user)
+    {
+        return $user->isAdmin();
+    }
+
+    /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
@@ -80,7 +91,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        //
+        return $user->isAdmin();
     }
 
     /**
