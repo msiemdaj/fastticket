@@ -1,14 +1,15 @@
 import React from "react"
-import { Link } from '@inertiajs/inertia-react'
+import { Link, usePage } from '@inertiajs/inertia-react'
 import { useForm } from '@inertiajs/inertia-react'
 
 import Layout from "../../Shared/Layout"
 
 const Login = () => {
+    const { demo } = usePage().props;
 
     const { data, setData, post, processing, errors } = useForm({
-        email: '',
-        password: '',
+        email: demo.email || '',
+        password: demo.password || '',
         remember: false,
     })
 

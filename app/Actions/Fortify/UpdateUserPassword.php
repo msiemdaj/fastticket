@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Enums\DemoLogin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
@@ -28,8 +29,10 @@ class UpdateUserPassword implements UpdatesUserPasswords
             }
         })->validate();
 
+        // Demo only
         $user->forceFill([
-            'password' => Hash::make($input['password']),
+            'password' => Hash::make(DemoLogin::PASSWORD),
         ])->save();
+        // 
     }
 }

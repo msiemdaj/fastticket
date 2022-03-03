@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\DemoLogin;
 use App\Enums\TicketStatus;
 use App\Enums\UserRole;
 use App\Models\Ticket;
@@ -27,10 +28,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::create([
             'first_name' => 'Joe',
             'last_name' => 'Parker',
-            'email' => 'admin@fastticket.pl',
+            'email' => DemoLogin::EMAIL,
             'role' => UserRole::ADMIN,
             'email_verified_at' => now(),
-            'password' => Hash::make('fastticket'),
+            'password' => Hash::make(DemoLogin::PASSWORD),
             'remember_token' => Str::random(10),
         ]);
 

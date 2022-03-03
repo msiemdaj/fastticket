@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Enums\DemoLogin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 
@@ -118,6 +119,12 @@ class UsersController extends Controller
     {
         $user = User::withTrashed()->findOrFail($id);
         $this->authorize('update', $user);
+
+        // Demo only
+        if ($user->id === 1) {
+            $request->merge(['email' => DemoLogin::EMAIL]);
+        }
+        // 
 
         // Admin can't revoke his own role
         if (auth()->user()->id == $id) {
