@@ -17,6 +17,7 @@ class TicketFactory extends Factory
     public function definition()
     {
         return [
+            'ticket_id' => 'TKT-' . strtoupper(bin2hex(random_bytes(8))),
             'title' => $this->faker->paragraph(1),
             'description' => $this->faker->text(200),
             'category_id' => $this->faker->randomElement(Category::all()->pluck('id')),

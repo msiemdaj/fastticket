@@ -58,7 +58,7 @@ class ReplyMessage extends Notification implements ShouldQueue
     {
         return [
             'ticket_id' => $this->ticket->id,
-            'message' => "Someone has just replied on your ticket, click to see the message",
+            'message' => "Someone has just replied to " . $this->ticket->ticket_id . ", click to see the message",
         ];
     }
 }

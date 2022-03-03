@@ -43,7 +43,7 @@ class TicketClosed extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('The user has closed this ticket and does not need more help. Check link below to see closed ticket.')
+            ->line('The user has closed ticket  ' . $this->ticket->ticket_id . ' and does not need more help. Check link below to see closed ticket.')
             ->action('Show ticket', route('ticket.show', $this->ticket->id))
             ->line('Thank you for using our application!');
     }
@@ -58,7 +58,7 @@ class TicketClosed extends Notification implements ShouldQueue
     {
         return [
             'ticket_id' => $this->ticket->id,
-            'message' => "The user has closed this ticket and does not need more help",
+            'message' => "The user has closed ticket " . $this->ticket->ticket_id . " and does not need more help",
         ];
     }
 }

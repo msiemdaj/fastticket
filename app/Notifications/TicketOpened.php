@@ -43,7 +43,7 @@ class TicketOpened extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('Your ticket is now open, we are doing our best to resolve it and give you as much support as required.')
+            ->line('Your ticket ' . $this->ticket->ticket_id . ' is now open, we are doing our best to resolve it and give you as much support as required.')
             ->action('Show ticket', route('ticket.show', $this->ticket->id))
             ->line('Thank you for using our application!');
     }
@@ -58,7 +58,7 @@ class TicketOpened extends Notification implements ShouldQueue
     {
         return [
             'ticket_id' => $this->ticket->id,
-            'message' => "Your ticket is now open, check for details",
+            'message' => "Your ticket " . $this->ticket->ticket_id . " is now open, check for details",
         ];
     }
 }

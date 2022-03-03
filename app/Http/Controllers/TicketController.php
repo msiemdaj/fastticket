@@ -37,7 +37,10 @@ class TicketController extends Controller
                         $query->whereRelation('category', 'id', 'like', '%' . $request->category . '%');
                     }
                 })
-                ->where('tickets.title', 'like', '%' . $request->search . '%')
+                ->where(function ($query) use ($request) {
+                    $query->where('tickets.title', 'like', '%' . $request->search . '%')
+                        ->orWhere('tickets.ticket_id', 'like', '%' . $request->search . '%');
+                })
                 ->paginate(10)
                 ->appends($request->all()),
             'filters' => $request->all(),
@@ -92,6 +95,7 @@ class TicketController extends Controller
             try {
                 DB::beginTransaction();
                 $ticket = Ticket::create([
+                    'ticket_id' => 'TKT-' . strtoupper(bin2hex(random_bytes(8))),
                     'title' => $request->title,
                     'description' => $request->description,
                     'category_id' => $request->category,
@@ -259,7 +263,10 @@ class TicketController extends Controller
                         $query->whereRelation('category', 'id', 'like', '%' . $request->category . '%');
                     }
                 })
-                ->where('tickets.title', 'like', '%' . $request->search . '%')
+                ->where(function ($query) use ($request) {
+                    $query->where('tickets.title', 'like', '%' . $request->search . '%')
+                        ->orWhere('tickets.ticket_id', 'like', '%' . $request->search . '%');
+                })
                 ->paginate(10)
                 ->appends($request->all()),
             'filters' => $request->all(),

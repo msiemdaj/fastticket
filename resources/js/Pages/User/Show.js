@@ -97,6 +97,7 @@ const Show = () => {
                                 <thead className="font-weight-bold text-uppercase">
                                     <tr>
                                         <th scope="col">Title</th>
+                                        <th scope="col">ID</th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Priority</th>
@@ -109,6 +110,7 @@ const Show = () => {
                                         ? tickets.data.map((ticket, key) => (
                                             <tr role="button" key={key} onClick={(e) => rowClick(e, ticket.id)}>
                                                 <td>{ticket.title}</td>
+                                                <td className="col-2">{ticket.ticket_id}</td>
                                                 <td>{ticket.category != null && ticket.category.name}</td>
                                                 <td>{ticket.status}</td>
                                                 <td>{ticket.priority}</td>
@@ -128,7 +130,7 @@ const Show = () => {
                                             </tr>
                                         ))
                                         : <tr>
-                                            <td colSpan="6" className="text-center text-muted">This user does not have any tickets.</td>
+                                            <td colSpan="7" className="text-center text-muted">This user does not have any tickets.</td>
                                         </tr>
                                     }
                                 </tbody>

@@ -31,6 +31,7 @@ function Tickets() {
                             <thead className="font-weight-bold text-uppercase">
                                 <tr>
                                     <th scope="col">Title</th>
+                                    <th scope="col">ID</th>
                                     <th scope="col">Category</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Priority</th>
@@ -43,6 +44,7 @@ function Tickets() {
                                     ? tickets.data.map((ticket, key) => (
                                         <tr role="button" key={key} onClick={(e) => rowClick(e, ticket.id)}>
                                             <td>{ticket.title}</td>
+                                            <td>{ticket.ticket_id}</td>
                                             <td>{ticket.category != null && ticket.category.name}</td>
                                             <td>{ticket.status}</td>
                                             <td>{ticket.priority}</td>
@@ -62,7 +64,7 @@ function Tickets() {
                                         </tr>
                                     ))
                                     : <tr>
-                                        <td colSpan="6" className="text-center text-muted">We were unable to find tickets with these filters.</td>
+                                        <td colSpan="7" className="text-center text-muted">We were unable to find tickets with these filters.</td>
                                     </tr>
                                 }
                             </tbody>

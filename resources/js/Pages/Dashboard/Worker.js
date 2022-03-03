@@ -40,6 +40,7 @@ const WorkerPage = () => {
                                 <thead className="font-weight-bold text-uppercase">
                                     <tr>
                                         <th scope="col">Title</th>
+                                        <th scope="col">ID</th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Priority</th>
@@ -52,6 +53,7 @@ const WorkerPage = () => {
                                         ? newtickets.data.map((ticket, key) => (
                                             <tr role="button" key={key} onClick={(e) => rowClick(e, ticket.id)}>
                                                 <td>{ticket.title}</td>
+                                                <td>{ticket.ticket_id}</td>
                                                 <td>{ticket.category != null && ticket.category.name}</td>
                                                 <td>{ticket.status}</td>
                                                 <td>{ticket.priority}</td>
@@ -95,6 +97,7 @@ const WorkerPage = () => {
                                 <thead className="font-weight-bold text-uppercase">
                                     <tr>
                                         <th scope="col">Title</th>
+                                        <th scope="col">ID</th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Priority</th>
                                     </tr>
@@ -104,12 +107,13 @@ const WorkerPage = () => {
                                         ? mytickets.map((tckt, key) => (
                                             <tr role="button" key={key} onClick={(e) => rowClick(e, tckt.id)}>
                                                 <td>{tckt.title}</td>
+                                                <td className="col-3">{tckt.ticket_id}</td>
                                                 <td>{tckt.category != null && tckt.category.name}</td>
                                                 <td>{tckt.priority}</td>
                                             </tr>
                                         ))
                                         : <tr>
-                                            <td colSpan="3" className="text-center text-muted">Currently you don't have any opened tickets.</td>
+                                            <td colSpan="4" className="text-center text-muted">Currently you don't have any opened tickets.</td>
                                         </tr>
                                     }
                                 </tbody>

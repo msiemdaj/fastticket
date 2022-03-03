@@ -30,7 +30,10 @@ class DashboardController extends Controller
                             $query->whereRelation('category', 'id', 'like', '%' . $request->category . '%');
                         }
                     })
-                    ->where('tickets.title', 'like', '%' . $request->search . '%')
+                    ->where(function ($query) use ($request) {
+                        $query->where('tickets.title', 'like', '%' . $request->search . '%')
+                            ->orWhere('tickets.ticket_id', 'like', '%' . $request->search . '%');
+                    })
                     ->paginate(10)
                     ->appends($request->all()),
                 'filters' => $request->all(),
@@ -52,7 +55,10 @@ class DashboardController extends Controller
                         }
                     })
                     ->whereRelation('user', 'id', '=', Auth::user()->id)
-                    ->where('tickets.title', 'like', '%' . $request->search . '%')
+                    ->where(function ($query) use ($request) {
+                        $query->where('tickets.title', 'like', '%' . $request->search . '%')
+                            ->orWhere('tickets.ticket_id', 'like', '%' . $request->search . '%');
+                    })
                     ->paginate(10)
                     ->appends($request->all()),
                 'filters' => $request->all(),

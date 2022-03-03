@@ -92,7 +92,7 @@ const Show = () => {
 
     return (
         <div>
-            <h1 className="h2 text-darkblue font-weight-bold text-uppercase mb-4">Ticket preview</h1>
+            <h1 className="h2 text-darkblue font-weight-bold text-uppercase mb-4">{ticket.ticket_id}</h1>
 
             <div className="row">
                 <div className="col-xl-8 mb-4">
@@ -224,6 +224,11 @@ const Show = () => {
                             <div>
                                 <span className="text-darkblue font-weight-bold">Title</span>
                                 <p className="text-muted">{ticket.title}</p>
+                            </div>
+
+                            <div>
+                                <span className="text-darkblue font-weight-bold">Ticket ID</span>
+                                <p className="text-muted">{ticket.ticket_id}</p>
                             </div>
 
                             <div>
