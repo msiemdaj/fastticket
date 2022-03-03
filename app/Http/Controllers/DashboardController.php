@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Spatie\Activitylog\Models\Activity;
 
 class DashboardController extends Controller
 {
@@ -18,7 +19,6 @@ class DashboardController extends Controller
     {
         /** @var App\Models\User $user */
         $user = Auth::user();
-
         if ($user->isAdmin() || $user->isWorker()) {
             return Inertia::render('Dashboard/Worker', [
                 'newtickets' => Ticket::orderByDesc('created_at')->with('category:id,name')
@@ -43,6 +43,7 @@ class DashboardController extends Controller
                 'mytickets' => Ticket::orderByDesc('created_at')->with(['category:id,name', 'worker:id'])
                     ->whereRelation('worker', 'id', '=', Auth::user()->id)->take(10)
                     ->where('tickets.status', TicketStatus::OPEN)->get(),
+                'activity' => Activity::orderByDesc('created_at')->take(10)->get(['description', 'subject_id', 'created_at']),
             ]);
         } else {
             return Inertia::render('Dashboard/User', [

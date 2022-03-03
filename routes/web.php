@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DownloadController;
@@ -78,3 +79,6 @@ Route::delete('/message/{id}/delete', [MessageController::class, 'destroy'])->na
 Route::get('/notifications/read/{id}', [NotificationsController::class, 'showTicket'])->name('notifications.read')->middleware('auth');
 Route::get('/notifications/readall', [NotificationsController::class, 'markAllAsRead'])->name('notifications.readall')->middleware('auth');
 Route::get('/notifications/deleteall', [NotificationsController::class, 'deleteAll'])->name('notifications.deleteall')->middleware('auth');
+
+# Activity
+Route::get('/activity', [ActivityController::class, 'index'])->name('activity')->middleware('auth');

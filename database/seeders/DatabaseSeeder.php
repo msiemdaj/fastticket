@@ -66,6 +66,7 @@ class DatabaseSeeder extends Seeder
             $closed_by = NULL;
 
             $user_id = $this->faker->randomElement(User::all()->pluck('id'));
+            activity()->causedBy(User::find($user_id))->performedOn($ticket)->log(':causer.first_name :causer.last_name created new ticket :subject.ticket_id');
 
             if ($ticket->status != TicketStatus::PENDING) {
                 $worker_id = $this->faker->randomElement(User::whereIn('role', [UserRole::WORKER, UserRole::ADMIN])->pluck('id'));
@@ -73,6 +74,7 @@ class DatabaseSeeder extends Seeder
 
             if ($ticket->isClosed() || $ticket->isCompleted()) {
                 $closed_by = $this->faker->randomElement(User::whereIn('id', [$user_id, $worker_id])->pluck('id'));
+                activity()->causedBy(User::find($closed_by))->performedOn($ticket)->log('Ticket :subject.ticket_id was closed by :causer.first_name :causer.last_name');
             }
 
             DB::table('ticket_user')->insert([
@@ -83,13 +85,16 @@ class DatabaseSeeder extends Seeder
             ]);
 
             if ($ticket->status != TicketStatus::PENDING) {
+                activity()->causedBy(User::find($worker_id))->performedOn($ticket)->log('Ticket :subject.ticket_id was opened by :causer.first_name :causer.last_name');
+
                 $length = $this->faker->numberBetween(1, 6);
                 for ($i = 1; $i <= $length; $i++) {
-                    \App\Models\Message::create([
+                    $message = \App\Models\Message::create([
                         'body' => $this->faker->text(100),
                         'ticket_id' => $ticket->id,
                         'user_id' => $this->faker->randomElement([$user_id, $worker_id]),
                     ]);
+                    activity()->causedBy(User::find($message->user_id))->performedOn($ticket)->log(':causer.first_name :causer.last_name has replied to ticket :subject.ticket_id');
                 }
             }
 

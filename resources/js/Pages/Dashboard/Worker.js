@@ -8,7 +8,7 @@ import FilterData from "../../Shared/FilterData";
 import Pagination from "../../Shared/Pagination";
 
 const WorkerPage = () => {
-    const { newtickets, categories, mytickets, statuses, priorities } = usePage().props;
+    const { newtickets, categories, mytickets, statuses, priorities, activity } = usePage().props;
     const { links } = newtickets;
 
     const rowClick = (e, id) => {
@@ -126,8 +126,31 @@ const WorkerPage = () => {
                     <div className="card shadow mb-4">
                         <div className="card-body p-4">
                             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 className="h4 text-darkblue font-weight-bold text-uppercase">History</h1>
+                                <h1 className="h4 text-darkblue font-weight-bold text-uppercase">Latest activity</h1>
+                                <Link href={route('activity')} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center">Show all</Link>
                             </div>
+
+                            <table className="table table-striped table-hover align-middle">
+                                <thead className="font-weight-bold text-uppercase">
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Created at</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {activity != ''
+                                        ? activity.map((log, key) => (
+                                            <tr role="button" key={key} onClick={(e) => rowClick(e, log.subject_id)}>
+                                                <td>{log.description}</td>
+                                                <td>{moment(log.created_at).format('D/MM/YYYY [at] H:mm')}</td>
+                                            </tr>
+                                        ))
+                                        : <tr>
+                                            <td colSpan="2" className="text-center text-muted">There is no activity so far.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

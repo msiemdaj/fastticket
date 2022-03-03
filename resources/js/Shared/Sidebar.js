@@ -79,6 +79,13 @@ export default () => {
                     </li>
                     : ''
             }
+            {
+                auth.user.role == 'worker' || auth.user.role == 'admin'
+                    ? <li className="nav-item">
+                        <Link href={route('activity')} className={`nav-link ${route().current('activity') && 'active'}`}><i className="bi bi-activity"></i><span>Activity</span></Link>
+                    </li>
+                    : ''
+            }
         </ul>
     )
 }

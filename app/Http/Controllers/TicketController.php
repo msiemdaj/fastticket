@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Activitylog\Models\Activity;
 
 class TicketController extends Controller
 {
@@ -110,6 +111,8 @@ class TicketController extends Controller
                     $ticket->save();
                 }
                 $ticket->user()->attach(Auth::user()->id);
+                activity()->causedBy(Auth::user())->performedOn($ticket)->log(':causer.first_name :causer.last_name created new ticket :subject.ticket_id');
+
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
@@ -138,7 +141,8 @@ class TicketController extends Controller
             'messages' => Message::where('ticket_id', $id)->with('user:id,first_name,last_name,role')->get(),
             'can' => [
                 'ticket_view' => $this->authorize('view', $ticket),
-            ]
+            ],
+            'activity' => Activity::orderByDesc('created_at')->where('subject_id', $id)->paginate(10),
         ]);
     }
 
@@ -193,6 +197,8 @@ class TicketController extends Controller
                 'priority' => $request->priority,
             ])->save();
 
+            activity()->causedBy(Auth::user())->performedOn($ticket)->log(':causer.first_name :causer.last_name edited ticket :subject.ticket_id details');
+
             return redirect()->route('ticket.show', $id);
         }
     }
@@ -219,6 +225,8 @@ class TicketController extends Controller
 
             $user = User::find($ticket->user()->first()->id);
             $user->notify(new TicketOpened($ticket));
+
+            activity()->causedBy(Auth::user())->performedOn($ticket)->log('Ticket :subject.ticket_id was opened by :causer.first_name :causer.last_name');
         }
         return redirect()->route('ticket.show', $id);
     }
@@ -243,6 +251,8 @@ class TicketController extends Controller
         if (Auth::user()->id != $user->id) {
             $user->notify(new TicketClosed($ticket));
         }
+        activity()->causedBy(Auth::user())->performedOn($ticket)->log('Ticket :subject.ticket_id was closed by :causer.first_name :causer.last_name');
+
         return redirect()->route('ticket.show', $id);
     }
 

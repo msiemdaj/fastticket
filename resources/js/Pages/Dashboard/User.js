@@ -70,19 +70,6 @@ const UserPage = () => {
                     </div>
                 </div>
             </div>
-
-            <div className="row">
-                <div className="col-xl-6 mb-4">
-                    <div className="card shadow mb-4">
-                        <div className="card-body p-4 table-responsive">
-                            <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 className="h4 text-darkblue font-weight-bold text-uppercase">History</h1>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     )
 }

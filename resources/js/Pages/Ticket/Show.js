@@ -5,11 +5,13 @@ import React from "react"
 import Swal from "sweetalert2";
 
 import Dashboard from "../../Shared/Dashboard"
+import Pagination from "../../Shared/Pagination";
 
 
 const Show = () => {
-    const { ticket, auth, messages } = usePage().props;
+    const { ticket, auth, messages, activity } = usePage().props;
     const { user, worker, closed_by, category } = ticket;
+    const { links } = activity;
 
     const openTicket = () => {
         Swal.fire({
@@ -292,6 +294,36 @@ const Show = () => {
                                     </p>
                                 </div>
                             }
+                        </div>
+                    </div>
+
+                    <div className="card shadow mb-4">
+                        <div className="card-body p-4">
+                            <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 className="h4 text-darkblue font-weight-bold text-uppercase">Latest activity</h1>
+                            </div>
+                            <table className="table table-striped table-hover align-middle">
+                                <thead className="font-weight-bold text-uppercase">
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Created at</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {activity != ''
+                                        ? activity.data.map((log, key) => (
+                                            <tr role="button" key={key}>
+                                                <td>{log.description}</td>
+                                                <td>{moment(log.created_at).format('D/MM/YYYY [at] H:mm')}</td>
+                                            </tr>
+                                        ))
+                                        : <tr>
+                                            <td colSpan="2" className="text-center text-muted">There is no activity so far.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <Pagination links={links} />
                         </div>
                     </div>
                 </div>

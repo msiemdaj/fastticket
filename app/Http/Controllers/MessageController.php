@@ -52,6 +52,7 @@ class MessageController extends Controller
                     $user = User::findMany([$ticket->worker->first()->id, $ticket->user->first()->id]);
                 }
                 Notification::send($user, new ReplyMessage($ticket));
+                activity()->causedBy(User::find($message->user_id))->performedOn($ticket)->log(':causer.first_name :causer.last_name has replied to ticket :subject.ticket_id');
             }
         }
         return redirect()->back();
