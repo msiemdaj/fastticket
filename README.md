@@ -1,5 +1,7 @@
 # FastTicket
 
+[FastTicket DEMO](https://www.fastticket.pl/)
+
 Demo application made in purpose to show my experience level and knowledge of technologies used in this project. The app was developed with use of [Laravel framework](https://laravel.com/) and [React](https://reactjs.org/) along with the [Inertia.js](https://inertiajs.com/)
 
 > Picture below shows admin dashboard with it's functinality on the preview of a ticket that was created by user.
