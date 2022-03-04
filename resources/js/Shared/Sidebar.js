@@ -16,16 +16,17 @@ export default () => {
                 <ul className="collapse list-unstyled" id="ticketsSubmenu">
                     {
                         auth.user.role == 'worker' || auth.user.role == 'admin'
-                            ? <li className="nav-item">
-                                <Link href={route('ticket.all')} className={`nav-link ${route().current('ticket.all') && 'active'}`}><span>Show all tickets</span></Link>
-                            </li>
-                            : ''
-                    }
-                    {
-                        auth.user.role == 'worker' || auth.user.role == 'admin'
-                            ? <li className="nav-item">
-                                <Link href={route('ticket.mytickets')} className={`nav-link ${route().current('ticket.mytickets') && 'active'}`}><span>Show my tickets</span></Link>
-                            </li>
+                            ? <>
+                                <li className="nav-item">
+                                    <Link href={route('ticket.all')} className={`nav-link ${route().current('ticket.all') && 'active'}`}><span>Show all tickets</span></Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link href={route('ticket.mytickets')} className={`nav-link ${route().current('ticket.mytickets') && 'active'}`}><span>Show my tickets</span></Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link href={route('ticket.deleted')} className={`nav-link ${route().current('ticket.deleted') && 'active'}`}><span>Deleted tickets</span></Link>
+                                </li>
+                            </>
                             : ''
                     }
                     <li className="nav-item">

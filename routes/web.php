@@ -59,11 +59,14 @@ Route::get('/ticket/all', [TicketController::class, 'index'])->name('ticket.all'
 Route::get('/ticket/my-tickets', [TicketController::class, 'myTickets'])->name('ticket.mytickets')->middleware('auth');
 Route::get('/ticket/create', [TicketController::class, 'create'])->name('ticket.create')->middleware('auth');
 Route::post('/ticket/create', [TicketController::class, 'store'])->name('ticket.store')->middleware('auth');
+Route::get('/ticket/deleted', [TicketController::class, 'deletedTickets'])->name('ticket.deleted')->middleware('auth');
+Route::post('/ticket/{id}/restore', [TicketController::class, 'restore'])->name('ticket.restore')->middleware('auth');
 Route::get('/ticket/{id}', [TicketController::class, 'show'])->name('ticket.show')->middleware('auth');
 Route::get('/ticket/{id}/edit', [TicketController::class, 'edit'])->name('ticket.edit')->middleware('auth');
 Route::put('/ticket/{id}/update', [TicketController::class, 'update'])->name('ticket.update')->middleware('auth');
 Route::get('/ticket/{id}/open', [TicketController::class, 'openTicket'])->name('ticket.open')->middleware('auth');
 Route::get('/ticket/{id}/close', [TicketController::class, 'closeTicket'])->name('ticket.close')->middleware('auth');
+Route::delete('/ticket/{id}/destroy', [TicketController::class, 'destroy'])->name('ticket.destroy')->middleware('auth');
 
 # Download
 Route::get('/ticket/{id}/download', [DownloadController::class, 'download'])->name('attachment.download');

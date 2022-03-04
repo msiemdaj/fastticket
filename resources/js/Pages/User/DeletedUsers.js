@@ -8,7 +8,7 @@ import Pagination from "../../Shared/Pagination";
 import FilterDataUsers from "../../Shared/FilterDataUsers";
 import moment from "moment";
 
-const User = () => {
+const DeletedUsers = () => {
     const { auth, users, roles } = usePage().props;
     const { links } = users;
 
@@ -35,7 +35,7 @@ const User = () => {
                 Inertia.post(route('users.restore', id))
                 Swal.fire(
                     'Restored!',
-                    'User has been successfulyl restored',
+                    'User has been successfully restored',
                     'success'
                 )
             }
@@ -106,5 +106,5 @@ const User = () => {
     )
 }
 
-User.layout = page => <Dashboard children={page} />
-export default User
+DeletedUsers.layout = page => <Dashboard children={page} />
+export default DeletedUsers

@@ -99,7 +99,8 @@ const Show = () => {
             <div className="row">
                 <div className="col-xl-8 mb-4">
                     <div className="card shadow mb-4">
-                        <div className={`card-body p-4 ${ticket.status == 'Completed' && 'bg-completed'}`}>
+                        <div className={`card-body p-4 ${ticket.deleted_at != null ? 'bg-deleted' :
+                            ticket.status == 'Completed' && 'bg-completed'}`}>
                             <div className="d-sm-flex align-items-center justify-content-between mb-2">
                                 <h1 className="h4 text-darkblue font-weight-bold">{ticket.title}</h1>
                                 {
@@ -293,6 +294,17 @@ const Show = () => {
                                         }
                                     </p>
                                 </div>
+                            }
+                            {
+                                ticket.deleted_at != null
+                                    ? <div className="mt-3">
+                                        <span className="text-darkblue font-weight-bold">Ticket is deleted</span>
+                                        <p className="text-muted"><i className="bi bi-check-lg text-success"></i></p>
+
+                                        <span className="text-darkblue font-weight-bold">Deleted date</span>
+                                        <p className="text-muted mb-0">{moment(ticket.deleted_at).format('Do MMMM YYYY [at] H:mm')}</p>
+                                    </div>
+                                    : ''
                             }
                         </div>
                     </div>

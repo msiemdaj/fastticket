@@ -135,7 +135,7 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        $ticket = Ticket::with('user:id,first_name,last_name', 'worker:id,first_name,last_name', 'closedBy:id,first_name,last_name', 'category:id,name')->findOrFail($id);
+        $ticket = Ticket::withTrashed()->with('user:id,first_name,last_name', 'worker:id,first_name,last_name', 'closedBy:id,first_name,last_name', 'category:id,name')->findOrFail($id);
         return Inertia::render('Ticket/Show', [
             'ticket' => $ticket,
             'messages' => Message::where('ticket_id', $id)->with('user:id,first_name,last_name,role')->get(),
@@ -154,7 +154,7 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        $ticket = Ticket::with('worker:id,first_name,last_name', 'user:id')->findOrFail($id);
+        $ticket = Ticket::withTrashed()->with('worker:id,first_name,last_name', 'user:id')->findOrFail($id);
         return Inertia::render('Ticket/Edit', [
             'ticket' => $ticket,
             'categories' => Category::all(['id', 'name']),
@@ -211,7 +211,13 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        $this->authorize('delete', $ticket);
+
+        $ticket->delete();
+        activity()->causedBy(Auth::user())->performedOn($ticket)->log('Ticket :subject.ticket_id was deleted by :causer.first_name :causer.last_name');
+
+        return redirect()->back();
     }
 
     public function openTicket($id)
@@ -287,5 +293,43 @@ class TicketController extends Controller
                 'ticket_viewAny' => $this->authorize('viewAny', Ticket::class),
             ],
         ]);
+    }
+
+    public function deletedTickets(Request $request)
+    {
+        return Inertia::render('Ticket/DeletedTickets', [
+            'tickets' => Ticket::onlyTrashed()->orderByDesc('deleted_at')->with('category:id,name')
+                ->where('tickets.status', 'like', '%' . $request->status . '%')
+                ->where('tickets.priority', 'like', '%' . $request->priority . '%')
+                ->where(function ($query) use ($request) {
+                    if ($request->category != null) {
+                        $query->whereRelation('category', 'id', 'like', '%' . $request->category . '%');
+                    }
+                })
+                ->where(function ($query) use ($request) {
+                    $query->where('tickets.title', 'like', '%' . $request->search . '%')
+                        ->orWhere('tickets.ticket_id', 'like', '%' . $request->search . '%');
+                })
+                ->paginate(10)
+                ->appends($request->all()),
+            'filters' => $request->all(),
+            'categories' => Category::all(['id', 'name']),
+            'statuses' => TicketStatus::TYPES,
+            'priorities' => TicketPriority::TYPES,
+            'can' => [
+                'viewRestore' => $this->authorize('viewRestore', Ticket::class),
+            ],
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $ticket = Ticket::withTrashed()->find($id);
+        $this->authorize('restore', $ticket);
+
+        $ticket->restore();
+        activity()->causedBy(Auth::user())->performedOn($ticket)->log('Ticket :subject.ticket_id has been restored by :causer.first_name :causer.last_name');
+
+        return redirect()->back();
     }
 }

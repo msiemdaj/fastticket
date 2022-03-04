@@ -25,6 +25,7 @@ class CreateTicketsTable extends Migration
             $table->enum('priority', TicketPriority::TYPES)->default(TicketPriority::UNASSIGNED);
             $table->longText('attachments')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

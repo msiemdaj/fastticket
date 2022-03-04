@@ -72,7 +72,9 @@ class TicketPolicy
      */
     public function delete(User $user, Ticket $ticket)
     {
-        //
+        if ($user->isAdmin() || $user->isWorker()) {
+            return true;
+        }
     }
 
     /**
@@ -84,7 +86,9 @@ class TicketPolicy
      */
     public function restore(User $user, Ticket $ticket)
     {
-        //
+        if ($user->isAdmin() || $user->isWorker()) {
+            return true;
+        }
     }
 
     /**
@@ -128,6 +132,13 @@ class TicketPolicy
                 || ($user->isWorker() && $ticket->worker()->first()->id == auth()->id())
                 || $ticket->user()->first()->id == auth()->id())
         ) {
+            return true;
+        }
+    }
+
+    public function viewRestore(User $user)
+    {
+        if ($user->isAdmin() || $user->isWorker()) {
             return true;
         }
     }

@@ -6,6 +6,7 @@ import Dashboard from '../../Shared/Dashboard';
 import Pagination from '../../Shared/Pagination';
 import FilterData from '../../Shared/FilterData';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 function Tickets() {
     const { tickets, categories, statuses, priorities } = usePage().props;
@@ -18,6 +19,26 @@ function Tickets() {
         if (currentIndex !== dropdownIndex && currentIndex !== undefined) {
             Inertia.get(route('ticket.show', id));
         }
+    }
+
+    const deleteButton = (id) => {
+        Swal.fire({
+            title: 'Are you sure you want to delete this ticket?',
+            icon: 'warning',
+            iconColor: '#d33',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+        }).then(result => {
+            if (result.isConfirmed) {
+                Inertia.delete(route('ticket.destroy', id))
+                Swal.fire(
+                    'Deleted!',
+                    'Ticket has been deleted successfully',
+                    'success'
+                )
+            }
+        })
     }
 
     return (
@@ -50,16 +71,18 @@ function Tickets() {
                                             <td>{ticket.priority}</td>
                                             <td>{moment(ticket.created_at).format('D/MM/YYYY [at] H:mm')}</td>
                                             <td className="text-end show-more">
-                                                {ticket.attachments &&
-                                                    <div className="dropdown text-center">
-                                                        <button className="btn" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i className="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
-                                                            <a href={route('attachment.download', ticket.id)} className="dropdown-item"><i className="bi bi-download align-middle me-2"></i>Download attachment</a>
-                                                        </ul>
-                                                    </div>
-                                                }
+                                                <div className="dropdown text-center">
+                                                    <button className="btn" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i className="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                    <ul className="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownTable">
+                                                        {ticket.attachments &&
+                                                            <li><a href={route('attachment.download', ticket.id)} className="dropdown-item"><i className="bi bi-download align-middle me-2"></i>Download attachment</a></li>
+                                                        }
+                                                        <li><button onClick={() => deleteButton(ticket.id)} className="dropdown-item"><i className="bi bi-trash-fill align-middle me-2"></i>Delete ticket</button></li>
+                                                    </ul>
+                                                </div>
+
                                             </td>
                                         </tr>
                                     ))
