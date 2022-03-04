@@ -1,64 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# FastTicket
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Demo application made in purpose to show my experience level and knowledge of technologies used in this project. The app was developed with use of [Laravel framework](https://laravel.com/) and [React](https://reactjs.org/) along with the [Inertia.js](https://inertiajs.com/)
 
-## About Laravel
+> Picture below shows admin dashboard with it's functinality on the preview of a ticket that was created by user.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+![fastticket](https://user-images.githubusercontent.com/52047912/156773205-1b97f644-dfc5-4681-a047-014fe7c50bbb.png)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Technologies used
 
-## Learning Laravel
+- [Laravel framework](https://laravel.com/)
+- [React](https://reactjs.org/)
+- [Inertia.js](https://inertiajs.com/)
+- [Bootstrap](https://getbootstrap.com/)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Functionality
 
-## Laravel Sponsors
+Project provides functions that you would expect from a helpdesk application, such as:
+- Fully manageable users module with role system
+- Searchable table with ongoing tickets fully customizable with use of filters
+- Possibiltiy to create new tickets and manage them by specific users
+- Activity log which helps to track all changes performed on certain ticket
+- Queue based notifications to let user know about events both in the app and directly on email
+- Policies to authorize users to perform certain actions in application
+- Users dashboard
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
+## Installation
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Clone repository:
 
-## Contributing
+```sh
+git clone https://github.com/msiemdaj/fastticket
+cd fastticket
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+Install PHP dependencies:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```sh
+composer install
+```
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Install NPM dependencies
 
-## License
+```sh
+npm install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Build assets:
+
+```sh
+npm run dev
+```
+
+
+Setup .env file:
+
+```sh
+cp .env.example .env
+```
+
+
+Generate app key:
+
+```sh
+php artisan key:generate
+```
+
+Create database and run migrations:
+
+```sh
+php artisan migrate --seed
+```
+
+
+Link file storage:
+
+```sh
+php artisan storage:link
+```
+
+
+Run artisan server:
+
+```sh
+php artisan serve
+```
+
+
+Run queue server:
+
+```sh
+php artisan queue:work
+```
