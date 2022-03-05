@@ -23,6 +23,7 @@ class UserFactory extends Factory
             'role' => $this->faker->randomElement(UserRole::TYPES),
             'email_verified_at' => now(),
             'password' => Hash::make('fastticket'),
+            'has_changed_password' => true,
             'remember_token' => Str::random(10),
         ];
     }

@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->role == UserRole::WORKER;
     }
 
+    public function hasChangedPassword()
+    {
+        return $this->has_changed_password == true;
+    }
+
     public function tickets()
     {
         return $this->belongsToMany(Ticket::class)->orderByDesc('created_at');

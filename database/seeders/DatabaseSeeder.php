@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             'role' => UserRole::ADMIN,
             'email_verified_at' => now(),
             'password' => Hash::make(DemoLogin::PASSWORD),
+            'has_changed_password' => true,
             'remember_token' => Str::random(10),
         ]);
 
@@ -42,6 +43,7 @@ class DatabaseSeeder extends Seeder
             'role' => UserRole::WORKER,
             'email_verified_at' => now(),
             'password' => Hash::make('fastticket'),
+            'has_changed_password' => true,
             'remember_token' => Str::random(10),
         ]);
 
@@ -52,6 +54,7 @@ class DatabaseSeeder extends Seeder
             'role' => UserRole::USER,
             'email_verified_at' => now(),
             'password' => Hash::make('fastticket'),
+            'has_changed_password' => true,
             'remember_token' => Str::random(10),
         ]);
 

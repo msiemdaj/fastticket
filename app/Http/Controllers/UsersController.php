@@ -11,6 +11,7 @@ use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Enums\DemoLogin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use App\Notifications\SetNewPassword;
 
 class UsersController extends Controller
 {
@@ -64,7 +65,11 @@ class UsersController extends Controller
         $this->authorize('create', User::class);
 
         $newUser = new CreateNewUser();
-        $newUser->create($request->all());
+        $user = $newUser->create($request->all());
+
+        $token = Password::getRepository()->create($user);
+        $user->notify(new SetNewPassword($token));
+
 
         return redirect()->route('users');
     }

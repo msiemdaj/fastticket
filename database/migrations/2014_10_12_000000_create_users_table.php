@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->enum('role', UserRole::TYPES)->default(UserRole::USER);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('has_changed_password')->default(false);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
