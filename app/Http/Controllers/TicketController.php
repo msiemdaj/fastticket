@@ -11,6 +11,7 @@ use App\Models\TicketUser;
 use App\Models\User;
 use App\Notifications\TicketClosed;
 use App\Notifications\TicketOpened;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -31,6 +32,11 @@ class TicketController extends Controller
     {
         return Inertia::render('Ticket/Index', [
             'tickets' => Ticket::orderByDesc('created_at')->with('category:id,name')
+                ->where(function ($query) use ($request) {
+                    if ($request->age != null) {
+                        $query->where('tickets.created_at', '>', Carbon::now()->subDays($request->age));
+                    }
+                })
                 ->where('tickets.status', 'like', '%' . $request->status . '%')
                 ->where('tickets.priority', 'like', '%' . $request->priority . '%')
                 ->where(function ($query) use ($request) {
@@ -271,6 +277,11 @@ class TicketController extends Controller
     {
         return Inertia::render('Ticket/MyTickets', [
             'tickets' => Ticket::orderByDesc('created_at')->with(['category:id,name', 'worker:id'])
+                ->where(function ($query) use ($request) {
+                    if ($request->age != null) {
+                        $query->where('tickets.created_at', '>', Carbon::now()->subDays($request->age));
+                    }
+                })
                 ->whereRelation('worker', 'id', '=', Auth::user()->id)
                 ->where('tickets.status', 'like', '%' . $request->status . '%')
                 ->where('tickets.priority', 'like', '%' . $request->priority . '%')
@@ -299,6 +310,11 @@ class TicketController extends Controller
     {
         return Inertia::render('Ticket/DeletedTickets', [
             'tickets' => Ticket::onlyTrashed()->orderByDesc('deleted_at')->with('category:id,name')
+                ->where(function ($query) use ($request) {
+                    if ($request->age != null) {
+                        $query->where('tickets.deleted_at', '>', Carbon::now()->subDays($request->age));
+                    }
+                })
                 ->where('tickets.status', 'like', '%' . $request->status . '%')
                 ->where('tickets.priority', 'like', '%' . $request->priority . '%')
                 ->where(function ($query) use ($request) {

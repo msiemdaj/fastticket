@@ -22,7 +22,11 @@ class DashboardController extends Controller
         if ($user->isAdmin() || $user->isWorker()) {
             return Inertia::render('Dashboard/Worker', [
                 'newtickets' => Ticket::orderByDesc('created_at')->with('category:id,name')
-                    ->where('tickets.created_at', '>', Carbon::now()->subDays(2))
+                    ->where(function ($query) use ($request) {
+                        if ($request->age != null) {
+                            $query->where('tickets.created_at', '>', Carbon::now()->subDays($request->age));
+                        }
+                    })
                     ->where('tickets.status', 'like', '%' . $request->status . '%')
                     ->where('tickets.priority', 'like', '%' . $request->priority . '%')
                     ->where(function ($query) use ($request) {

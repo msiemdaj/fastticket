@@ -11,6 +11,7 @@ export default ({ categories, statuses, priorities }) => {
         priority: filters.priority || '',
         search: filters.search || '',
         category: filters.category || '',
+        age: filters.age || '',
     });
 
     function usePrevious(val) {
@@ -44,7 +45,7 @@ export default ({ categories, statuses, priorities }) => {
     return (
 
         <div className="row">
-            <div className="col-xl-4 mb-4">
+            <div className="col-xl-3 mb-4">
                 <label htmlFor="category" className="form-label font-weight-bold text-darkblue ps-1 mb-0">Category</label>
                 <select onChange={handleChange} value={values.category}
                     id="category" name="category" className="form-select bg-white border-left-0 border-md text-muted">
@@ -54,6 +55,17 @@ export default ({ categories, statuses, priorities }) => {
                             <option key={key} value={category.id}>{category.name}</option>
                         ))
                     }
+                </select>
+            </div>
+
+            <div className="col-xl-1 mb-4">
+                <label htmlFor="age" className="form-label font-weight-bold text-darkblue ps-1 mb-0">Show latest</label>
+                <select onChange={handleChange} value={values.age}
+                    id="age" name="age" className="form-select bg-white border-left-0 border-md text-muted">
+                    <option value="">All</option>
+                    <option value="1">24 hours</option>
+                    <option value="2">48 hours</option>
+                    <option value="7">7 days</option>
                 </select>
             </div>
 
@@ -85,7 +97,7 @@ export default ({ categories, statuses, priorities }) => {
 
             <div className="col-xl-4 mb-4">
                 <label htmlFor="searchBar" className="form-label font-weight-bold text-darkblue ps-1 mb-0">Search</label>
-                <input type="text" name="search" id="searchBar" className="form-control bg-white border-left-0 border-md text-muted" value={values.search} onChange={handleChange} autoComplete="off" />
+                <input type="text" name="search" id="searchBar" className="form-control bg-white border-left-0 border-md text-muted" value={values.search} placeholder="Type title or ticket id..." onChange={handleChange} autoComplete="off" />
             </div>
         </div>
     )
