@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, usePage } from '@inertiajs/inertia-react'
+import moment from 'moment'
 
 export default () => {
 
@@ -25,7 +26,7 @@ export default () => {
                             notifications.data.map((notification, key) => (
                                 <Link href={route('notifications.read', notification.id)} key={key} className="dropdown-item d-flex align-items-center">
                                     <div>
-                                        <div className="small text-gray-500">{notification.created_at}</div>
+                                        <div className="small text-gray-500">{moment(notification.created_at).fromNow()}</div>
                                         <span className={`${notification.read_at == null && 'font-weight-bold'}`}>{notification.data.message}</span>
                                     </div>
                                 </Link>
