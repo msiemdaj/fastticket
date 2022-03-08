@@ -21,6 +21,19 @@ function Tickets() {
         }
     }
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: true,
+        confirmButtonText: "Restore this ticket",
+        timer: 6000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+
     const deleteButton = (id) => {
         Swal.fire({
             title: 'Are you sure you want to delete this ticket?',
@@ -32,11 +45,15 @@ function Tickets() {
         }).then(result => {
             if (result.isConfirmed) {
                 Inertia.delete(route('ticket.destroy', id))
-                Swal.fire(
+                Toast.fire(
                     'Deleted!',
                     'Ticket has been deleted successfully',
                     'success'
-                )
+                ).then((toastres) => {
+                    if (toastres.isConfirmed) {
+                        Inertia.post(route('ticket.restore', id))
+                    }
+                })
             }
         })
     }

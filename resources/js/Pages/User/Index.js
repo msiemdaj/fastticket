@@ -20,6 +20,19 @@ const User = () => {
         }
     }
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: true,
+        confirmButtonText: "Restore this user",
+        timer: 6000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+
     const deleteButton = async (id, email) => {
         Swal.fire({
             title: 'Are you sure you want to delete this user?',
@@ -49,11 +62,15 @@ const User = () => {
                 }).then((res) => {
                     if (res.isConfirmed) {
                         Inertia.delete(route('users.destroy', id))
-                        Swal.fire(
+                        Toast.fire(
                             'Deleted!',
                             'User has been deleted successfully',
                             'success'
-                        )
+                        ).then((toastres) => {
+                            if (toastres.isConfirmed) {
+                                Inertia.post(route('users.restore', id))
+                            }
+                        })
                     }
                 })
             }
