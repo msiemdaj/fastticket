@@ -69,7 +69,7 @@ const WorkerPage = () => {
                     <div className="card shadow mb-4">
                         <div className="card-body p-4 table-responsive">
                             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 className="h4 text-darkblue font-weight-bold text-uppercase">Tickets created in last 48 hours</h1>
+                                <h1 className="h4 text-darkblue font-weight-bold text-uppercase">All tickets</h1>
                                 <Link href={route('ticket.all')} as="button" type="button" className="btn btn-outline-darkblue btn-block py-2 px-4 font-weight-bold text-center">Show all tickets</Link>
                             </div>
 
