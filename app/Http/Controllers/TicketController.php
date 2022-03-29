@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
+use App\Http\Requests\StoreTicketRequest;
+use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Category;
 use App\Models\Message;
 use App\Models\Ticket;
-use App\Models\TicketUser;
 use App\Models\User;
 use App\Notifications\TicketClosed;
 use App\Notifications\TicketOpened;
@@ -15,8 +16,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Models\Activity;
@@ -79,57 +78,37 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTicketRequest $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'title' => 'required|string',
-                'description' => 'required',
-                'priority' => ['required', Rule::in(TicketPriority::TYPES)],
-                'category' => 'required|exists:categories,id',
-                'attachments' => 'array',
-                'attachments.*' => 'mimes:jpg,jpeg,gif,png,tiff,pdf,doc,docx,xls,xlsx,txt',
-            ],
-            [
-                'mimes' => 'File format is invalid',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        } else {
-            try {
-                DB::beginTransaction();
-                $ticket = Ticket::create([
-                    'ticket_id' => 'TKT-' . strtoupper(bin2hex(random_bytes(8))),
-                    'title' => $request->title,
-                    'description' => $request->description,
-                    'category_id' => $request->category,
-                    'status' => TicketStatus::PENDING,
-                    'priority' => $request->priority,
-                ]);
-                if ($request->hasFile('attachments')) {
-                    foreach ($request->file('attachments') as $file) {
-                        $files[] = $file->store('attachments');
-                    }
-                    $ticket->attachments = json_encode($files);
-                    $ticket->save();
+        try {
+            DB::beginTransaction();
+            $ticket = Ticket::create([
+                'ticket_id' => 'TKT-' . strtoupper(bin2hex(random_bytes(8))),
+                'title' => $request->title,
+                'description' => $request->description,
+                'category_id' => $request->category,
+                'status' => TicketStatus::PENDING,
+                'priority' => $request->priority,
+            ]);
+            if ($request->hasFile('attachments')) {
+                foreach ($request->file('attachments') as $file) {
+                    $files[] = $file->store('attachments');
                 }
-                $ticket->user()->attach(Auth::user()->id);
-                activity()->causedBy(Auth::user())->performedOn($ticket)->log(':causer.first_name :causer.last_name created new ticket :subject.ticket_id');
+                $ticket->attachments = json_encode($files);
+                $ticket->save();
+            }
+            $ticket->user()->attach(Auth::user()->id);
+            activity()->causedBy(Auth::user())->performedOn($ticket)->log(':causer.first_name :causer.last_name created new ticket :subject.ticket_id');
 
-                DB::commit();
-            } catch (\Exception $e) {
-                DB::rollback();
-                if ($request->hasFile('attachments')) {
-                    foreach ($request->file('attachments') as $file) {
-                        Storage::delete($file);
-                    }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            if ($request->hasFile('attachments')) {
+                foreach ($request->file('attachments') as $file) {
+                    Storage::delete($file);
                 }
             }
         }
-        // TODO: Redirect to specific ticket (show)
         return redirect()->route('ticket.show', $ticket->id);
     }
 
@@ -178,35 +157,20 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTicketRequest $request, $id)
     {
         $ticket = Ticket::findOrFail($id);
-        $this->authorize('update', $ticket);
 
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string',
-            'description' => 'required',
-            'category' => 'required|exists:categories,id',
-            'priority' => [
-                'required',
-                Rule::in(TicketPriority::TYPES)
-            ],
-        ]);
+        $ticket->forceFill([
+            'title' => $request->title,
+            'description' => $request->description,
+            'category_id' => $request->category,
+            'priority' => $request->priority,
+        ])->save();
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        } else {
-            $ticket->forceFill([
-                'title' => $request->title,
-                'description' => $request->description,
-                'category_id' => $request->category,
-                'priority' => $request->priority,
-            ])->save();
+        activity()->causedBy(Auth::user())->performedOn($ticket)->log(':causer.first_name :causer.last_name edited ticket :subject.ticket_id details');
 
-            activity()->causedBy(Auth::user())->performedOn($ticket)->log(':causer.first_name :causer.last_name edited ticket :subject.ticket_id details');
-
-            return redirect()->route('ticket.show', $id);
-        }
+        return redirect()->route('ticket.show', $id);
     }
 
     /**
