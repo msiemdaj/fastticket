@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -45,24 +44,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $this->authorize('create', Category::class);
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|unique:categories',
+        Category::create([
+            'name' => $request->name,
+            'description' => $request->description
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        } else {
-            Category::create([
-                'name' => $request->name,
-                'description' => $request->description
-            ]);
-
-            return redirect()->route('categories');
-        }
+        return redirect()->route('categories');
     }
 
     /**
@@ -90,25 +79,16 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
         $category = Category::findOrFail($id);
-        $this->authorize('update', $category);
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|unique:categories',
-        ]);
+        $category->forceFill([
+            'name' => $request->name,
+            'description' => $request->description,
+        ])->save();
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        } else {
-            $category->forceFill([
-                'name' => $request->name,
-                'description' => $request->description,
-            ])->save();
-
-            return redirect()->route('categories');
-        }
+        return redirect()->route('categories');
     }
 
     /**
